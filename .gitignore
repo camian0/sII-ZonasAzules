@@ -23,7 +23,7 @@ vendor/
 # Maven
 target/
 dist/
-.env/
+.venv/
 
 # JetBrains IDE
 .idea/
