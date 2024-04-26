@@ -22,7 +22,7 @@ We are located in the root folder of the backend
 
 Whe should be sure of activate virtual enviroment
 
-Instalar paquetes
+Install packages
 
 ```bash
     pip install <nombre-paquete>
