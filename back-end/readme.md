@@ -15,7 +15,7 @@ We are located in the root folder of the backend
 2- Activate virtual environment
 
 ```bash
- .\.venv\bin\activate.bat
+  ./.venv/Scripts/activate
 ```
 
 ## Setup libraries
