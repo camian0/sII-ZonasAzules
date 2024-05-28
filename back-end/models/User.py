@@ -18,5 +18,5 @@ class User(Base):
             "names": self.names,
             "lastNames": self.last_names,
             "telephone": self.telephone,
-            "authUser": self.authUser,
+            "authUser": self.auth_user,
         }
