@@ -1,6 +1,12 @@
 from typing import Union
+from dotenv import load_dotenv
+
 
 from fastapi import FastAPI
+import os
+
+# load environment variables
+load_dotenv()
 
 app = FastAPI()
 
@@ -13,3 +19,8 @@ def read_root():
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
+
+
+# os.environ["engine"] = "mysql+pymysql"
+# os.environ["user"] = "root"
+# os.environ["pass"] = ""
