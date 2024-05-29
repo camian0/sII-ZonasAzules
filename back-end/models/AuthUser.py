@@ -8,7 +8,7 @@ class AuthUser(Base):
 
     id = Column(VARCHAR(20), primary_key=True, index=True)
     email = Column(VARCHAR(50), unique=True)
-    password = Column(VARCHAR(50))
+    password = Column(VARCHAR(100))
     role_id = Column(Integer, ForeignKey("roles.id"), nullable=False)
     role = relationship("role")
 
