@@ -10,7 +10,6 @@ def login(userAuth: UserAuthSchema, db: Session) -> str | None:
     query = db.query(AuthUser).filter(userAuth.email == AuthUser.email).first()
 
     if query:
-        print()
         if verifyPassword(userAuth.password, query.password):
             setattr(userAuth, "role_id", query.role_id)
             token = encodeJwt(userAuth.__dict__)
