@@ -2,15 +2,14 @@ from jwt import encode, decode
 from config.ConfigEnv import SECRET
 
 
-def hola():
-    print("hola mundo")
+def encodeJwt(data: dict) -> str | None:
+    if data:
+        token: str = encode(payload=data, key=SECRET, algorithm="HS256")
+        return token
+    return None
 
 
-def encodeJwt(data: dict):
-    token: str = encode(payload=data, key=SECRET, algorithm="HS256")
-    return token
-
-
-def decodeJwt(token: str) -> dict:
-    data: dict = decode(jwt=token, key=SECRET, algorithms=["HS256"])
-    return data
+def decodeJwt(token: str) -> dict | None:
+    if token:
+        data: dict = decode(jwt=token, key=SECRET, algorithms=["HS256"])
+        return data
