@@ -1,14 +1,10 @@
 from typing import Union
-from dotenv import load_dotenv
-
-
 from fastapi import FastAPI
-import os
 
-# load environment variables
-load_dotenv()
+from routes.AuthRoute import authRouter
 
 app = FastAPI()
+app.include_router(authRouter)
 
 
 @app.get("/")
