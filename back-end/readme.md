@@ -50,5 +50,5 @@ Install dependencies from requirements file
 First we need run file configuration for setup data base params into alembic.ini file, these data load from environment variables
 
 ```bash
-    python ./config/setup-alembic.py
+    python ./config/Setup-alembic-engine.py
 ```
