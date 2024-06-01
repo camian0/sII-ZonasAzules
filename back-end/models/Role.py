@@ -6,8 +6,9 @@ from sqlalchemy.orm import relationship
 class Role(Base):
     __tablename__ = "roles"
 
-    id = Column(VARCHAR(20), primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     name = Column(VARCHAR(50), unique=True)
+    auth_user = relationship("AuthUser", back_populates="roles")
 
     def dict(self):
         return {

@@ -11,7 +11,7 @@ class User(Base):
     last_names = Column(VARCHAR(50))
     telephone = Column(VARCHAR(20))
     auth_user_id = Column(Integer, ForeignKey("auth_users.id"), nullable=False)
-    auth_user = relationship("auth_user")
+    auth_user = relationship("AuthUser", back_populates="User")
 
     def dict(self):
         return {
