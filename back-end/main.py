@@ -2,13 +2,10 @@ from typing import Union
 
 from fastapi import FastAPI
 
-from models.auth_user import AuthUser
-from models.role import Role
 # from config.db import Base, engine
 from config.db import Base
 
 app = FastAPI()
-# metadata = Base.metadata
 # Base.metadata.create_all(bind=engine)
 
 
