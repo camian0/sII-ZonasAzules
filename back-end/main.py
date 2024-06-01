@@ -1,6 +1,12 @@
 from typing import Union
+from dotenv import load_dotenv
+
 
 from fastapi import FastAPI
+import os
+
+# load environment variables
+load_dotenv()
 
 # from config.db import Base, engine
 from config.db import Base
