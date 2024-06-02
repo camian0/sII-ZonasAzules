@@ -11,5 +11,3 @@ import os
 load_dotenv()
 
 app = FastAPI()
-
-app.include_router(search_blue_zone_router)
