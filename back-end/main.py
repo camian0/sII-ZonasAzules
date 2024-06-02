@@ -1,6 +1,6 @@
 from typing import Union
 from fastapi import FastAPI
-from config.DB import Base, engine
+from config.dB import Base, engine
 
 from routes.AuthRoute import authRoute
 from models.AuthUser import AuthUser

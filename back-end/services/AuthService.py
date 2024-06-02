@@ -3,7 +3,7 @@ from fastapi import Depends, HTTPException, Request
 
 from .JWTService import decodeJwt
 from sqlalchemy.orm import Session
-from config.DB import getDb
+from config.dB import getDb
 
 from models.AuthUser import AuthUser
 

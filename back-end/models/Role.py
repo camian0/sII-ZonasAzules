@@ -1,4 +1,4 @@
-from config.DB import Base
+from config.dB import Base
 from sqlalchemy import Column, Integer, VARCHAR
 from sqlalchemy.orm import relationship
 
