@@ -1,5 +1,5 @@
 from config.DB import Base
-from sqlalchemy import Column, Integer, ForeignKey, VARCHAR
+from sqlalchemy import Column, Integer, VARCHAR
 from sqlalchemy.orm import relationship
 
 
@@ -8,7 +8,7 @@ class Role(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(VARCHAR(50), unique=True)
-    auth_user = relationship("AuthUser", back_populates="roles")
+    auth_user = relationship("AuthUser", back_populates="role")
 
     def dict(self):
         return {

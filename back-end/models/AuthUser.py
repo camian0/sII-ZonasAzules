@@ -11,6 +11,7 @@ class AuthUser(Base):
     password = Column(VARCHAR(100))
     role_id = Column(Integer, ForeignKey("roles.id"), nullable=False)
     role = relationship("Role", back_populates="auth_users")
+    authUser = relationship("User", back_populates="auth_user")
 
     def dict(self):
         return {
