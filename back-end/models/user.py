@@ -1,17 +1,22 @@
 from config.dB import Base
-from sqlalchemy import Column, Integer, VARCHAR
+from sqlalchemy import Column, Integer, ForeignKey, VARCHAR
 from sqlalchemy.orm import relationship
 
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
-    names = Column(VARCHAR(255), nullable=False)
-    last_names = Column(VARCHAR(255), nullable=False)
-    phone = Column(VARCHAR(255), nullable=True)
-    document = Column(VARCHAR(255), unique=True, nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    names = Column(VARCHAR(50))
+    last_names = Column(VARCHAR(50))
+    telephone = Column(VARCHAR(20))
+    auth_user_id = Column(Integer, ForeignKey("auth_users.id"), nullable=False)
+    auth_user = relationship("AuthUser", back_populates="User")
 
-    auth_users = relationship("AuthUser", back_populates="user")
-    credit_cards = relationship("CreditCard", back_populates="user")
-    user = relationship("User", back_populates="user")
+    def dict(self):
+        return {
+            "names": self.names,
+            "lastNames": self.last_names,
+            "telephone": self.telephone,
+            "authUser": self.auth_user,
+        }
