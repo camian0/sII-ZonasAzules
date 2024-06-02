@@ -8,11 +8,7 @@ import os
 # load environment variables
 load_dotenv()
 
-# from config.db import Base, engine
-from config.db import Base
-
 app = FastAPI()
-# Base.metadata.create_all(bind=engine)
 
 
 @app.get("/")
