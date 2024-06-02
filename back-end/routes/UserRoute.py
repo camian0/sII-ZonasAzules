@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from config.dB import getDb
-from models.User import User
+from models.user import User
 from services.UserService import getUsers
 from services.AuthService import AuthService
 

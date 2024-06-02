@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from helpers.CryptDecrypt import verifyPassword
 
-from models.AuthUser import AuthUser
+from helpers.CryptDecrypt import verifyPassword
+from models.authUser import AuthUser
 from schemas.UserAuthSchema import UserAuthSchema
 from services.JWTService import encodeJwt
 

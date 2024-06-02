@@ -1,6 +1,6 @@
 from typing import List
 from sqlalchemy.orm import Session
-from models.User import User
+from models.user import User
 
 
 def getUsers(db: Session) -> List[User] | None:

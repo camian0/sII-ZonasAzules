@@ -5,7 +5,7 @@ from .JWTService import decodeJwt
 from sqlalchemy.orm import Session
 from config.dB import getDb
 
-from models.AuthUser import AuthUser
+from models.authUser import AuthUser
 
 
 class AuthService(HTTPBearer):
