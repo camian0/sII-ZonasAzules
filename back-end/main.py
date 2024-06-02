@@ -6,6 +6,7 @@ from routes.AuthRoute import authRouter
 from models.AuthUser import AuthUser
 from models.User import User
 from models.Role import Role
+from routes.UserRoute import userRoutes
 
 
 def create_dbs():
@@ -19,6 +20,7 @@ create_dbs()
 
 app = FastAPI()
 app.include_router(authRouter)
+app.include_router(userRoutes)
 
 
 @app.get("/")
