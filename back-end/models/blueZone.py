@@ -1,4 +1,4 @@
-from config.db import Base
+from .meta import Base
 from sqlalchemy import Column, Integer, VARCHAR, Float,String, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 
@@ -15,7 +15,7 @@ class BlueZone(Base):
     total_moto_places = Column(Integer, nullable=False)
     area_id = Column(Integer, nullable=False)
 
-    area = relationship("Area", back_populates="bule_zones")
+    area = relationship("Area", back_populates="blue_zones")
     reservations = relationship("Reservation", back_populates="blue_zone")
 
     __table_args__ = (
