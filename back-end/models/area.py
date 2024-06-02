@@ -2,11 +2,10 @@ from config.db import Base
 from sqlalchemy import Column, Integer, VARCHAR
 from sqlalchemy.orm import relationship
 
-class Role(Base):
-    __tablename__ = "roles"
+class Area(Base):
+    __tablename__ = "areas"
     
     id = Column(Integer, primary_key=True)
     name = Column(VARCHAR(255), unique=True, nullable=False)
     
-    auth_users = relationship("AuthUser", back_populates="role")
-    menus = relationship("Menu", secondary="role_menus", back_populates="roles")
+    blue_zones = relationship("BlueZone", back_populates="area")
