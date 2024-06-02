@@ -5,11 +5,8 @@ from sqlalchemy.orm import Session
 from config.dB import getDb
 from schemas.UserAuthSchema import UserAuthSchema
 from services.LoginService import login
-from services.AuthService import AuthService
 
-authRoute = APIRouter(
-    prefix="/auth", tags=["auth"], dependencies=[Depends(AuthService())]
-)
+authRoute = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @authRoute.post("/")
