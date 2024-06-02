@@ -1,14 +1,15 @@
 from fastapi.security import HTTPBearer
 from fastapi import Depends, HTTPException, Request
-from JWTService import decodeJwt
+
+from .JWTService import decodeJwt
 from sqlalchemy.orm import Session
-from config.DB import get_db
+from config.DB import getDb
 
 from models.AuthUser import AuthUser
 
 
 class AuthService(HTTPBearer):
-    async def __call__(self, request: Request, db: Session = Depends(get_db)):
+    async def __call__(self, request: Request, db: Session = Depends(getDb)):
         credentials = await super().__call__(request)
         reqBody = credentials.credentials
         if reqBody.__contains__('"'):
