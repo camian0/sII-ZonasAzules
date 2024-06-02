@@ -1,6 +1,5 @@
-import os
 import configparser
-from ConfigEnv import ENGINE, USER, PASSWORD, HOST, DBNAME
+from configEnv import ENGINE, USER, PASSWORD, HOST, DBNAME
 
 
 database_url = f"{ENGINE}://{USER}:{PASSWORD}@{HOST}/{DBNAME}"
