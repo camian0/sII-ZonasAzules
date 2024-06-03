@@ -1,21 +1,13 @@
 from typing import Union
 from dotenv import load_dotenv
+from models import Base
 
 
 from fastapi import FastAPI
+from routers.searchBlueZoneRouter import search_blue_zone_router
 import os
 
 # load environment variables
 load_dotenv()
 
 app = FastAPI()
-
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
