@@ -6,7 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from config.dB import getDb
 from schemas.UserAuthSchema import UserAuthSchema
 from services.LoginService import login
-from config.logger import LOGGER
+from helpers.logger import LOGGER
 from helpers.errorMessages import ERRORMESSAGE500
 
 authRoute = APIRouter(prefix="/auth", tags=["auth"])
