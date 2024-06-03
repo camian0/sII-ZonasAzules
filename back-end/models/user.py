@@ -22,7 +22,4 @@ class User(Base):
             "last_names": self.last_names,
             "phones": self.phone,
             "document": self.document,
-            "auth_users": self.auth_users,
-            "credic_cards": self.credit_cards,
-            "reservations": self.reservations,
         }
