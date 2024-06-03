@@ -11,3 +11,6 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",  # Formato del mensaje de log
     level=logging.INFO,  # Nivel de log: DEBUG, INFO, WARNING, ERROR, CRITICAL
 )
+
+# Crear un logger
+LOGGER = logging.getLogger("newLog\n\n")
