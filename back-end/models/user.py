@@ -1,4 +1,4 @@
-from config.dB import Base
+from .meta import Base
 from sqlalchemy import Column, Integer, VARCHAR
 from sqlalchemy.orm import relationship
 
@@ -14,4 +14,4 @@ class User(Base):
 
     auth_users = relationship("AuthUser", back_populates="user")
     credit_cards = relationship("CreditCard", back_populates="user")
-    user = relationship("User", back_populates="user")
+    reservations = relationship("Reservation", back_populates="user")

@@ -1,6 +1,6 @@
+from .meta import Base
 from sqlalchemy import Column, Integer, ForeignKeyConstraint, VARCHAR
 from sqlalchemy.orm import relationship
-from config.dB import Base
 
 
 class CreditCard(Base):

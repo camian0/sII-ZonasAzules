@@ -1,4 +1,4 @@
-from config.dB import Base
+from .meta import Base
 from sqlalchemy import Column, Integer, VARCHAR, Float, String, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 
@@ -12,14 +12,12 @@ class BlueZone(Base):
     observation = Column(String(200))
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
-    total_vacancy_moto = Column(Integer, nullable=False)
-    total_busy_occupied = Column(Integer, nullable=False)
-    total_vacancy_car = Column(Integer, nullable=False)
-    total_busy_car = Column(Integer, nullable=False)
-    area_id = Column(Integer, nullable=False)  # Definición de la clave foránea
+    total_car_places = Column(Integer, nullable=False)
+    total_moto_places = Column(Integer, nullable=False)
+    area_id = Column(Integer, nullable=False)
 
-    area = relationship("Area", back_populates="bule_zones")
-    places = relationship("Place", back_populates="bule_zone")
+    area = relationship("Area", back_populates="blue_zones")
+    reservations = relationship("Reservation", back_populates="blue_zone")
 
     __table_args__ = (
         ForeignKeyConstraint(["area_id"], ["areas.id"], name="fk_blue_zones_area_id"),
