@@ -16,5 +16,5 @@ def logIn(user: UserAuthSchema, db: Session = Depends(getDb)):
         return JSONResponse(content={"token": query}, status_code=200)
 
     return JSONResponse(
-        content={"Por favor verifica los datos ingresados"}, status_code=401
+        content={"message": "Por favor verifica los datos ingresados"}, status_code=401
     )
