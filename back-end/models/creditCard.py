@@ -17,3 +17,11 @@ class CreditCard(Base):
     __table_args__ = (
         ForeignKeyConstraint(["user_id"], ["users.id"], name="fk_credit_cards_user_id"),
     )
+
+    def dict(self):
+        return {
+            "titular_name": self.titular_name,
+            "number": self.number,
+            "cvc": self.cvc,
+            "user_id": self.user_id,
+        }

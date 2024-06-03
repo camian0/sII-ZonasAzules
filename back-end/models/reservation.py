@@ -27,3 +27,14 @@ class Reservation(Base):
             ["blue_zone_id"], ["blue_zones.id"], name="fk_reservations_blue_zone_id"
         ),
     )
+
+    def dict(self):
+        return {
+            "id": self.id,
+            "start_date": self.start_date,
+            "finish_date": self.finish_date,
+            "plate": self.plate,
+            "user_id": self.user_id,
+            "place_type_id": self.place_type_id,
+            "blue_zone_id": self.blue_zone_id,
+        }

@@ -19,3 +19,6 @@ class AuthUser(Base):
         ForeignKeyConstraint(["role_id"], ["roles.id"], name="fk_auth_user_role_id"),
         ForeignKeyConstraint(["user_id"], ["users.id"], name="fk_auth_user_user_id"),
     )
+
+    def dict(self):
+        return {"email": self.email}
