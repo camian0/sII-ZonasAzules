@@ -9,4 +9,6 @@ class PlaceType(Base):
     id = Column(Integer, primary_key=True)
     name = Column(VARCHAR(255), unique=True, nullable=False)
 
-    reservations = relationship("Reservation", back_populates="place_type")
+    reservations = relationship(
+        "Reservation", back_populates="place_type", lazy="noload"
+    )

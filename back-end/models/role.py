@@ -9,5 +9,5 @@ class Role(Base):
     id = Column(Integer, primary_key=True)
     name = Column(VARCHAR(255), unique=True, nullable=False)
 
-    auth_users = relationship("AuthUser", back_populates="role")
+    auth_users = relationship("AuthUser", back_populates="role", lazy="noload")
     menus = relationship("Menu", secondary="role_menus", back_populates="roles")

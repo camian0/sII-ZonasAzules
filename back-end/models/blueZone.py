@@ -16,8 +16,10 @@ class BlueZone(Base):
     total_moto_places = Column(Integer, nullable=False)
     area_id = Column(Integer, nullable=False)
 
-    area = relationship("Area", back_populates="blue_zones")
-    reservations = relationship("Reservation", back_populates="blue_zone")
+    area = relationship("Area", back_populates="blue_zones", lazy="noload")
+    reservations = relationship(
+        "Reservation", back_populates="blue_zone", lazy="noload"
+    )
 
     __table_args__ = (
         ForeignKeyConstraint(["area_id"], ["areas.id"], name="fk_blue_zones_area_id"),

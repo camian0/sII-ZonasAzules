@@ -12,8 +12,8 @@ class AuthUser(Base):
     role_id = Column(Integer, nullable=False)
     user_id = Column(Integer, nullable=False)
 
-    role = relationship("Role", back_populates="auth_users")
-    user = relationship("User", back_populates="auth_users")
+    role = relationship("Role", back_populates="auth_users", lazy="noload")
+    user = relationship("User", back_populates="auth_users", lazy="noload")
 
     __table_args__ = (
         ForeignKeyConstraint(["role_id"], ["roles.id"], name="fk_auth_user_role_id"),

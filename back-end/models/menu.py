@@ -9,4 +9,6 @@ class Menu(Base):
     id = Column(Integer, primary_key=True)
     name = Column(VARCHAR(255), unique=True, nullable=False)
 
-    roles = relationship("Role", secondary="role_menus", back_populates="menus")
+    roles = relationship(
+        "Role", secondary="role_menus", back_populates="menus", lazy="noload"
+    )

@@ -12,9 +12,9 @@ class User(Base):
     phone = Column(VARCHAR(255), nullable=True)
     document = Column(VARCHAR(255), unique=True, nullable=False)
 
-    auth_users = relationship("AuthUser", back_populates="user")
-    credit_cards = relationship("CreditCard", back_populates="user")
-    reservations = relationship("Reservation", back_populates="user")
+    auth_users = relationship("AuthUser", back_populates="user", lazy="noload")
+    credit_cards = relationship("CreditCard", back_populates="user", lazy="noload")
+    reservations = relationship("Reservation", back_populates="user", lazy="noload")
 
     def dict(self):
         return {

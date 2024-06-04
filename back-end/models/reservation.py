@@ -14,9 +14,9 @@ class Reservation(Base):
     place_type_id = Column(Integer, nullable=False)
     blue_zone_id = Column(Integer, nullable=False)
 
-    user = relationship("User", back_populates="reservations")
-    place_type = relationship("PlaceType", back_populates="reservations")
-    blue_zone = relationship("BlueZone", back_populates="reservations")
+    user = relationship("User", back_populates="reservations", lazy="noload")
+    place_type = relationship("PlaceType", back_populates="reservations", lazy="noload")
+    blue_zone = relationship("BlueZone", back_populates="reservations", lazy="noload")
 
     __table_args__ = (
         ForeignKeyConstraint(["user_id"], ["users.id"], name="fk_reservations_user_id"),

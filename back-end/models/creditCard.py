@@ -12,7 +12,7 @@ class CreditCard(Base):
     cvc = Column(VARCHAR(255), nullable=False)
     user_id = Column(Integer, nullable=False)
 
-    user = relationship("User", back_populates="credit_cards")
+    user = relationship("User", back_populates="credit_cards", lazy="noload")
 
     __table_args__ = (
         ForeignKeyConstraint(["user_id"], ["users.id"], name="fk_credit_cards_user_id"),

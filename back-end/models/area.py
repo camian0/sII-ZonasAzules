@@ -9,4 +9,4 @@ class Area(Base):
     id = Column(Integer, primary_key=True)
     name = Column(VARCHAR(255), unique=True, nullable=False)
 
-    blue_zones = relationship("BlueZone", back_populates="area")
+    blue_zones = relationship("BlueZone", back_populates="area", lazy="noload")
