@@ -4,10 +4,11 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
 from config.dB import getDb
+import traceback
 from schemas.UserAuthSchema import UserAuthSchema
 from services.LoginService import login
 from helpers.logger import LOGGER
-from helpers.errorMessages import ERRORMESSAGE500
+from helpers.errorMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 
 authRoute = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -24,13 +25,15 @@ def logIn(user: UserAuthSchema, db: Session = Depends(getDb)):
             status_code=401,
         )
     except SQLAlchemyError as e:
-        LOGGER.critical(e)
+        traceBack = traceback.format_exc()
+        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
         return JSONResponse(
-            content=ERRORMESSAGE500,
+            content=ERRORMESSAGE500DB,
             status_code=500,
         )
     except Exception as e:
-        LOGGER.error(e)
+        traceBack = traceback.format_exc()
+        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
         return JSONResponse(
             content=ERRORMESSAGE500,
             status_code=500,
