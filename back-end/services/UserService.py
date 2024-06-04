@@ -46,6 +46,7 @@ def create(user: UserSchema, db: Session) -> bool:
     passwordHash = getPasswordHash(newUser.password)
     newAuthUser.email = newUser.email
     newAuthUser.password = passwordHash
+    # TODO cambiarlo para recibirlo del front
     newAuthUser.role_id = 2
     db.add(newUser)
     db.commit()
