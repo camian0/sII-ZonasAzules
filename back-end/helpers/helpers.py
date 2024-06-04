@@ -4,7 +4,7 @@ T = TypeVar("T")  # Definimos un tipo genérico
 
 
 # sacar todos los elementos de una relacion en dict y devolver esa lista
-def listRelationship(relation: List[T]) -> List[T]:
+def listRelationship(relation: List[T]) -> List[dict]:
     """
     Funcion que recibe una lista de relaciones tipo T y que devuelve una lista
     de relaciones de objetos dict
