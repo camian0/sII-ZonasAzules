@@ -1,19 +1,8 @@
-import os
-from dotenv import load_dotenv
 import configparser
+from configEnv import ENGINE, USER, PASSWORD, HOST, DBNAME
 
 
-# load environment variables
-load_dotenv()
-
-# load enviroment variables on local variables
-engine = os.getenv("engine")
-user = os.getenv("user")
-passw = os.getenv("pass")
-host = os.getenv("host")
-dbName = os.getenv("db_name")
-
-database_url = f"{engine}://{user}:{passw}@{host}/{dbName}"
+database_url = f"{ENGINE}://{USER}:{PASSWORD}@{HOST}/{DBNAME}"
 
 
 # Cargar el archivo alembic.ini

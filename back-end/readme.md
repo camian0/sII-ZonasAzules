@@ -20,7 +20,7 @@ We are located in the root folder of the backend
 
 ## Setup libraries
 
-Whe should be sure of activate virtual enviroment
+We should be sure of activate virtual enviroment
 
 Install packages
 
@@ -43,4 +43,14 @@ Install dependencies from requirements file
     Windows: pip install -r .\requirements.txt
 
     Linux: pip install -r requirements.txt
+```
+
+## Setup alembic
+
+1. Create a copy of file alembic-example.ini and change name for alembic.ini
+
+2. You need run configuration setup file, and take them to data base params into alembic.ini file, these data load from environment variables(.env file)
+
+```bash
+    python ./config/setupAlembicEngine.py
 ```
