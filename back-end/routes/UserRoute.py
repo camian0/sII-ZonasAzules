@@ -13,7 +13,6 @@ from helpers.logger import LOGGER
 from helpers.errorMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 
 
-# TODO dependencies=[Depends(AuthService())] a toda la ruta cuandose tenga el usuario admin autenticado
 userRoutes = APIRouter(
     prefix="/users", tags=["users"], dependencies=[Depends(AuthService())]
 )
