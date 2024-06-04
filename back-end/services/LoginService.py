@@ -8,6 +8,16 @@ from services.JWTService import encodeJwt
 
 
 def login(userAuth: UserAuthSchema, db: Session) -> str | None:
+    """
+    Iniciar sesion en el sistema, si el usuario y la contraseña enviados son correctos
+
+    Args:
+        userAuth (UserAuthSchema): Modelo con los campos requeridos para el inicio de sesion, que se reciben en la peticion hecha al endpont
+        db (Session): sesion de la base de datos que se envia desde el endpoint que se llamó
+
+    Returns:
+        str | None: devuelve un token jwd como autenticacion exitosa
+    """
     query = db.query(AuthUser).filter(userAuth.email == AuthUser.email).first()
     if query:
         if verifyPassword(userAuth.password, query.password):
@@ -17,7 +27,18 @@ def login(userAuth: UserAuthSchema, db: Session) -> str | None:
     return None
 
 
-def createAuthUser(user: AuthUser, db: Session) -> True:
+def createAuthUser(user: AuthUser, db: Session) -> bool:
+    """
+    Crea un usuario que es el que se va a autenticar en el sistema
+
+    Args:
+        user (AuthUser): Modelo con los campos requeridos para iniciar sesion, se envia el modelo ya creado y validados desde la creacion del usuario
+        db (Session): Sesion de la base de datos que se envia desde el endpoint que se llamó
+
+    Returns:
+        bool: Devuelve un valor booleano si se creo correctamente el authUser
+    """
+
     if user:
         db.add(user)
         db.commit()
