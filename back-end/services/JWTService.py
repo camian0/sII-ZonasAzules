@@ -1,5 +1,5 @@
 from jwt import encode, decode
-from config.configEnv import SECRET
+from config.ConfigEnv import SECRET
 
 
 def encodeJwt(data: dict) -> str | None:
