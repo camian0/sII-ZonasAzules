@@ -1,4 +1,5 @@
 from typing import List, TypeVar
+from sqlalchemy.orm import Query
 
 T = TypeVar("T")  # Definimos un tipo genérico
 
@@ -35,3 +36,24 @@ for item in query:
 
 
 """
+
+
+def queryPaginate(query: T, page: int, sizePage: int) -> Query[T]:
+    """
+    Método para páginar una consulta a la base de datos
+
+    Args:
+        query (T): Una consulta
+        page (int): Página de inicio
+        sizePage (int): Registros devueltos por página
+
+    Returns:
+        Query[T]: Devuelve una consulta con el numero de registros recibidos por parámetros
+    """
+    count = query.count()
+    if page < 0:
+        page = 1
+    if sizePage > count:
+        sizePage = count
+    res = query.limit(sizePage).offset(sizePage * (page - 1)).all()
+    return res
