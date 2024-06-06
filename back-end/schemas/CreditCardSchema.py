@@ -1,5 +1,4 @@
 import datetime
-from typing import Optional
 from pydantic import BaseModel
 from pydantic import field_validator
 
@@ -9,7 +8,7 @@ class CreditCardSchema(BaseModel):
     number: str
     date: str
     cvc: str
-    user_id: Optional[int] = None
+    user_id: int
     
     '''
     Verifica que el nombre solo contenga letras y punto

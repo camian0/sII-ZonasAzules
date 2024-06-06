@@ -6,21 +6,21 @@ from sqlalchemy.exc import SQLAlchemyError
 from config.dB import getDb
 import traceback
 from schemas.CreditCardSchema import CreditCardSchema
-from services.UserService import getUsers, create
-from services.CardService import CardService
+from services.AuthService import AuthService
+from services.cardService import get, create
 from helpers.logger import LOGGER
 from helpers.errorMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 
 
-userRoutes = APIRouter(
-    prefix="/creditcard", tags=["creditcard"], dependencies=[Depends(CardService())]
+cardRoutes = APIRouter(
+    prefix="/creditcard", tags=["creditcard"], dependencies=[Depends(AuthService())]
 )
 
 
-@userRoutes.get("/")
+@cardRoutes.get("/")
 def getAll(db: Session = Depends(getDb)):
     try:
-        query = getUsers(db)
+        query = get(db)
         if query:
             return JSONResponse(content={"data": query}, status_code=200)
 
@@ -42,18 +42,18 @@ def getAll(db: Session = Depends(getDb)):
             status_code=500,
         )
 
-'''
-@userRoutes.post("/")
-def addCard(user: CreditCardSchema, db: Session = Depends(getDb)):
+
+@cardRoutes.post("/")
+def addCard(creditCardSchema: CreditCardSchema, db: Session = Depends(getDb)):
     try:
-        query = create(user, db)
+        query = create(creditCardSchema, db)
         if query:
             return JSONResponse(
-                content={"message": "Usuario agregado correctamente"}, status_code=200
+                content={"message": "tarjeta agregado correctamente"}, status_code=200
             )
 
         return JSONResponse(
-            content={"message": "No se pudo agregar el usuario"}, status_code=401
+            content={"message": "No se pudo agregar tarjeta"}, status_code=401
         )
     except SQLAlchemyError as e:
         db.rollback()
@@ -71,4 +71,3 @@ def addCard(user: CreditCardSchema, db: Session = Depends(getDb)):
             content=ERRORMESSAGE500,
             status_code=500,
         )
-'''

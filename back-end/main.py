@@ -3,11 +3,13 @@ from fastapi import FastAPI
 
 from routes.AuthRoute import authRoute
 from routes.UserRoute import userRoutes
+from routes.CardRoute import cardRoutes
 
 
 app = FastAPI()
 app.include_router(authRoute)
 app.include_router(userRoutes)
+app.include_router(cardRoutes)
 
 
 @app.get("/")
