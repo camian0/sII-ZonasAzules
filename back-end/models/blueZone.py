@@ -9,6 +9,7 @@ class BlueZone(Base):
     id = Column(Integer, primary_key=True)
     name = Column(VARCHAR(255), unique=True, nullable=False)
     address = Column(VARCHAR(100), nullable=False)
+    observation = Column(String(500), nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     total_car_places = Column(Integer, nullable=False)
@@ -29,4 +30,5 @@ class BlueZone(Base):
             "id": self.id,
             "name": self.name,
             "address": self.address,
+            "observation": self.observation,
         }
