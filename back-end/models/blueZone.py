@@ -30,5 +30,5 @@ class BlueZone(Base):
             "id": self.id,
             "name": self.name,
             "address": self.address,
-            "observations": self.address,
+            "observation": self.observation,
         }

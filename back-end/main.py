@@ -4,12 +4,14 @@ from fastapi import FastAPI
 from routes.AuthRoute import authRoute
 from routes.UserRoute import userRoutes
 from routes.blueZoneRoute import blueZoneRoute
+from routes.areaRoute import areaRoutes
 
 
 app = FastAPI()
 app.include_router(authRoute)
 app.include_router(userRoutes)
 app.include_router(blueZoneRoute)
+app.include_router(areaRoutes)
 
 
 @app.get("/")
