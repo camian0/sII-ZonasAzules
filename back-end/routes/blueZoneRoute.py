@@ -41,3 +41,6 @@ def getBlueZones(page: PageSchema, db: Session = Depends(getDb)):
             content=ERRORMESSAGE500,
             status_code=500,
         )
+
+
+# TODO hacer metodo para sacar las valoraciones de una zona azul
