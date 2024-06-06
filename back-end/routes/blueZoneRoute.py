@@ -7,7 +7,7 @@ from config.dB import getDb
 import traceback
 from services.AuthService import AuthService
 from helpers.logger import LOGGER
-from helpers.errorMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from services.blueZoneService import get
 from schemas.pageSchema import PageSchema
 
