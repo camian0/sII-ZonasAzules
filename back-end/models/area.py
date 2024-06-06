@@ -10,3 +10,10 @@ class Area(Base):
     name = Column(VARCHAR(255), unique=True, nullable=False)
 
     blue_zones = relationship("BlueZone", back_populates="area", lazy="noload")
+
+
+    def dict(self):
+            return {
+                "id": self.id,
+                "name": self.name
+            }
