@@ -12,6 +12,7 @@ from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
 from services.reservationService import get, create
 from schemas.reservationSchema import ReservationSchema
 from helpers.dtos.responseDto import ResponseDto
+from pydantic import ValidationError
 
 
 reservationRoute = APIRouter(
@@ -76,6 +77,7 @@ def createReservations(reservationSchema: ReservationSchema, db: Session = Depen
             content=responseDto.toString(),
             status_code=INTERNAL_SERVER_ERROR,
         )
+    
     except Exception as e:
         db.rollback()
         traceBack = traceback.format_exc()
