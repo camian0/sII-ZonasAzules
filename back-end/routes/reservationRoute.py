@@ -31,7 +31,6 @@ def getReservations(page: int = Query(default=1), sizePage: int = Query(default=
             content=responseDto.toString(), status_code=200
         )
     except SQLAlchemyError as e:
-        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
 
@@ -43,7 +42,6 @@ def getReservations(page: int = Query(default=1), sizePage: int = Query(default=
             status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
-        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
 

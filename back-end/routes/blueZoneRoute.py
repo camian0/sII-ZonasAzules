@@ -30,7 +30,6 @@ def getBlueZones(page: int = Query(default=1), sizePage: int = Query(default=10)
             content=responseDto.toString(), status_code=200
         )
     except SQLAlchemyError as e:
-        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
 
@@ -42,7 +41,6 @@ def getBlueZones(page: int = Query(default=1), sizePage: int = Query(default=10)
             status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
-        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
 
