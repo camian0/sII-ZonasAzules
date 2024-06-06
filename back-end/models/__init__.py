@@ -9,3 +9,4 @@ from .blueZone import BlueZone
 from .menu import Menu
 from .placeType import PlaceType
 from .creditCard import CreditCard
+from .rating import Rating
