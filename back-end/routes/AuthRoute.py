@@ -8,7 +8,7 @@ import traceback
 from schemas.UserAuthSchema import UserAuthSchema
 from services.LoginService import login
 from helpers.logger import LOGGER
-from helpers.errorMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.respomnseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 
 authRoute = APIRouter(prefix="/auth", tags=["auth"])
 

@@ -24,3 +24,11 @@ class BlueZone(Base):
     __table_args__ = (
         ForeignKeyConstraint(["area_id"], ["areas.id"], name="fk_blue_zones_area_id"),
     )
+
+    def dict(self):
+            return {
+                "id": self.id,
+                "name": self.name,
+                "address": self.address,
+                "observation": self.observation,
+            }

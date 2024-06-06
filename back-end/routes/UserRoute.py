@@ -10,7 +10,7 @@ from services.UserService import getUsers, create
 from services.AuthService import AuthService
 from schemas.User import UserSchema
 from helpers.logger import LOGGER
-from helpers.errorMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.respomnseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 
 
 userRoutes = APIRouter(

@@ -18,7 +18,9 @@ def login(userAuth: UserAuthSchema, db: Session) -> str | None:
     Returns:
         str | None: devuelve un token jwd como autenticacion exitosa
     """
+    print("antes de la queryu")
     query = db.query(AuthUser).filter(userAuth.email == AuthUser.email).first()
+    print("la query" , query)
     if query:
         if verifyPassword(userAuth.password, query.password):
             userAuth.role_id = query.role_id
