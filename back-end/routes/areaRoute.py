@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from config.dB import getDb
 import traceback
-from services.areaService import getAllAreas, createArea
+from services.areaService import get, create
 from services.AuthService import AuthService
 from schemas.areaSchema import AreaSchema
 from helpers.logger import LOGGER
@@ -26,7 +26,7 @@ def getAll(
     db: Session = Depends(getDb),
 ):
     try:
-        responseDto = getAllAreas(page, sizePage, db)
+        responseDto = get(page, sizePage, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
@@ -58,7 +58,7 @@ def getAll(
 @areaRoutes.post("/")
 def create(areaSchema: AreaSchema, db: Session = Depends(getDb)):
     try:
-        responseDto = createArea(areaSchema, db)
+        responseDto = create(areaSchema, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=OK)
 
