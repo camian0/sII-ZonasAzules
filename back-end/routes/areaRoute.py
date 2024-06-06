@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
@@ -20,9 +20,13 @@ areaRoutes = APIRouter(
 
 
 @areaRoutes.get("/")
-def getAllAreas(db: Session = Depends(getDb)):
+def getAll(
+    page: int = Query(default=1),
+    sizePage: int = Query(default=10),
+    db: Session = Depends(getDb),
+):
     try:
-        responseDto = get(db)
+        responseDto = get(page, sizePage, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 

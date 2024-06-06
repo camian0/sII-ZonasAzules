@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
@@ -9,59 +9,25 @@ from services.AuthService import AuthService
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
-from services.blueZoneService import get, create
-from schemas.blueZoneSchema import BlueZoneSchema
+from schemas.ratingSchema import RatingSchema
 from helpers.dtos.responseDto import ResponseDto
+from services.ratingService import create, getAll
 
 
-blueZoneRoute = APIRouter(
-    prefix="/blue-zone", tags=["Blue Zone"], dependencies=[Depends(AuthService())]
+ratingRoute = APIRouter(
+    prefix="/rating", tags=["rating"], dependencies=[Depends(AuthService())]
 )
 
 
-@blueZoneRoute.get("/")
-def getBlueZones(page: int = Query(default=1), sizePage: int = Query(default=10), db: Session = Depends(getDb)):
+@ratingRoute.post("/")
+def createRate(rating: RatingSchema, db: Session = Depends(getDb)):
+    response = ResponseDto()
     try:
-        responseDto = get(db, page=page, sizePage=sizePage)
-        if responseDto.status == OK:
-            return JSONResponse(content=responseDto.toString(), status_code=200)
+        response = create(rating, db)
+        if response.status == OK:
+            return JSONResponse(content=response.toString(), status_code=OK)
 
-        return JSONResponse(
-            content=responseDto.toString(), status_code=200
-        )
-    except SQLAlchemyError as e:
-        traceBack = traceback.format_exc()
-        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
-
-        responseDto = ResponseDto()
-        responseDto.status = INTERNAL_SERVER_ERROR
-        responseDto.message = ERRORMESSAGE500DB
-        return JSONResponse(
-            content=responseDto.toString(),
-            status_code=INTERNAL_SERVER_ERROR,
-        )
-    except Exception as e:
-        traceBack = traceback.format_exc()
-        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
-
-        responseDto = ResponseDto()
-        responseDto.status = INTERNAL_SERVER_ERROR
-        responseDto.message = ERRORMESSAGE500
-        return JSONResponse(
-            content=responseDto.toString(),
-            status_code=INTERNAL_SERVER_ERROR,
-        )
-
-
-@blueZoneRoute.post("/")
-def createBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb)):
-    try:
-        responseDto = create(blueZoneSchema, db)
-        if responseDto.status == OK:
-            return JSONResponse(content=responseDto.toString(), status_code=OK)
-
-        return JSONResponse(content=responseDto.toString(), status_code=BAD_REQUEST)
-
+        return JSONResponse(content=response.toString(), status_code=BAD_REQUEST)
     except SQLAlchemyError as e:
         db.rollback()
         traceBack = traceback.format_exc()
@@ -88,4 +54,38 @@ def createBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb))
         )
 
 
-# TODO hacer metodo para sacar las valoraciones de una zona azul
+@ratingRoute.get("/")
+def getRates(
+    page: int = Query(default=1),
+    sizePage: int = Query(default=10),
+    db: Session = Depends(getDb),
+):
+    response = ResponseDto()
+    try:
+        response = getAll(page, sizePage, db)
+        if response.status == OK:
+            return JSONResponse(content=response.toString(), status_code=OK)
+
+        return JSONResponse(content=response.toString(), status_code=BAD_REQUEST)
+    except SQLAlchemyError as e:
+        traceBack = traceback.format_exc()
+        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    except Exception as e:
+        traceBack = traceback.format_exc()
+        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
