@@ -56,7 +56,7 @@ def getAll(
 
 
 @areaRoutes.post("/")
-def create(areaSchema: AreaSchema, db: Session = Depends(getDb)):
+def createArea(areaSchema: AreaSchema, db: Session = Depends(getDb)):
     try:
         responseDto = create(areaSchema, db)
         if responseDto.status == OK:
