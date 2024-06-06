@@ -10,3 +10,12 @@ CREATED_AREA_OK = "Área creada con éxito"
 GET_ALL_PLACE_TYPE_OK = "Tipos de plazas obtenidas con éxito"
 PLACE_TYPE_ALREARY_EXIST = "Ya existe el tipo de plaza"
 CREATED_PLACE_TYPE_OK = "Tipo de plaza creada con éxito"
+
+# Blue zones
+GET_ALL_BLUE_ZONE_OK = "Zonas azules obtenidas con éxito"
+BLUE_ZONE_ALREARY_EXIST = "Ya existe la zona azul"
+CREATED_BLUE_ZONE_OK = "Zona azul creada con éxito"
+
+# Reservations
+GET_ALL_RESERVATION_OK = "Reservaciones obtenidas con éxito"
+CREATED_RESERVATION_OK = "Reservación creada con éxito"
