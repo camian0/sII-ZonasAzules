@@ -13,7 +13,7 @@ from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 
 
 userRoutes = APIRouter(
-    prefix="/users", tags=["users"] #dependencies=[Depends(AuthService())]
+    prefix="/users", tags=["users"], dependencies=[Depends(AuthService())]
 )
 
 

@@ -2,14 +2,18 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+from fastapi import APIRouter, Query, Depends
 
 from config.dB import getDb
 import traceback
 from schemas.CreditCardSchema import CreditCardSchema
 from services.AuthService import AuthService
-from services.cardService import get, create
+from services.cardService import get, create, delete, getNumber
+
 from helpers.logger import LOGGER
-from helpers.errorMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
+from helpers.dtos.responseDto import ResponseDto
 
 
 cardRoutes = APIRouter(
@@ -18,56 +22,137 @@ cardRoutes = APIRouter(
 
 
 @cardRoutes.get("/")
-def getAll(db: Session = Depends(getDb)):
+def getCreditCards(page: int = Query(default=1), sizePage: int = Query(default=10), db: Session = Depends(getDb)):
     try:
-        query = get(db)
-        if query:
-            return JSONResponse(content={"data": query}, status_code=200)
+        responseDto = get(db, page=page, sizePage=sizePage)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=200)
 
         return JSONResponse(
-            content={"message": "No hay Tarjetas de Credito para mostrar."}, status_code=200
+            content=responseDto.toString(), status_code=200
         )
     except SQLAlchemyError as e:
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
         return JSONResponse(
-            content=ERRORMESSAGE500DB,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
         return JSONResponse(
-            content=ERRORMESSAGE500,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
 
+@cardRoutes.get("/{creditCardNumber}")
+def getCreditCardbyNumber(creditCardNumber: str, db: Session = Depends(getDb)):
+    try:
+        responseDto = getNumber(creditCardNumber, db)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=200)
+
+        return JSONResponse(
+            content=responseDto.toString(), status_code=200
+        )
+    except SQLAlchemyError as e:
+        traceBack = traceback.format_exc()
+        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    except Exception as e:
+        traceBack = traceback.format_exc()
+        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+
+
+
+@cardRoutes.delete("/{creditCardNumber}")
+def deleteCard(creditCardNumber: str, db: Session = Depends(getDb)):
+    try:
+        responseDto = delete(creditCardNumber, db)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=200)
+
+        return JSONResponse(
+            content=responseDto.toString(), status_code=200
+        )
+    except SQLAlchemyError as e:
+        traceBack = traceback.format_exc()
+        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    except Exception as e:
+        traceBack = traceback.format_exc()
+        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    
 
 @cardRoutes.post("/")
 def addCard(creditCardSchema: CreditCardSchema, db: Session = Depends(getDb)):
     try:
-        query = create(creditCardSchema, db)
-        if query:
-            return JSONResponse(
-                content={"message": "tarjeta agregado correctamente"}, status_code=200
-            )
+        responseDto = create(creditCardSchema, db)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=OK)
 
-        return JSONResponse(
-            content={"message": "No se pudo agregar tarjeta"}, status_code=401
-        )
+        return JSONResponse(content=responseDto.toString(), status_code=BAD_REQUEST)
+
     except SQLAlchemyError as e:
         db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
         return JSONResponse(
-            content=ERRORMESSAGE500DB,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
         db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
         return JSONResponse(
-            content=ERRORMESSAGE500,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )

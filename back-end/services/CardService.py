@@ -10,44 +10,99 @@ from sqlalchemy.orm import Session
 from models.creditCard import CreditCard
 from schemas.CreditCardSchema import CreditCardSchema
 from helpers.helpers import listRelationship
+from helpers.dtos.responseDto import ResponseDto
+from helpers.helpers import queryPaginate
+from helpers.statusCodes import BAD_REQUEST, OK
+from helpers.responseMessages import CREDIT_CARD_ALREARY_EXIST, CREATED_CREDIT_CARD_OK, GET_ALL_CREDIT_CARD_OK, NOT_FOUND_CREDIT_CARD, DELETED_CREDIT_CARD_OK, FOUND_CREDIT_CARD_OK
 
 
 
-def get(db: Session) -> List[CreditCard] | None:
+def get(db: Session, page: int, sizePage: int) -> ResponseDto:
+    responseDto = ResponseDto()
+    query = db.query(CreditCard)
+    res = queryPaginate(query, page, sizePage)
+    
+    cards = [i.dict() for i in res]
+    responseDto.status = OK
+    responseDto.message = GET_ALL_CREDIT_CARD_OK
+    responseDto.data = cards
+    return responseDto
+
+
+def getNumber(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
     """
-    Método para obtener todos las tarjetas de crédito del sistema
-
+    Método para obtener una Tarjeta de crédito por el número
     Args:
-        db (Session): sesion de la base de datos
+        creditCardSchema (CreditCardSchema): esquema que contiene los datos para la creación 
+        de la tarjeta de crédito.
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
 
     Returns:
-        List[CreditCard] | None: El método devuelve una lista de objetos de tipo tarjeta de credito, 
-        objetos de tipo clave valor
+        ResponseDto: respuesta generica
     """
-    query = db.query(CreditCard).all()
-    if len(query) > 0:
-        cards = [i.dict() for i in query]
-        return cards
-    return None
+    responseDto = ResponseDto()
+    existCreditCard = db.query(CreditCard).filter_by(number=creditCardSchema.number).first()
+    if not existCreditCard:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = NOT_FOUND_CREDIT_CARD
+        return responseDto
+    
+    responseDto.status = OK
+    responseDto.message = GET_ALL_CREDIT_CARD_OK
+    responseDto.data = existCreditCard.dict()
+    return responseDto
 
 
-def create(creditCardSchema: CreditCardSchema, db: Session) -> CreditCard:
+def create(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
     """
-    Método para agregar un user y authUser en un mismo flujo, los datos creados del usuario son agregados
-    para el modelo de auth user, si se guardan exitosamente los dos se hace el commit a la base de datos
-    de lo contrario, se hace un rollback.
-    Si ocurre un error inesperado también devuelve toda la transaccion a la base de datos con rollback
-
+    Método para crear una Tarjeta de crédito
     Args:
-        user (UserSchema): datos del usuario que van a ser guardados, y que están agrupados en userSchema
-        db (Session): sesion de la base de datos que se recibe desde la ruta que fue llamada
+        creditCardSchema (CreditCardSchema): esquema que contiene los datos para la creación 
+        de la tarjeta de crédito.
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
 
     Returns:
-        bool: Devuelve una confirmacion de verdadero o falso si se lograron guardar ambos usuarios
+        ResponseDto: respuesta generica
     """
-    newCard = CreditCard()
-    newCard.__dict__.update(creditCardSchema.__dict__)
-    db.add(newCard)
+    responseDto = ResponseDto()
+    existCreditCard = db.query(CreditCard).filter_by(number=creditCardSchema.number).first()
+    if existCreditCard:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = CREDIT_CARD_ALREARY_EXIST
+        return responseDto
+
+    newCreditCard = CreditCard(**creditCardSchema.__dict__)
+    db.add(newCreditCard)
     db.commit()
-    db.refresh(newCard)
-    return newCard
+    db.refresh(newCreditCard)
+
+    responseDto.status = OK
+    responseDto.message = CREATED_CREDIT_CARD_OK
+    responseDto.data = newCreditCard.dict()
+    return responseDto
+
+def delete(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
+    """
+    Método para eliminar una Tarjeta de crédito
+    Args:
+        creditCardSchema (CreditCardSchema): esquema que contiene los datos para la eliminación 
+        de la tarjeta de crédito.
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
+
+    Returns:
+        ResponseDto: respuesta generica
+    """
+    responseDto = ResponseDto()
+    creditCard = db.query(CreditCard).filter_by(number=creditCardSchema.number).first()
+    if not creditCard:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = NOT_FOUND_CREDIT_CARD
+        return responseDto
+
+    db.delete(creditCard)
+    db.commit()
+
+    responseDto.status = OK
+    responseDto.message = DELETED_CREDIT_CARD_OK
+    responseDto.data = creditCard.dict()
+    return responseDto

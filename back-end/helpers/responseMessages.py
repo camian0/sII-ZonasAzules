@@ -19,3 +19,11 @@ CREATED_BLUE_ZONE_OK = "Zona azul creada con éxito"
 # Reservations
 GET_ALL_RESERVATION_OK = "Reservaciones obtenidas con éxito"
 CREATED_RESERVATION_OK = "Reservación creada con éxito"
+
+#Tarjetas de Credito
+GET_ALL_CREDIT_CARD_OK = "Tarjetas de Crédito obtenidas con éxito"
+CREDIT_CARD_ALREARY_EXIST = "Ya existe la tarjeta de crédito"
+CREATED_CREDIT_CARD_OK = "Tarjeta de crédito creada con éxito"
+NOT_FOUND_CREDIT_CARD = "La tarjeta de crédito no existe"
+DELETED_CREDIT_CARD_OK = "Tarjeta de crédito eliminada con éxito."
+FOUND_CREDIT_CARD_OK = "Tarjeta de crédito obtenida con éxito"
