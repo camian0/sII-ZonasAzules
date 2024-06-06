@@ -1,9 +1,8 @@
-from typing import List
 from sqlalchemy.orm import Session
 
 from models.rating import Rating
 from schemas.ratingSchema import RatingSchema
-from helpers.statusCodes import BAD_REQUEST, OK
+from helpers.statusCodes import OK
 from helpers.dtos.responseDto import ResponseDto
 
 
