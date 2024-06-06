@@ -9,18 +9,18 @@ from services.AuthService import AuthService
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
-from services.blueZoneService import get, create
-from schemas.blueZoneSchema import BlueZoneSchema
+from services.reservationService import get, create
+from schemas.reservationSchema import ReservationSchema
 from helpers.dtos.responseDto import ResponseDto
 
 
-blueZoneRoute = APIRouter(
-    prefix="/blue-zone", tags=["Blue Zone"], dependencies=[Depends(AuthService())]
+reservationRoute = APIRouter(
+    prefix="/reservations", tags=["Reservations"], dependencies=[Depends(AuthService())]
 )
 
 
-@blueZoneRoute.get("/")
-def getBlueZones(page: int = Query(default=1), sizePage: int = Query(default=10), db: Session = Depends(getDb)):
+@reservationRoute.get("/")
+def getReservations(page: int = Query(default=1), sizePage: int = Query(default=10), db: Session = Depends(getDb)):
     try:
         responseDto = get(db, page=page, sizePage=sizePage)
         if responseDto.status == OK:
@@ -55,10 +55,10 @@ def getBlueZones(page: int = Query(default=1), sizePage: int = Query(default=10)
         )
 
 
-@blueZoneRoute.post("/")
-def createBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb)):
+@reservationRoute.post("/")
+def createReservations(reservationSchema: ReservationSchema, db: Session = Depends(getDb)):
     try:
-        responseDto = create(blueZoneSchema, db)
+        responseDto = create(reservationSchema, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=OK)
 

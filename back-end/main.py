@@ -6,6 +6,7 @@ from routes.UserRoute import userRoutes
 from routes.blueZoneRoute import blueZoneRoute
 from routes.areaRoute import areaRoutes
 from routes.placeTypeRoute import placeTypeRoute
+from routes.reservationRoute import reservationRoute
 
 
 app = FastAPI()
@@ -14,6 +15,7 @@ app.include_router(userRoutes)
 app.include_router(blueZoneRoute)
 app.include_router(areaRoutes)
 app.include_router(placeTypeRoute)
+app.include_router(reservationRoute)
 
 
 @app.get("/")

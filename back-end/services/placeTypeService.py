@@ -7,7 +7,7 @@ from helpers.responseMessages import PLACE_TYPE_ALREARY_EXIST, CREATED_PLACE_TYP
 from helpers.dtos.responseDto import ResponseDto
 
 
-def getAllplaceTypes(db: Session) -> ResponseDto:
+def get(db: Session) -> ResponseDto:
     """
     Método para obtener todas los tipos de plazas
 
@@ -28,7 +28,7 @@ def getAllplaceTypes(db: Session) -> ResponseDto:
     return responseDto
 
 
-def createPlaceType(placeTypeSchema: PlaceTypeSchema, db: Session) -> ResponseDto:
+def create(placeTypeSchema: PlaceTypeSchema, db: Session) -> ResponseDto:
     """
     Método para crear un tipo de plaza
     Args:

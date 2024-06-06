@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from config.dB import getDb
 import traceback
-from services.placeTypeService import getAllplaceTypes, createPlaceType
+from services.placeTypeService import get, create
 from services.AuthService import AuthService
 from schemas.placeTypeSchema import PlaceTypeSchema
 from helpers.logger import LOGGER
@@ -15,14 +15,14 @@ from helpers.dtos.responseDto import ResponseDto
 
 
 placeTypeRoute = APIRouter(
-    prefix="/place-types", tags=["tipo-plazas"], dependencies=[Depends(AuthService())]
+    prefix="/place-types", tags=["place-types"], dependencies=[Depends(AuthService())]
 )
 
 
 @placeTypeRoute.get("/")
-def getAll(db: Session = Depends(getDb)):
+def getAllplaceTypes(db: Session = Depends(getDb)):
     try:
-        responseDto = getAllplaceTypes(db)
+        responseDto = get(db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
@@ -52,9 +52,9 @@ def getAll(db: Session = Depends(getDb)):
 
 
 @placeTypeRoute.post("/")
-def create(PlaceTypeSchema: PlaceTypeSchema, db: Session = Depends(getDb)):
+def createPlaceType(PlaceTypeSchema: PlaceTypeSchema, db: Session = Depends(getDb)):
     try:
-        responseDto = createPlaceType(PlaceTypeSchema, db)
+        responseDto = create(PlaceTypeSchema, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=OK)
 
