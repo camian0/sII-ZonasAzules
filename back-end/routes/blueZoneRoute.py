@@ -5,24 +5,27 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from config.dB import getDb
 import traceback
-from schemas.UserAuthSchema import UserAuthSchema
-from services.LoginService import login
+from services.AuthService import AuthService
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from services.blueZoneService import get
+from schemas.pageSchema import PageSchema
 
-authRoute = APIRouter(prefix="/auth", tags=["auth"])
+
+blueZoneRoute = APIRouter(
+    prefix="/blue-zone", tags=["Blue Zone"], dependencies=[Depends(AuthService())]
+)
 
 
-@authRoute.post("/")
-def logIn(user: UserAuthSchema, db: Session = Depends(getDb)):
+@blueZoneRoute.get("/")
+def getBlueZones(page: PageSchema, db: Session = Depends(getDb)):
     try:
-        query = login(user, db)
+        query = get(db, page=page.page, sizePage=page.sizePage)
         if query:
-            return JSONResponse(content={"token": query}, status_code=200)
+            return JSONResponse(content={"data": query}, status_code=200)
 
         return JSONResponse(
-            content={"message": "Por favor verifica los datos ingresados"},
-            status_code=401,
+            content={"message": "No hay zonas azules para mostrar."}, status_code=200
         )
     except SQLAlchemyError as e:
         traceBack = traceback.format_exc()

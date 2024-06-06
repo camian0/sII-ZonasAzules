@@ -5,12 +5,11 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from config.dB import getDb
 import traceback
-from models.user import User
 from services.UserService import getUsers, create
 from services.AuthService import AuthService
 from schemas.User import UserSchema
 from helpers.logger import LOGGER
-from helpers.respomnseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 
 
 userRoutes = APIRouter(

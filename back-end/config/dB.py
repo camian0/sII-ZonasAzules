@@ -5,7 +5,7 @@ from config.configEnv import ENGINE, USER, PASSWORD, HOST, DBNAME
 
 SQLALCHEMY_DATABASE_URL = f"{ENGINE}://{USER}:{PASSWORD}@{HOST}/{DBNAME}"
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
+engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=False)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

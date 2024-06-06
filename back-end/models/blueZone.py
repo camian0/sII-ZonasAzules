@@ -26,9 +26,9 @@ class BlueZone(Base):
     )
 
     def dict(self):
-            return {
-                "id": self.id,
-                "name": self.name,
-                "address": self.address,
-                "observation": self.observation,
-            }
+        return {
+            "id": self.id,
+            "name": self.name,
+            "address": self.address,
+            "observation": self.observation,
+        }
