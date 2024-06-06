@@ -12,3 +12,9 @@ class PlaceType(Base):
     reservations = relationship(
         "Reservation", back_populates="place_type", lazy="noload"
     )
+
+    def dict(self):
+            return {
+                "id": self.id,
+                "name": self.name
+            }

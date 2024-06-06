@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from models.area import Area
 from schemas.areaSchema import AreaSchema
 from helpers.statusCodes import BAD_REQUEST, OK
+from helpers.responseMessages import AREA_ALREARY_EXIST, CREATED_AREA_OK, GET_ALL_AREAS_TYPE_OK
 from helpers.dtos.responseDto import ResponseDto
 from helpers.helpers import queryPaginate
 
@@ -26,7 +27,7 @@ def getAllAreas(page, sizePage, db: Session) -> ResponseDto:
 
     areas = [i.dict() for i in res]
     responseDto.status = OK
-    responseDto.message = "Áreas obtenidas con éxito"
+    responseDto.message = GET_ALL_AREAS_TYPE_OK
     responseDto.data = areas
     return responseDto
 
@@ -45,7 +46,7 @@ def createArea(areaSchema: AreaSchema, db: Session) -> ResponseDto:
     existArea = db.query(Area).filter_by(name=areaSchema.name).first()
     if existArea:
         responseDto.status = BAD_REQUEST
-        responseDto.message = "Ya existe la subárea"
+        responseDto.message = AREA_ALREARY_EXIST
         return responseDto
 
     newArea = Area(**areaSchema.__dict__)
@@ -54,6 +55,6 @@ def createArea(areaSchema: AreaSchema, db: Session) -> ResponseDto:
     db.refresh(newArea)
 
     responseDto.status = OK
-    responseDto.message = "Área creada con éxito"
+    responseDto.message = CREATED_AREA_OK
     responseDto.data = newArea.dict()
     return responseDto
