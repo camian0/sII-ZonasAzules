@@ -15,5 +15,5 @@ class Area(Base):
     def dict(self):
             return {
                 "id": self.id,
-                "names": self.name
+                "name": self.name
             }
