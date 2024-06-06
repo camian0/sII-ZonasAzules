@@ -15,7 +15,7 @@ from helpers.dtos.responseDto import ResponseDto
 
 
 placeTypeRoute = APIRouter(
-    prefix="/tipo-plazas", tags=["tipo-plazas"], dependencies=[Depends(AuthService())]
+    prefix="/place-types", tags=["tipo-plazas"], dependencies=[Depends(AuthService())]
 )
 
 
