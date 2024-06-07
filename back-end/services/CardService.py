@@ -9,7 +9,6 @@ from typing import List
 from sqlalchemy.orm import Session
 from models.creditCard import CreditCard
 from schemas.CreditCardSchema import CreditCardSchema
-from helpers.helpers import listRelationship
 from helpers.dtos.responseDto import ResponseDto
 from helpers.helpers import queryPaginate
 from helpers.statusCodes import BAD_REQUEST, OK
@@ -29,7 +28,7 @@ def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     return responseDto
 
 
-def getNumber(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
+def getNumber(creditCardSchema: str, db: Session) -> ResponseDto:
     """
     Método para obtener una Tarjeta de crédito por el número
     Args:
@@ -41,7 +40,7 @@ def getNumber(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
-    existCreditCard = db.query(CreditCard).filter_by(number=creditCardSchema.number).first()
+    existCreditCard = db.query(CreditCard).filter_by(number=creditCardSchema).first()
     if not existCreditCard:
         responseDto.status = BAD_REQUEST
         responseDto.message = NOT_FOUND_CREDIT_CARD
@@ -70,7 +69,7 @@ def create(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
         responseDto.status = BAD_REQUEST
         responseDto.message = CREDIT_CARD_ALREARY_EXIST
         return responseDto
-
+    
     newCreditCard = CreditCard(**creditCardSchema.__dict__)
     db.add(newCreditCard)
     db.commit()
@@ -81,7 +80,7 @@ def create(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
     responseDto.data = newCreditCard.dict()
     return responseDto
 
-def delete(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
+def delete(creditCardSchema: str, db: Session) -> ResponseDto:
     """
     Método para eliminar una Tarjeta de crédito
     Args:
@@ -93,7 +92,7 @@ def delete(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
-    creditCard = db.query(CreditCard).filter_by(number=creditCardSchema.number).first()
+    creditCard = db.query(CreditCard).filter_by(number=creditCardSchema).first()
     if not creditCard:
         responseDto.status = BAD_REQUEST
         responseDto.message = NOT_FOUND_CREDIT_CARD

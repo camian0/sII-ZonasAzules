@@ -124,7 +124,7 @@ def deleteCard(creditCardNumber: str, db: Session = Depends(getDb)):
     
 
 @cardRoutes.post("/")
-def addCard(creditCardSchema: CreditCardSchema, db: Session = Depends(getDb)):
+def createCard(creditCardSchema: CreditCardSchema, db: Session = Depends(getDb)):
     try:
         responseDto = create(creditCardSchema, db)
         if responseDto.status == OK:

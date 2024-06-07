@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from pydantic import BaseModel
 from pydantic import field_validator
 
@@ -6,9 +6,9 @@ from pydantic import field_validator
 class CreditCardSchema(BaseModel):
     titular_name: str
     number: str
-    date: str
     cvc: str
     user_id: int
+    expiry_date: str
     
     '''
     Verifica que el nombre solo contenga letras y punto
@@ -28,7 +28,7 @@ class CreditCardSchema(BaseModel):
     EJEMPLO:
     Número de ejemplo: 49927398716
     Se multiplica por 2 los dígitos que ocupan las posiciones pares empezando por el final: 
-    (1×2) = 2, (8×2) = 16, (3×2) = 6, (2×2) = 4, (9×2) = 18
+    (1*2) = 2, (8*2) = 16, (3*2) = 6, (2*2) = 4, (9*2) = 18
     Se suman los dígitos que ocupan las posiciones impares con los dígitos de los productos 
     obtenidos: 6 + (2) + 7 + (1+6) + 9 + (6) + 7 + (4) + 9 + (1+8) + 4 = 70. (1+6) es por 
     la multiplicación de 8x2 y (1+8) es por la multiplicación de 9x2 del primer punto
@@ -58,17 +58,17 @@ class CreditCardSchema(BaseModel):
     Verifica que la fecha de la tarjeta sea posterior a la fecha actual y que sea en el formato
     MM/YY
     '''
-    @field_validator("date")
-    def validate_date(cls, date):
+    @field_validator("expiry_date")
+    def validate_date(cls, expiry_date):
         try:
-            exp_date = datetime.strptime(date, "%m/%y")
+            exp_date = datetime.strptime(expiry_date, "%m/%y")
         except ValueError:
             raise ValueError("La fecha debe tener el formato MM/YY")
         
         if exp_date < datetime.now():
             raise ValueError("La fecha de expiración debe ser posterior a la fecha actual")
         
-        return date
+        return expiry_date
 
     '''
     Verifica que el CVC sea solo números de 3 o 4 cifras

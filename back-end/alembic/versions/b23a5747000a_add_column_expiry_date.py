@@ -1,8 +1,8 @@
-"""add_column_expiry_date
+"""add_column expiry date
 
-Revision ID: 7a78d4aa4f6d
-Revises: 045b35a762e8
-Create Date: 2024-06-05 19:16:17.874208
+Revision ID: b23a5747000a
+Revises: a2f37edc116a
+Create Date: 2024-06-06 19:40:40.760129
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '7a78d4aa4f6d'
-down_revision: Union[str, None] = '045b35a762e8'
+revision: str = 'b23a5747000a'
+down_revision: Union[str, None] = 'a2f37edc116a'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

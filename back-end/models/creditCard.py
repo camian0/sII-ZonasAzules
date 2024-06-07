@@ -11,8 +11,8 @@ class CreditCard(Base):
     number = Column(VARCHAR(255), nullable=False, unique=True)
     titular_name = Column(VARCHAR(255), nullable=False)
     cvc = Column(VARCHAR(255), nullable=False)
-    expiry_date = Column(VARCHAR(5), nullable=False)
     user_id = Column(Integer, nullable=False)
+    expiry_date = Column(VARCHAR(5), nullable=False)
 
 
 
@@ -27,6 +27,6 @@ class CreditCard(Base):
             "titular_name": self.titular_name,
             "number": self.number,
             "cvc": self.cvc,
-            "expiry_date": self.expiry_date,
             "user_id": self.user_id,
+            "expiry_date": self.expiry_date
         }
