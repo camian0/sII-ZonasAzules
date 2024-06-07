@@ -8,7 +8,7 @@ from config.dB import getDb
 import traceback
 from schemas.CreditCardSchema import CreditCardSchema
 from services.AuthService import AuthService
-from services.cardService import get, create, delete, getNumber
+from services.CardService import get, create, delete, getNumber
 
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB

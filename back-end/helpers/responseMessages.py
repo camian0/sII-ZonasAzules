@@ -5,6 +5,9 @@ ERRORMESSAGE500DB = "Error interno en el servidor, comuniquese con soporte."
 GET_ALL_AREAS_TYPE_OK = "Áreas obtenidas con éxito"
 AREA_ALREARY_EXIST = "Ya existe el área"
 CREATED_AREA_OK = "Área creada con éxito"
+NOT_FOUND_AREA= "Area no encontrada"
+DELETED_AREA_OK= "Area eliminada con éxito"
+UPDATE_AREA_OK= "Nombre del área actualizada con exito"
 
 # Place types
 GET_ALL_PLACE_TYPE_OK = "Tipos de plazas obtenidas con éxito"

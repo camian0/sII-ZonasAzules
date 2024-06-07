@@ -28,19 +28,18 @@ def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     return responseDto
 
 
-def getNumber(creditCardSchema: str, db: Session) -> ResponseDto:
+def getNumber(creditCardNumber: str, db: Session) -> ResponseDto:
     """
     Método para obtener una Tarjeta de crédito por el número
     Args:
-        creditCardSchema (CreditCardSchema): esquema que contiene los datos para la creación 
-        de la tarjeta de crédito.
+        creditCardNumber (str): número de la tarjeta de crédito a buscar
         db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
 
     Returns:
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
-    existCreditCard = db.query(CreditCard).filter_by(number=creditCardSchema).first()
+    existCreditCard = db.query(CreditCard).filter_by(number=creditCardNumber).first()
     if not existCreditCard:
         responseDto.status = BAD_REQUEST
         responseDto.message = NOT_FOUND_CREDIT_CARD
@@ -80,11 +79,11 @@ def create(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
     responseDto.data = newCreditCard.dict()
     return responseDto
 
-def delete(creditCardSchema: str, db: Session) -> ResponseDto:
+def delete(creditCardNumber: str, db: Session) -> ResponseDto:
     """
     Método para eliminar una Tarjeta de crédito
     Args:
-        creditCardSchema (CreditCardSchema): esquema que contiene los datos para la eliminación 
+        creditCardNumber (CreditCardSchema): esquema que contiene los datos para la eliminación 
         de la tarjeta de crédito.
         db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
 
@@ -92,7 +91,7 @@ def delete(creditCardSchema: str, db: Session) -> ResponseDto:
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
-    creditCard = db.query(CreditCard).filter_by(number=creditCardSchema).first()
+    creditCard = db.query(CreditCard).filter_by(number=creditCardNumber).first()
     if not creditCard:
         responseDto.status = BAD_REQUEST
         responseDto.message = NOT_FOUND_CREDIT_CARD
