@@ -5,33 +5,31 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from config.dB import getDb
 import traceback
-from services.areaService import get, create
 from services.AuthService import AuthService
-from schemas.areaSchema import AreaSchema
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
+from schemas.ratingSchema import RatingSchema
 from helpers.dtos.responseDto import ResponseDto
+from services.ratingService import create, getAll
 
 
-areaRoutes = APIRouter(
-    prefix="/areas", tags=["areas"], dependencies=[Depends(AuthService())]
+ratingRoute = APIRouter(
+    prefix="/rating", tags=["rating"], dependencies=[Depends(AuthService())]
 )
 
 
-@areaRoutes.get("/")
-def getAll(
-    page: int = Query(default=1),
-    sizePage: int = Query(default=10),
-    db: Session = Depends(getDb),
-):
+@ratingRoute.post("/")
+def createRate(rating: RatingSchema, db: Session = Depends(getDb)):
+    response = ResponseDto()
     try:
-        responseDto = get(page, sizePage, db)
-        if responseDto.status == OK:
-            return JSONResponse(content=responseDto.toString(), status_code=200)
+        response = create(rating, db)
+        if response.status == OK:
+            return JSONResponse(content=response.toString(), status_code=OK)
 
-        return JSONResponse(content=responseDto.toString(), status_code=OK)
+        return JSONResponse(content=response.toString(), status_code=BAD_REQUEST)
     except SQLAlchemyError as e:
+        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
 
@@ -43,6 +41,7 @@ def getAll(
             status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
+        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
 
@@ -55,17 +54,20 @@ def getAll(
         )
 
 
-@areaRoutes.post("/")
-def createArea(areaSchema: AreaSchema, db: Session = Depends(getDb)):
+@ratingRoute.get("/")
+def getRates(
+    page: int = Query(default=1),
+    sizePage: int = Query(default=10),
+    db: Session = Depends(getDb),
+):
+    response = ResponseDto()
     try:
-        responseDto = create(areaSchema, db)
-        if responseDto.status == OK:
-            return JSONResponse(content=responseDto.toString(), status_code=OK)
+        response = getAll(page, sizePage, db)
+        if response.status == OK:
+            return JSONResponse(content=response.toString(), status_code=OK)
 
-        return JSONResponse(content=responseDto.toString(), status_code=BAD_REQUEST)
-
+        return JSONResponse(content=response.toString(), status_code=BAD_REQUEST)
     except SQLAlchemyError as e:
-        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
 
@@ -77,7 +79,6 @@ def createArea(areaSchema: AreaSchema, db: Session = Depends(getDb)):
             status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
-        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
 

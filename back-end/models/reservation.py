@@ -31,8 +31,8 @@ class Reservation(Base):
     def dict(self):
         return {
             "id": self.id,
-            "start_date": self.start_date,
-            "finish_date": self.finish_date,
+            "start_date": self.start_date.isoformat(),
+            "finish_date": self.finish_date.isoformat(),
             "plate": self.plate,
             "user_id": self.user_id,
             "place_type_id": self.place_type_id,

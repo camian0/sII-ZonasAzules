@@ -3,31 +3,40 @@ from sqlalchemy.orm import Session
 from models.area import Area
 from schemas.areaSchema import AreaSchema
 from helpers.statusCodes import BAD_REQUEST, OK
+from helpers.responseMessages import (
+    AREA_ALREARY_EXIST,
+    CREATED_AREA_OK,
+    GET_ALL_AREAS_TYPE_OK,
+)
 from helpers.dtos.responseDto import ResponseDto
+from helpers.helpers import queryPaginate
 
 
-def getAllAreas(db: Session) -> ResponseDto:
+def get(page, sizePage, db: Session) -> ResponseDto:
     """
     Método para obtener todas las areas(sectores)
 
     Args:
+        page (_type_): numero de página
+        sizePage (_type_): registros por página
         db (Session): sesion de la base de datos
 
     Returns:
-        ResponseDto: El método devuelve una lista de objetos de tipo Area, objetos de tipo clave valor
+        ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
 
-    query = db.query(Area).all()
+    query = db.query(Area)
+    res = queryPaginate(query, page, sizePage)
 
-    areas = [i.dict() for i in query]
+    areas = [i.dict() for i in res]
     responseDto.status = OK
-    responseDto.message = "Áreas obtenidas con éxito"
+    responseDto.message = GET_ALL_AREAS_TYPE_OK
     responseDto.data = areas
     return responseDto
 
 
-def createArea(areaSchema: AreaSchema, db: Session) -> ResponseDto:
+def create(areaSchema: AreaSchema, db: Session) -> ResponseDto:
     """
     Método para crear un área
     Args:
@@ -35,13 +44,13 @@ def createArea(areaSchema: AreaSchema, db: Session) -> ResponseDto:
         db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
 
     Returns:
-        ResponseDto: área creada
+        ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
     existArea = db.query(Area).filter_by(name=areaSchema.name).first()
     if existArea:
         responseDto.status = BAD_REQUEST
-        responseDto.message = "Ya existe la subárea"
+        responseDto.message = AREA_ALREARY_EXIST
         return responseDto
 
     newArea = Area(**areaSchema.__dict__)
@@ -50,6 +59,6 @@ def createArea(areaSchema: AreaSchema, db: Session) -> ResponseDto:
     db.refresh(newArea)
 
     responseDto.status = OK
-    responseDto.message = "Área creada con éxito"
+    responseDto.message = CREATED_AREA_OK
     responseDto.data = newArea.dict()
     return responseDto

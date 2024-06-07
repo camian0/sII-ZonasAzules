@@ -1,32 +1,28 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
 from config.dB import getDb
 import traceback
-from services.areaService import get, create
+from services.placeTypeService import get, create
 from services.AuthService import AuthService
-from schemas.areaSchema import AreaSchema
+from schemas.placeTypeSchema import PlaceTypeSchema
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
 from helpers.dtos.responseDto import ResponseDto
 
 
-areaRoutes = APIRouter(
-    prefix="/areas", tags=["areas"], dependencies=[Depends(AuthService())]
+placeTypeRoute = APIRouter(
+    prefix="/place-types", tags=["place-types"], dependencies=[Depends(AuthService())]
 )
 
 
-@areaRoutes.get("/")
-def getAll(
-    page: int = Query(default=1),
-    sizePage: int = Query(default=10),
-    db: Session = Depends(getDb),
-):
+@placeTypeRoute.get("/")
+def getAllplaceTypes(db: Session = Depends(getDb)):
     try:
-        responseDto = get(page, sizePage, db)
+        responseDto = get(db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
@@ -55,10 +51,10 @@ def getAll(
         )
 
 
-@areaRoutes.post("/")
-def createArea(areaSchema: AreaSchema, db: Session = Depends(getDb)):
+@placeTypeRoute.post("/")
+def createPlaceType(PlaceTypeSchema: PlaceTypeSchema, db: Session = Depends(getDb)):
     try:
-        responseDto = create(areaSchema, db)
+        responseDto = create(PlaceTypeSchema, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=OK)
 
