@@ -15,7 +15,7 @@ from helpers.dtos.responseDto import ResponseDto
 
 
 userRoutes = APIRouter(
-    prefix="/users", tags=["users"]#, dependencies=[Depends(AuthService())]
+    prefix="/users", tags=["users"], dependencies=[Depends(AuthService())]
 )
 
 
