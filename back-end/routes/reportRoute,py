@@ -1,0 +1,54 @@
+from fastapi import APIRouter, Depends, Query
+from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
+
+from config.dB import getDb
+import traceback
+from services.reportService import total_revenue
+from services.AuthService import AuthService
+from schemas.reportSchema import reportSchema
+from helpers.logger import LOGGER
+from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
+from helpers.dtos.responseDto import ResponseDto
+
+
+areaRoutes = APIRouter(
+    prefix="/reportes", tags=["rertes"], dependencies=[Depends(AuthService())]
+)
+
+
+@areaRoutes.get("/TotalRecaudado")
+def total_revenue(
+    report: reportSchema,
+    db: Session = Depends(getDb),
+):
+    try:
+        responseDto = total_revenue(report, db)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=200)
+
+        return JSONResponse(content=responseDto.toString(), status_code=OK)
+    except SQLAlchemyError as e:
+        traceBack = traceback.format_exc()
+        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    except Exception as e:
+        traceBack = traceback.format_exc()
+        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )

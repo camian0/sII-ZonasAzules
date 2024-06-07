@@ -21,3 +21,10 @@ BLUE_ZONE_NOT_EXIST = "La zona azul no existe"
 # Reservations
 GET_ALL_RESERVATION_OK = "Reservaciones obtenidas con éxito"
 CREATED_RESERVATION_OK = "Reservación creada con éxito"
+
+# Users
+GET_ALL_USERS_TYPE_OK = "Usuarios obtenidos con éxito"
+USER_ALREARY_EXIST = "Ya existe el usuario"
+CREATED_USER_OK = "Usuario creado con éxito"
+
+GENERATE_REPORT_OK = "Reporte generado con éxito"
