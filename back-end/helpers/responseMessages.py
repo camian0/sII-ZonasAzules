@@ -1,6 +1,9 @@
 ERRORMESSAGE500 = "Error interno en el servidor, no se pudo procesar la solicitud"
 ERRORMESSAGE500DB = "Error interno en el servidor, comuniquese con soporte."
 
+# General
+VERIFY_INFO = "Por favor verifica los datos ingresados"
+
 # Areas
 GET_ALL_AREAS_TYPE_OK = "Áreas obtenidas con éxito"
 AREA_ALREARY_EXIST = "Ya existe el área"

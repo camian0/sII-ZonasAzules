@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-
 from helpers.CryptDecrypt import verifyPassword
 from models.authUser import AuthUser
 from models.user import User
@@ -16,10 +15,10 @@ def login(userAuth: UserAuthSchema, db: Session) -> str | None:
         db (Session): sesion de la base de datos que se envia desde el endpoint que se llamó
 
     Returns:
-        str | None: devuelve un token jwd como autenticacion exitosa
+        str | None: devuelve un token jwt como autenticacion exitosa
     """
-    print("antes de la queryu")
-    query = db.query(AuthUser).filter(userAuth.email == AuthUser.email).first()
+    print("antes de la query")
+    query = db.query(AuthUser).filter(AuthUser.email == userAuth.email, AuthUser.role_id == userAuth.role_id).first()
     print("la query" , query)
     if query:
         if verifyPassword(userAuth.password, query.password):
