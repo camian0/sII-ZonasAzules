@@ -5,8 +5,8 @@ load_dotenv()
 
 ENGINE = os.getenv("engine")
 USER = os.getenv("user")
-PASSWORD = 9289
+PASSWORD = os.getenv("pass")
 HOST = os.getenv("host")
 DBNAME = os.getenv("db_name")
-SECRET = 'jhgyukhiusadhiuwafhsdfyugvgcwanhkjafi57184vg56e'
+SECRET = os.getenv("secret")
 TESTDBNAME = os.getenv("testDbName")
