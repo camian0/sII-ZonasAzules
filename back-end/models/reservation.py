@@ -1,5 +1,5 @@
 from .meta import Base
-from sqlalchemy import Column, Integer, DateTime, ForeignKeyConstraint, VARCHAR
+from sqlalchemy import Column, Integer, DateTime, ForeignKeyConstraint, VARCHAR, Float
 from sqlalchemy.orm import relationship
 
 
@@ -13,6 +13,7 @@ class Reservation(Base):
     user_id = Column(Integer, nullable=False)
     place_type_id = Column(Integer, nullable=False)
     blue_zone_id = Column(Integer, nullable=False)
+    total_price = Column(Float)
 
     user = relationship("User", back_populates="reservations", lazy="noload")
     place_type = relationship("PlaceType", back_populates="reservations", lazy="noload")
@@ -37,4 +38,5 @@ class Reservation(Base):
             "user_id": self.user_id,
             "place_type_id": self.place_type_id,
             "blue_zone_id": self.blue_zone_id,
+            "total_price": self.total_price
         }

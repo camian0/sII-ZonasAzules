@@ -23,6 +23,10 @@ GET_ALL_BLUE_ZONE_FREE = "Zonas azules obtenidas con éxito"
 # Reservations
 GET_ALL_RESERVATION_OK = "Reservaciones obtenidas con éxito"
 CREATED_RESERVATION_OK = "Reservación creada con éxito"
+RESERVATION_ALREADY_EXIST = "La reservación ya existe"
+NO_SPACE_AVAILABLE = "No hay espacios en el horario seleccionado"
+NOT_FOUND_RESERVATION = "Reserva no encontrada"
+DELETED_RESERVATION_OK = "Reservación eliminada con éxito"
 
 #Tarjetas de Credito
 GET_ALL_CREDIT_CARD_OK = "Tarjetas de Crédito obtenidas con éxito"
@@ -31,3 +35,6 @@ CREATED_CREDIT_CARD_OK = "Tarjeta de crédito creada con éxito"
 NOT_FOUND_CREDIT_CARD = "La tarjeta de crédito no existe"
 DELETED_CREDIT_CARD_OK = "Tarjeta de crédito eliminada con éxito."
 FOUND_CREDIT_CARD_OK = "Tarjeta de crédito obtenida con éxito"
+
+#Tarjetas de Usuario
+NOT_FOUND_USER= "Usuario no encontrado"
