@@ -28,7 +28,7 @@ def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     return responseDto
 
 
-def getNumber(creditCardNumber: str, db: Session) -> ResponseDto:
+def getByNumber(creditCardNumber: str, db: Session) -> ResponseDto:
     """
     Método para obtener una Tarjeta de crédito por el número
     Args:
