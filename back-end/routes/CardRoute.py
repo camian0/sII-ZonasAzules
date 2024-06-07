@@ -8,7 +8,7 @@ from config.dB import getDb
 import traceback
 from schemas.CreditCardSchema import CreditCardSchema
 from services.AuthService import AuthService
-from services.CardService import get, create, delete, getNumber
+from services.CardService import get, create, delete, getByNumber
 
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
@@ -57,7 +57,7 @@ def getCreditCards(page: int = Query(default=1), sizePage: int = Query(default=1
 @cardRoutes.get("/{creditCardNumber}")
 def getCreditCardbyNumber(creditCardNumber: str, db: Session = Depends(getDb)):
     try:
-        responseDto = getNumber(creditCardNumber, db)
+        responseDto = getByNumber(creditCardNumber, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
