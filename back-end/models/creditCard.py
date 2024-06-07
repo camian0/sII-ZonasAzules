@@ -1,6 +1,7 @@
 from .meta import Base
 from sqlalchemy import Column, Integer, ForeignKeyConstraint, VARCHAR
 from sqlalchemy.orm import relationship
+from datetime import datetime
 
 
 class CreditCard(Base):
@@ -11,6 +12,9 @@ class CreditCard(Base):
     titular_name = Column(VARCHAR(255), nullable=False)
     cvc = Column(VARCHAR(255), nullable=False)
     user_id = Column(Integer, nullable=False)
+    expiry_date = Column(VARCHAR(5), nullable=False)
+
+
 
     user = relationship("User", back_populates="credit_cards", lazy="noload")
 
@@ -24,4 +28,5 @@ class CreditCard(Base):
             "number": self.number,
             "cvc": self.cvc,
             "user_id": self.user_id,
+            "expiry_date": self.expiry_date
         }
