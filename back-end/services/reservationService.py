@@ -10,7 +10,11 @@ from helpers.statusCodes import OK, BAD_REQUEST
 from helpers.responseMessages import (CREATED_RESERVATION_OK, GET_ALL_RESERVATION_OK, 
                                     RESERVATION_ALREADY_EXIST,
                                     BLUE_ZONE_ALREARY_EXIST,
-                                    NO_SPACE_AVAILABLE)
+                                    NO_SPACE_AVAILABLE,
+                                    NOT_FOUND_RESERVATION,
+                                    DELETED_RESERVATION_OK,
+                                    NOT_FOUND_USER
+                                    )
 def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     responseDto = ResponseDto()
     query = db.query(Reservation)
@@ -23,7 +27,33 @@ def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     return responseDto
 
 
+def getByUserId(user_id: int, db: Session, page: int = 1, sizePage: int = 10) -> ResponseDto:
+    """
+    Método para obtener reservaciones por ID de usuario
+    Args:
+        user_id (int): ID del usuario
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
+        page (int): número de página para la paginación
+        sizePage (int): tamaño de página para la paginación
 
+    Returns:
+        ResponseDto: respuesta generica
+    """
+    responseDto = ResponseDto()
+    query = db.query(Reservation).filter_by(user_id=user_id)
+    res = queryPaginate(query, page, sizePage)
+
+    if not res:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = NOT_FOUND_USER
+        return responseDto
+
+
+    reservations = [i.dict() for i in res]
+    responseDto.status = OK
+    responseDto.message = GET_ALL_RESERVATION_OK
+    responseDto.data = reservations
+    return responseDto
 
 def create(reservationSchema: ReservationSchema, db: Session) -> ResponseDto:
     """
@@ -102,5 +132,30 @@ def create(reservationSchema: ReservationSchema, db: Session) -> ResponseDto:
     responseDto.status = OK
     responseDto.message = CREATED_RESERVATION_OK
     responseDto.data = newReservation.dict()
+    return responseDto
+
+def delete(reservationId: str, db: Session) -> ResponseDto:
+    """
+    Método para eliminar una reserva
+    Args:
+        reservationId (str): id de la reserva a eliminar
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
+
+    Returns:
+        ResponseDto: respuesta generica
+    """
+    responseDto = ResponseDto()
+    reservation = db.query(Reservation).filter_by(id=reservationId).first()
+    if not reservation:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = NOT_FOUND_RESERVATION
+        return responseDto
+
+    db.delete(reservation)
+    db.commit()
+
+    responseDto.status = OK
+    responseDto.message = DELETED_RESERVATION_OK
+    responseDto.data = reservation.dict()
     return responseDto
 
