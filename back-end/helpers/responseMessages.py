@@ -15,6 +15,7 @@ CREATED_PLACE_TYPE_OK = "Tipo de plaza creada con éxito"
 GET_ALL_BLUE_ZONE_OK = "Zonas azules obtenidas con éxito"
 BLUE_ZONE_ALREARY_EXIST = "Ya existe la zona azul"
 CREATED_BLUE_ZONE_OK = "Zona azul creada con éxito"
+GET_ALL_BLUE_ZONE_FREE = "Zonas azules obtenidas con éxito"
 
 # Reservations
 GET_ALL_RESERVATION_OK = "Reservaciones obtenidas con éxito"
