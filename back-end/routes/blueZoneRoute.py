@@ -122,9 +122,9 @@ def createBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb))
         )
     
 @blueZoneRoute.delete("/")
-def deleteBlueZone(int: id, db: Session = Depends(getDb)):
+def deleteBlueZone(idNumber:int, db: Session = Depends(getDb)):
     try:
-        responseDto = delete(id, db)
+        responseDto = delete(idNumber, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=OK)
 

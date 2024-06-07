@@ -5,25 +5,23 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from config.dB import getDb
 import traceback
-from services.reportService import total_revenue
 from services.AuthService import AuthService
-from schemas.reportSchema import reportSchema
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
+from services.reportService import total_revenue
+from schemas.reportSchema import reportSchema
 from helpers.dtos.responseDto import ResponseDto
 
 
-areaRoutes = APIRouter(
-    prefix="/reportes", tags=["rertes"], dependencies=[Depends(AuthService())]
+reportRoutes = APIRouter(
+    prefix="/reports", tags=["Reports"], dependencies=[Depends(AuthService())]
 )
 
 
-@areaRoutes.get("/TotalRecaudado")
-def total_revenue(
-    report: reportSchema,
-    db: Session = Depends(getDb),
-):
+@reportRoutes.post("/TotalRecaudado")
+def post(report: reportSchema,
+    db: Session = Depends(getDb)):
     try:
         responseDto = total_revenue(report, db)
         if responseDto.status == OK:

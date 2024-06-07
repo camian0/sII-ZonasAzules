@@ -163,3 +163,4 @@ def delete(id: int, db: Session) -> ResponseDto:
 
     responseDto.status = OK
     responseDto.message = "Blue zone deleted successfully"
+    return responseDto

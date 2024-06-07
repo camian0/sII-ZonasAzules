@@ -14,22 +14,22 @@ from helpers.responseMessages import GENERATE_REPORT_OK
 from models.reservation import Reservation
 
 
-def total_revenue(db: Session, report: reportSchema) -> ResponseDto:
+def total_revenue(report: reportSchema, db: Session) -> ResponseDto:
     responseDto = ResponseDto()
     
-    start_date = datetime.strptime(report.start_date, "%Y-%m-%d").date()
-    end_date = datetime.strptime(report.end_date, "%Y-%m-%d").date()
+    start_date = datetime.strptime(report.startDate, '%Y-%m-%d %H:%M:%S')
+    end_date = datetime.strptime(report.endDate, '%Y-%m-%d %H:%M:%S')
 
     reservations = db.query(Reservation).filter(
-        Reservation.zone_id == report.zone_id,
-        Reservation.date >= start_date,
-        Reservation.date <= end_date
+        Reservation.blue_zone_id == report.idZone,
+        Reservation.start_date >= start_date,
+        Reservation.start_date < end_date
     ).all()
 
     total_revenue = sum(reservation.total_price for reservation in reservations)
     report_data = {
         "total_revenue": total_revenue,
-        "zone_id": report.zone_id
+        "zone_id": report.idZone
     }
 
     responseDto.data = report_data
