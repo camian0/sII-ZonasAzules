@@ -14,6 +14,8 @@ class BlueZone(Base):
     longitude = Column(Float, nullable=False)
     total_car_places = Column(Integer, nullable=False)
     total_moto_places = Column(Integer, nullable=False)
+    price_car = Column(Float)
+    price_moto = Column(Float)
     area_id = Column(Integer, nullable=False)
     area = relationship("Area", back_populates="blue_zones", lazy="noload")
     reservations = relationship(
