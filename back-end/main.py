@@ -4,6 +4,7 @@ from fastapi.exceptions import RequestValidationError
 
 from routes.AuthRoute import authRoute
 from routes.UserRoute import userRoutes
+from routes.CardRoute import cardRoutes
 from routes.blueZoneRoute import blueZoneRoute
 from routes.areaRoute import areaRoutes
 from routes.ratingRoute import ratingRoute
@@ -18,6 +19,8 @@ app.add_exception_handler(RequestValidationError, validation_exception_handler)
 
 app.include_router(authRoute)
 app.include_router(userRoutes)
+app.include_router(cardRoutes)
+
 app.include_router(blueZoneRoute)
 app.include_router(areaRoutes)
 app.include_router(ratingRoute)

@@ -5,6 +5,9 @@ ERRORMESSAGE500DB = "Error interno en el servidor, comuniquese con soporte."
 GET_ALL_AREAS_TYPE_OK = "Áreas obtenidas con éxito"
 AREA_ALREARY_EXIST = "Ya existe el área"
 CREATED_AREA_OK = "Área creada con éxito"
+NOT_FOUND_AREA= "Area no encontrada"
+DELETED_AREA_OK= "Area eliminada con éxito"
+UPDATE_AREA_OK= "Nombre del área actualizada con exito"
 
 # Place types
 GET_ALL_PLACE_TYPE_OK = "Tipos de plazas obtenidas con éxito"
@@ -19,3 +22,11 @@ CREATED_BLUE_ZONE_OK = "Zona azul creada con éxito"
 # Reservations
 GET_ALL_RESERVATION_OK = "Reservaciones obtenidas con éxito"
 CREATED_RESERVATION_OK = "Reservación creada con éxito"
+
+#Tarjetas de Credito
+GET_ALL_CREDIT_CARD_OK = "Tarjetas de Crédito obtenidas con éxito"
+CREDIT_CARD_ALREARY_EXIST = "Ya existe la tarjeta de crédito"
+CREATED_CREDIT_CARD_OK = "Tarjeta de crédito creada con éxito"
+NOT_FOUND_CREDIT_CARD = "La tarjeta de crédito no existe"
+DELETED_CREDIT_CARD_OK = "Tarjeta de crédito eliminada con éxito."
+FOUND_CREDIT_CARD_OK = "Tarjeta de crédito obtenida con éxito"
