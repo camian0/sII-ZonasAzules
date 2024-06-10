@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 from main import app
 from .setupDB import override_get_db
 from config.dB import getDb
-from schemas.pageSchema import PageSchema
 
 client = TestClient(app)
 app.dependency_overrides[getDb] = override_get_db

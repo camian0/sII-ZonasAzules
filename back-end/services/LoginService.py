@@ -13,16 +13,16 @@ def login(userAuth: UserAuthSchema, db: Session) -> str | None:
     Args:
         userAuth (UserAuthSchema): Modelo con los campos requeridos para el inicio de sesion, que se reciben en la peticion hecha al endpont
         db (Session): sesion de la base de datos que se envia desde el endpoint que se llamó
-
+s
     Returns:
         str | None: devuelve un token jwt como autenticacion exitosa
     """
-    print("antes de la query")
-    query = db.query(AuthUser).filter(AuthUser.email == userAuth.email, AuthUser.role_id == userAuth.role_id).first()
-    print("la query" , query)
+    query = db.query(AuthUser).filter(userAuth.email == AuthUser.email).first()
     if query:
         if verifyPassword(userAuth.password, query.password):
+            delattr(userAuth, "password")
             userAuth.role_id = query.role_id
+
             token = encodeJwt(userAuth.__dict__)
             return token
     return None
