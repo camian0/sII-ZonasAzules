@@ -26,3 +26,20 @@ class AuthService(HTTPBearer):
                 )
         else:
             raise HTTPException(status_code=403, detail="Invalid authorization code")
+    
+    async def get_current_user_role(self, request: Request, db: Session = Depends(getDb)) -> int:
+        credentials = await super().__call__(request)
+        reqBody = credentials.credentials
+        if reqBody.__contains__('"'):
+            reqBody = reqBody.replace('"', "")
+        data = decodeJwt(reqBody)
+        if data:
+            user = data.role_id
+            if user:
+                return user
+            else:
+                raise HTTPException(
+                    status_code=403, detail="Invalid authorization code"
+                )
+        else:
+            raise HTTPException(status_code=403, detail="Invalid authorization code")

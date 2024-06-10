@@ -8,7 +8,7 @@ import traceback
 from services.AuthService import AuthService
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
-from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
+from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, FORBIDEN
 from services.blueZoneService import delete, get, create, update, filter
 from schemas.blueZoneSchema import BlueZoneSchema
 from schemas.blueZonesFilterSchema import BlueZonesFilterSchema
@@ -18,7 +18,6 @@ from helpers.dtos.responseDto import ResponseDto
 blueZoneRoute = APIRouter(
     prefix="/blue-zone", tags=["Blue Zone"], dependencies=[Depends(AuthService())]
 )
-
 
 @blueZoneRoute.get("/")
 def getBlueZones(page: int = Query(default=1), sizePage: int = Query(default=10), db: Session = Depends(getDb)):
@@ -61,6 +60,7 @@ def createBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb))
             return JSONResponse(content=responseDto.toString(), status_code=OK)
 
         return JSONResponse(content=responseDto.toString(), status_code=BAD_REQUEST)
+    
 
     except SQLAlchemyError as e:
         db.rollback()
@@ -88,7 +88,7 @@ def createBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb))
         )
     
 @blueZoneRoute.put("/")
-def createBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb)):
+def updateBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb)):
     try:
         responseDto = update(blueZoneSchema, db)
         if responseDto.status == OK:
@@ -154,7 +154,6 @@ def deleteBlueZone(idNumber:int, db: Session = Depends(getDb)):
             content=responseDto.toString(),
             status_code=INTERNAL_SERVER_ERROR,
         )
-
 
 @blueZoneRoute.post("/filter")
 def filterBlueZoneTosearchView(blueZonesFilterSchema: BlueZonesFilterSchema, db: Session = Depends(getDb)):
