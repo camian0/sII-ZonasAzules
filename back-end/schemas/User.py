@@ -9,6 +9,7 @@ class UserSchema(BaseModel):
     document: str
     password: str
     email: EmailStr
+    role_id: int
 
     @field_validator("password")
     def passwordName(cls, password):
