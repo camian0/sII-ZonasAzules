@@ -3,15 +3,11 @@ from sqlalchemy.orm import Session
 
 from models.user import User
 from models.authUser import AuthUser
-from schemas.User import UserSchema
+from schemas.userSchema import UserSchema
 from helpers.CryptDecrypt import getPasswordHash
 from services.LoginService import createAuthUser
-from helpers.statusCodes import BAD_REQUEST, OK
-from helpers.responseMessages import (
-    USER_ALREARY_EXIST,
-    CREATED_USER_OK,
-    GET_ALL_USERS_TYPE_OK,
-)
+from helpers.statusCodes import OK, FORBIDEN
+from helpers.responseMessages import GET_ALL_USERS_TYPE_OK, CREATED_USER_OK, USER_NOT_CREATED
 from helpers.dtos.responseDto import ResponseDto
 from helpers.helpers import queryPaginate
 
@@ -24,7 +20,7 @@ def getUsers(page, sizePage, db: Session) -> ResponseDto:
         db (Session): sesion de la base de datos
 
     Returns:
-        List[User] | None: El método devuelve una lista de objetos de tipo usuario, objetos de tipo clave valor
+        ResponseDto: El método devuelve una lista de objetos de tipo usuario, objetos de tipo clave valor
     """
     responseDto = ResponseDto()
 
@@ -38,7 +34,7 @@ def getUsers(page, sizePage, db: Session) -> ResponseDto:
     return responseDto
 
 
-def create(user: UserSchema, db: Session) -> bool:
+def create(user: UserSchema, db: Session) -> ResponseDto:
     """
     Método para agregar un user y authUser en un mismo flujo, los datos creados del usuario son agregados
     para el modelo de auth user, si se guardan exitosamente los dos se hace el commit a la base de datos
@@ -50,16 +46,16 @@ def create(user: UserSchema, db: Session) -> bool:
         db (Session): sesion de la base de datos que se recibe desde la ruta que fue llamada
 
     Returns:
-        bool: Devuelve una confirmacion de verdadero o falso si se lograron guardar ambos usuarios
+        ResponseDto: Devuelve un objeto response con la informacion de la transaccion
     """
     newUser = User()
+    response = ResponseDto()
     newUser.__dict__.update(user.__dict__)
     newAuthUser = AuthUser()
     passwordHash = getPasswordHash(newUser.password)
     newAuthUser.email = newUser.email
     newAuthUser.password = passwordHash
-    # TODO cambiarlo para recibirlo del front
-    newAuthUser.role_id = 2
+    newAuthUser.role_id = newUser.role_id
     db.add(newUser)
     db.commit()
     db.refresh(newUser)
@@ -67,6 +63,11 @@ def create(user: UserSchema, db: Session) -> bool:
     result = createAuthUser(newAuthUser, db)
     if not result:
         db.rollback()
-        return False
+        response.status=FORBIDEN
+        response.message=USER_NOT_CREATED
+        return response
 
-    return True
+    response.status=OK
+    response.message=CREATED_USER_OK
+    response.data= newUser.dict();
+    return response
