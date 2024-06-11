@@ -12,7 +12,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     error_msg = errors[0]['msg'] if errors else "Invalid input"
     responseDto = ResponseDto()
     responseDto.status = BAD_REQUEST
-    responseDto.message = error_msg.split(",")[1]
+    responseDto.message = error_msg
     return JSONResponse(
         status_code=400,
         content=jsonable_encoder(responseDto.toString())
