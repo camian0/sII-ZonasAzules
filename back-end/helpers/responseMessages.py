@@ -48,5 +48,5 @@ NOT_FOUND_USER= "Usuario no encontrado"
 GET_ALL_USERS_TYPE_OK = "Usuarios obtenidos con éxito"
 USER_ALREARY_EXIST = "Ya existe el usuario"
 CREATED_USER_OK = "Usuario creado con éxito"
-
+USER_NOT_CREATED= "El usuaro no se guardó correctamente"
 GENERATE_REPORT_OK = "Reporte generado con éxito"
