@@ -7,7 +7,7 @@ from config.dB import getDb
 import traceback
 from services.UserService import getUsers, create
 from services.AuthService import AuthService
-from schemas.User import UserSchema
+from schemas.userSchema import UserSchema
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
@@ -64,6 +64,7 @@ def addUser(user: UserSchema, db: Session = Depends(getDb)):
         return JSONResponse(content=responseDto.toString(), status_code=BAD_REQUEST)
 
     except SQLAlchemyError as e:
+        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
 
@@ -75,6 +76,7 @@ def addUser(user: UserSchema, db: Session = Depends(getDb)):
             status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
+        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
 
