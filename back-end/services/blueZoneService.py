@@ -6,10 +6,10 @@ from models.blueZone import BlueZone
 from models.reservation import Reservation
 from helpers.helpers import queryPaginate
 from schemas.blueZoneSchema import BlueZoneSchema
+from schemas.blueZonesFilterSchema import BlueZonesFilterSchema
 from helpers.dtos.responseDto import ResponseDto
 from helpers.statusCodes import BAD_REQUEST, OK
-from helpers.responseMessages import BLUE_ZONE_ALREARY_EXIST, CREATED_BLUE_ZONE_OK, GET_ALL_BLUE_ZONE_OK, GET_ALL_BLUE_ZONE_FREE
-from schemas.blueZonesFilterSchema import BlueZonesFilterSchema
+from helpers.responseMessages import BLUE_ZONE_ALREARY_EXIST, BLUE_ZONE_NOT_EXIST, CREATED_BLUE_ZONE_OK, GET_ALL_BLUE_ZONE_FREE, GET_ALL_BLUE_ZONE_OK, UPDATE_BLUE_ZONE_OK
 
 def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     responseDto = ResponseDto()
@@ -21,8 +21,6 @@ def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     responseDto.message = GET_ALL_BLUE_ZONE_OK
     responseDto.data = zones
     return responseDto
-
-
 
 def create(blueZoneSchema: BlueZoneSchema, db: Session) -> ResponseDto:
     """
@@ -51,9 +49,32 @@ def create(blueZoneSchema: BlueZoneSchema, db: Session) -> ResponseDto:
     responseDto.data = newBlueZone.dict()
     return responseDto
 
-def filter(blueZonesFilterSchema: BlueZonesFilterSchema, db: Session) -> ResponseDto:
+def update(blueZoneSchema: BlueZoneSchema, db: Session) -> ResponseDto:
     """
-    Método para obtener zonas azules disponibles por área, tipo de vehículo y fechas y horas
+    Método para actualizar una zona azul existente
+    Args:
+        blueZoneSchema (BlueZoneSchema): esquema que contiene los datos para la actualización de la zona azul
+    """
+    responseDto = ResponseDto()
+    existingBlueZone = db.query(BlueZone).filter_by(id=blueZoneSchema.id).first()
+    if not existingBlueZone:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = BLUE_ZONE_NOT_EXIST
+        return responseDto
+
+    existingBlueZone.name = blueZoneSchema.name
+    existingBlueZone.description = blueZoneSchema.description
+    # Update other attributes as needed
+
+    db.commit()
+
+    responseDto.status = OK
+    responseDto.message = UPDATE_BLUE_ZONE_OK
+    responseDto.data = existingBlueZone.dict()
+    return responseDto
+
+def filter(blueZonesFilterSchema: BlueZonesFilterSchema, db: Session) -> ResponseDto:
+    """Método para obtener zonas azules disponibles por área, tipo de vehículo y fechas y horas
     Args:
         blueZonesFilterSchema (BlueZonesFilterSchema): esquema que contiene los datos para la búsqueda
         db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
@@ -118,4 +139,28 @@ def filter(blueZonesFilterSchema: BlueZonesFilterSchema, db: Session) -> Respons
     responseDto.status = OK
     responseDto.message = GET_ALL_BLUE_ZONE_FREE
     responseDto.data = zones_output
+    return responseDto
+
+def delete(id: int, db: Session) -> ResponseDto:
+    """
+    Método para eliminar una zona azul existente
+    Args:
+        id (int): identificador de la zona azul a eliminar
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
+
+    Returns:
+        ResponseDto: respuesta generica
+    """
+    responseDto = ResponseDto()
+    existingBlueZone = db.query(BlueZone).filter_by(id=id).first()
+    if not existingBlueZone:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = BLUE_ZONE_NOT_EXIST
+        return responseDto
+
+    db.delete(existingBlueZone)
+    db.commit()
+
+    responseDto.status = OK
+    responseDto.message = "Blue zone deleted successfully"
     return responseDto

@@ -3,7 +3,6 @@ from datetime import datetime
 
 
 class ReservationSchema(BaseModel):
-    id: int
     start_date: str
     finish_date: str
     plate: str
@@ -19,5 +18,29 @@ class ReservationSchema(BaseModel):
             raise ValueError("La longitud de la placa debe ser máximo de 6 dígitos")
 
         return plate
+    
+    '''
+    Verifica que la fecha esté en formato yyyy-MM-dd hh:mm:ss
+    '''
+    @field_validator("start_date")
+    def validate_date(cls, start_date):
+        try:
+            exp_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            raise ValueError("La fecha debe tener el formato yyyy-MM-dd hh:mm:ss")
+        
+        return start_date
+    
+    '''
+    Verifica que la fecha esté en formato yyyy-MM-dd hh:mm:ss
+    '''
+    @field_validator("finish_date")
+    def validate_date(cls, finish_date):
+        try:
+            exp_date = datetime.strptime(finish_date, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            raise ValueError("La fecha debe tener el formato yyyy-MM-dd hh:mm:ss")
+        
+        return finish_date
 
     

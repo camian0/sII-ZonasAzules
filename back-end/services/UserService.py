@@ -6,10 +6,17 @@ from models.authUser import AuthUser
 from schemas.User import UserSchema
 from helpers.CryptDecrypt import getPasswordHash
 from services.LoginService import createAuthUser
-from helpers.helpers import listRelationship
+from helpers.statusCodes import BAD_REQUEST, OK
+from helpers.responseMessages import (
+    USER_ALREARY_EXIST,
+    CREATED_USER_OK,
+    GET_ALL_USERS_TYPE_OK,
+)
+from helpers.dtos.responseDto import ResponseDto
+from helpers.helpers import queryPaginate
 
 
-def getUsers(db: Session) -> List[User] | None:
+def getUsers(page, sizePage, db: Session) -> ResponseDto:
     """
     Método para obtener todos los usuarios(perfiles) del sistema
 
@@ -19,11 +26,16 @@ def getUsers(db: Session) -> List[User] | None:
     Returns:
         List[User] | None: El método devuelve una lista de objetos de tipo usuario, objetos de tipo clave valor
     """
-    query = db.query(User).all()
-    if len(query) > 0:
-        users = [i.dict() for i in query]
-        return users
-    return None
+    responseDto = ResponseDto()
+
+    query = db.query(User)
+    res = queryPaginate(query, page, sizePage)
+
+    users = [i.dict() for i in res]
+    responseDto.status = OK
+    responseDto.message = GET_ALL_USERS_TYPE_OK
+    responseDto.data = users
+    return responseDto
 
 
 def create(user: UserSchema, db: Session) -> bool:
