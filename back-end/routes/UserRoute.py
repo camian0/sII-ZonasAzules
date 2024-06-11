@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
@@ -10,6 +10,8 @@ from services.AuthService import AuthService
 from schemas.User import UserSchema
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
+from helpers.dtos.responseDto import ResponseDto
 
 
 userRoutes = APIRouter(
@@ -18,56 +20,68 @@ userRoutes = APIRouter(
 
 
 @userRoutes.get("/")
-def getAll(db: Session = Depends(getDb)):
+def getAll(
+    page: int = Query(default=1),
+    sizePage: int = Query(default=10),
+    db: Session = Depends(getDb),):
     try:
-        query = getUsers(db)
-        if query:
-            return JSONResponse(content={"data": query}, status_code=200)
+        responseDto = getUsers(page, sizePage, db)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=200)
 
-        return JSONResponse(
-            content={"message": "No hay usuarios para mostrar."}, status_code=200
-        )
+        return JSONResponse(content=responseDto.toString(), status_code=OK)
     except SQLAlchemyError as e:
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
         return JSONResponse(
-            content=ERRORMESSAGE500DB,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
         return JSONResponse(
-            content=ERRORMESSAGE500,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
 
 
 @userRoutes.post("/")
 def addUser(user: UserSchema, db: Session = Depends(getDb)):
     try:
-        query = create(user, db)
-        if query:
-            return JSONResponse(
-                content={"message": "Usuario agregado correctamente"}, status_code=200
-            )
+        responseDto = create(user, db)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=OK)
 
-        return JSONResponse(
-            content={"message": "No se pudo agregar el usuario"}, status_code=401
-        )
+        return JSONResponse(content=responseDto.toString(), status_code=BAD_REQUEST)
+
     except SQLAlchemyError as e:
-        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
         return JSONResponse(
-            content=ERRORMESSAGE500DB,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
-        db.rollback()
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
         return JSONResponse(
-            content=ERRORMESSAGE500,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
