@@ -12,3 +12,6 @@ class Menu(Base):
     roles = relationship(
         "Role", secondary="role_menus", back_populates="menus", lazy="noload"
     )
+
+    def dict(self):
+        return {"id": self.id, "name": self.name}
