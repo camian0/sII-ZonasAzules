@@ -1,0 +1,58 @@
+<div class="container">
+  <h2 class="text-center">Administración de Zonas</h2>
+  <form class="form-inline justify-content-center mb-4">
+    <mat-form-field class="mr-2">
+      <mat-label>ID Zona</mat-label>
+      <input matInput [(ngModel)]="idZona" name="idZona">
+    </mat-form-field>
+    <mat-form-field class="mr-2">
+      <mat-label>Estado</mat-label>
+      <mat-select [(value)]="estado">
+        <mat-option value="estado1">Estado 1</mat-option>
+        <mat-option value="estado2">Estado 2</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="mr-2">
+      <mat-label>Estado</mat-label>
+      <mat-select [(value)]="estado2">
+        <mat-option value="estado1">Estado 1</mat-option>
+        <mat-option value="estado2">Estado 2</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="buscar()">Buscar</button>
+  </form>
+  <mat-table [dataSource]="zonas" class="mat-elevation-z8">
+    <ng-container matColumnDef="sector">
+      <mat-header-cell *matHeaderCellDef> Sector </mat-header-cell>
+      <mat-cell *matCellDef="let zona"> {{zona.sector}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="direccion">
+      <mat-header-cell *matHeaderCellDef> Dirección </mat-header-cell>
+      <mat-cell *matCellDef="let zona"> {{zona.direccion}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="tarifa">
+      <mat-header-cell *matHeaderCellDef> Tarifa </mat-header-cell>
+      <mat-cell *matCellDef="let zona"> {{zona.tarifa}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="plazasTotales">
+      <mat-header-cell *matHeaderCellDef> Plazas Totales </mat-header-cell>
+      <mat-cell *matCellDef="let zona"> {{zona.plazasTotales}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="plazasDisponibles">
+      <mat-header-cell *matHeaderCellDef> Cantidad plazas disponibles </mat-header-cell>
+      <mat-cell *matCellDef="let zona"> {{zona.plazasDisponibles}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="ubicacion">
+      <mat-header-cell *matHeaderCellDef> Ubicación </mat-header-cell>
+      <mat-cell *matCellDef="let zona"> <mat-icon>place</mat-icon> </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="editar">
+      <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+      <mat-cell *matCellDef="let zona"> 
+        <button mat-raised-button color="accent" (click)="editar(zona)">Editar</button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
