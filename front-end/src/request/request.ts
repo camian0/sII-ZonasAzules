@@ -1,7 +1,8 @@
 import { environment } from '../environments/evironment';
+import { isEmpty } from '../helpers/helpers';
 
 export const postData = async function (
-  url: String = '',
+  url: string = '',
   data = {},
   needToken: boolean
 ) {
@@ -29,9 +30,9 @@ export const postData = async function (
   return response.json();
 };
 
-export const getData = async function (url: String = '', params = {}) {
+export const getData = async function (url: string = '', params = {}) {
   url = environment.url + url;
-  if (params !== {}) {
+  if (!isEmpty(params)) {
     url += '?' + new URLSearchParams(params).toString();
   }
   const response = await fetch(url, {
@@ -49,7 +50,7 @@ export const getData = async function (url: String = '', params = {}) {
   return response.json();
 };
 
-export const getRawData = async function (url: String = '') {
+export const getRawData = async function (url: string = '') {
   url = environment.url + url;
   const response = await fetch(url, {
     method: 'GET',
@@ -66,7 +67,7 @@ export const getRawData = async function (url: String = '') {
 };
 
 export const putDocument = async function (
-  url: String = '',
+  url: string = '',
   formData: FormData
 ) {
   url = environment.url + url;
@@ -86,7 +87,7 @@ export const putDocument = async function (
 };
 
 export const putFormData = async function (
-  url: String = '',
+  url: string = '',
   formData: FormData
 ) {
   url = environment.url + url;
@@ -105,7 +106,7 @@ export const putFormData = async function (
   return response.json();
 };
 
-export const putData = async function (url: String = '', data = {}) {
+export const putData = async function (url: string = '', data = {}) {
   url = environment.url + url;
   const response = await fetch(url, {
     method: 'PUT',
@@ -123,7 +124,7 @@ export const putData = async function (url: String = '', data = {}) {
   return response.json();
 };
 
-export const deleteData = async function (url: String = '', data = {}) {
+export const deleteData = async function (url: string = '', data = {}) {
   url = environment.url + url;
   const response = await fetch(url, {
     method: 'DELETE',
@@ -142,12 +143,12 @@ export const deleteData = async function (url: String = '', data = {}) {
 };
 
 export const downloadData = async function (
-  url: String,
+  url: string,
   params = {},
-  name_file: String = 'download.pdf'
+  name_file: string = 'download.pdf'
 ) {
   url = environment.url + url;
-  if (params !== {}) {
+  if (!isEmpty(params)) {
     url += '?' + new URLSearchParams(params).toString();
   }
   const response = await fetch(url, {
@@ -183,9 +184,9 @@ export const downloadData = async function (
 };
 
 export const downloadDataPOST = async function (
-  url: String,
+  url: string,
   formData = null,
-  name_file: String = 'download.pdf'
+  name_file: string = 'download.pdf'
 ) {
   url = environment.url + url;
   const response = await fetch(url, {
@@ -226,12 +227,12 @@ export const downloadDataPOST = async function (
 };
 
 export const downloadDataNew = async function (
-  url: String,
+  url: string,
   params = {},
-  name_file: String = 'download.pdf'
+  name_file: string = 'download.pdf'
 ) {
   url = environment.url + url;
-  if (params !== {}) {
+  if (!isEmpty(params)) {
     url += '?' + new URLSearchParams(params).toString();
   }
   await fetch(url, {
@@ -290,7 +291,7 @@ export const downloadDataNew = async function (
     });
 };
 
-function createBlob(dataEncoded) {
+function createBlob(dataEncoded: any) {
   const byteCharacters = dataEncoded;
   const byteNumbers = new Array(byteCharacters.length);
   for (let i = 0; i < byteCharacters.length; i++) {
