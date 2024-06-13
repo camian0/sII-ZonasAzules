@@ -12,7 +12,7 @@ class AuthUser(Base):
     role_id = Column(Integer, nullable=False)
     user_id = Column(Integer, nullable=False)
 
-    role = relationship("Role", back_populates="auth_users", lazy="noload")
+    role = relationship("Role", back_populates="auth_users")
     user = relationship("User", back_populates="auth_users", lazy="noload")
 
     __table_args__ = (

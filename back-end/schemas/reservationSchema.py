@@ -9,7 +9,6 @@ class ReservationSchema(BaseModel):
     user_id: int
     place_type_id: int
     blue_zone_id: int
-    
 
     @field_validator("plate")
     def plateValid(cls, plate):

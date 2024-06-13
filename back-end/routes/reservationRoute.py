@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from config.dB import getDb
 import traceback
 from services.AuthService import AuthService
+from services.VerifyRole import VerifyRole
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
@@ -21,15 +22,17 @@ reservationRoute = APIRouter(
 
 
 @reservationRoute.get("/")
-def getReservations(page: int = Query(default=1), sizePage: int = Query(default=10), db: Session = Depends(getDb)):
+def getReservations(
+    page: int = Query(default=1),
+    sizePage: int = Query(default=10),
+    db: Session = Depends(getDb),
+):
     try:
         responseDto = get(db, page=page, sizePage=sizePage)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
-        return JSONResponse(
-            content=responseDto.toString(), status_code=200
-        )
+        return JSONResponse(content=responseDto.toString(), status_code=200)
     except SQLAlchemyError as e:
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
@@ -53,16 +56,20 @@ def getReservations(page: int = Query(default=1), sizePage: int = Query(default=
             status_code=INTERNAL_SERVER_ERROR,
         )
 
+
 @reservationRoute.get("/{id}")
-def getReservationsbyUserId(user_id: int, page: int = Query(default=1), sizePage: int = Query(default=10), db: Session = Depends(getDb)):
+def getReservationsbyUserId(
+    user_id: int,
+    page: int = Query(default=1),
+    sizePage: int = Query(default=10),
+    db: Session = Depends(getDb)
+):
     try:
         responseDto = getByUserId(user_id, db, page=page, sizePage=sizePage)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
-        return JSONResponse(
-            content=responseDto.toString(), status_code=200
-        )
+        return JSONResponse(content=responseDto.toString(), status_code=200)
     except SQLAlchemyError as e:
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
@@ -86,9 +93,10 @@ def getReservationsbyUserId(user_id: int, page: int = Query(default=1), sizePage
             status_code=INTERNAL_SERVER_ERROR,
         )
 
-
 @reservationRoute.post("/")
-def createReservations(reservationSchema: ReservationSchema, db: Session = Depends(getDb)):
+def createReservations(
+    reservationSchema: ReservationSchema, db: Session = Depends(getDb)
+):
     try:
         responseDto = create(reservationSchema, db)
         if responseDto.status == OK:
@@ -108,7 +116,7 @@ def createReservations(reservationSchema: ReservationSchema, db: Session = Depen
             content=responseDto.toString(),
             status_code=INTERNAL_SERVER_ERROR,
         )
-    
+
     except Exception as e:
         db.rollback()
         traceBack = traceback.format_exc()
@@ -122,6 +130,7 @@ def createReservations(reservationSchema: ReservationSchema, db: Session = Depen
             status_code=INTERNAL_SERVER_ERROR,
         )
 
+
 @reservationRoute.delete("/{id}")
 def deleteReservation(reservationId: str, db: Session = Depends(getDb)):
     try:
@@ -129,9 +138,7 @@ def deleteReservation(reservationId: str, db: Session = Depends(getDb)):
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
-        return JSONResponse(
-            content=responseDto.toString(), status_code=200
-        )
+        return JSONResponse(content=responseDto.toString(), status_code=200)
     except SQLAlchemyError as e:
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
