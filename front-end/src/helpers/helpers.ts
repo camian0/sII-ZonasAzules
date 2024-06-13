@@ -9,5 +9,5 @@
  * 	 { boolean } Verdadero si el objeto está vacío y falso si no lo está
  */
 export function isEmpty(obj: object): boolean {
-    return Object.entries(obj).length === 0;
-  }
+  return Object.entries(obj).length === 0;
+}
