@@ -6,6 +6,10 @@ from sqlalchemy.orm import Session
 from config.dB import getDb
 
 from models.authUser import AuthUser
+from models.role import Role
+from helpers.statusCodes import OK
+from helpers.responseMessages import GET_MENUS_OK
+from helpers.dtos.responseDto import ResponseDto
 
 
 class AuthService(HTTPBearer):
@@ -43,3 +47,16 @@ class AuthService(HTTPBearer):
                 )
         else:
             raise HTTPException(status_code=403, detail="Invalid authorization code")
+        
+
+
+def getMenus(email: str, db: Session) -> ResponseDto:
+    responseDto = ResponseDto()
+    user = db.query(AuthUser).filter(email == AuthUser.email).first()
+    role = user.role
+    menus = Role.getMenus(role)
+    
+    responseDto.status = OK
+    responseDto.message = GET_MENUS_OK
+    responseDto.data = menus
+    return responseDto

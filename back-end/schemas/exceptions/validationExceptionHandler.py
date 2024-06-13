@@ -9,7 +9,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     print(exc.errors())
     print(exc.errors()[0]["type"])
     errors = exc.errors()
-    error_msg = errors[0]['msg'] if errors else "Invalid input"
+    error_msg = "Errores en la solicitud, por favor revise que los datos que está enviando sean correctos"
     responseDto = ResponseDto()
     responseDto.status = BAD_REQUEST
     responseDto.message = error_msg

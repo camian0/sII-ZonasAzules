@@ -8,13 +8,14 @@ import traceback
 from schemas.UserAuthSchema import UserAuthSchema
 from services.LoginService import login
 from helpers.logger import LOGGER
-from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB, VERIFY_INFO
-from helpers.statusCodes import NO_AUTHOTIZED, INTERNAL_SERVER_ERROR
+from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
+from helpers.statusCodes import NO_AUTHOTIZED, INTERNAL_SERVER_ERROR, OK, BAD_REQUEST
 from helpers.dtos.responseDto import ResponseDto
 from models.authUser import AuthUser
 from schemas.UserAuthSchema import UserAuthSchema
 from models.role import Role
 from services.AuthService import AuthService
+from services.AuthService import getMenus
 
  
 
@@ -23,18 +24,13 @@ authRoute = APIRouter(prefix="/auth", tags=["auth"])
 
 @authRoute.post("/")
 def logIn(user: UserAuthSchema, db: Session = Depends(getDb)):
-    try:
+    try:        
         responseDto = login(user, db)
-        if responseDto != None:
-            return JSONResponse(content={"token": responseDto}, status_code=200)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=OK)
 
-        responseDto = ResponseDto()
-        responseDto.status = NO_AUTHOTIZED
-        responseDto.message = VERIFY_INFO
-        return  JSONResponse(
-            content=responseDto.toString(), 
-            status_code=NO_AUTHOTIZED
-            )
+        return JSONResponse(content=responseDto.toString(), status_code=BAD_REQUEST)
+        
     except SQLAlchemyError as e:
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
@@ -59,24 +55,36 @@ def logIn(user: UserAuthSchema, db: Session = Depends(getDb)):
         )
 
 
-@authRoute.post("/menu", dependencies=[Depends(AuthService())])
+@authRoute.get("/menu", dependencies=[Depends(AuthService())])
 def menus(email: str, db: Session = Depends(getDb)):
     try:
-        user = db.query(AuthUser).filter(email == AuthUser.email).first()
-        role = user.role
-        menus = Role.getMenus(role)
-        return JSONResponse(content={"permits": menus}, status_code=200)
+        print("llegó ", email)
+        responseDto = getMenus(email, db)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=OK)
+
+        return JSONResponse(content=responseDto.toString(), status_code=BAD_REQUEST)   
+
     except SQLAlchemyError as e:
         traceBack = traceback.format_exc()
         LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
         return JSONResponse(
-            content=ERRORMESSAGE500DB,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
     except Exception as e:
         traceBack = traceback.format_exc()
         LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
         return JSONResponse(
-            content=ERRORMESSAGE500,
-            status_code=500,
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
         )
+
