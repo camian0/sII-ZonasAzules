@@ -1,6 +1,8 @@
-body {
-    margin: 0;
-    padding: 0;
+#map {
+    position: absolute;
+    width: 100%;
+    height: 83vh;
+
 }
 
 /* #map {
@@ -8,15 +10,7 @@ body {
     top: 0;
     bottom: 0;
     width: 100%;
-    height: 550px;
 } */
-
-#map {
-    position: relative;
-    width: 100%;
-    height: 83vh;
-    /* z-index: -1; */
-}
 
 #coordenadas {
     display: block;
@@ -33,9 +27,20 @@ body {
     background: #D6EAF8;
 }
 
-#test {
-    /* left: 10%; */
-    /* top: 10%; */
-    position: absolute;
-    z-index: 1;
+.marker {
+    background-image: url('../../../assets/icons/location_on_24dp_red.svg');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.mapboxgl-popup {
+    max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
 }

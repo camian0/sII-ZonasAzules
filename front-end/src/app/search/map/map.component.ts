@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../environments/evironment';
 
@@ -8,8 +8,10 @@ import { environment } from '../../../environments/evironment';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
   map: mapboxgl.Map | undefined;
+  constructor(private renderer: Renderer2, private el: ElementRef) {}
+
   GEOJSON = {
     type: 'FeatureCollection',
     features: [
@@ -46,15 +48,25 @@ export class MapComponent {
       center: [-75.4941952, 5.0561024], // Posición inicial [longitud, latitud]
       zoom: 12.9, // Nivel de zoom inicial
     });
-    this.map.addControl(new mapboxgl.NavigationControl());
-    this.map.addControl(new mapboxgl.FullscreenControl());
-    this.map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-      })
-    );
+
+    // this.map.on('load', () => {
+    this.addMarkers(this.map);
+    // });
+  }
+
+  addMarkers(map: any): void {
+    for (let feature of this.GEOJSON.features) {
+      let newDiv = this.renderer.createElement('div');
+      this.renderer.addClass(newDiv, 'marker');
+      new mapboxgl.Marker(newDiv)
+        .setLngLat(feature.geometry.coordinates as [number, number])
+        .setPopup(
+          new mapboxgl.Popup() // add popups
+            .setHTML(
+              `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+            )
+        )
+        .addTo(map);
+    }
   }
 }
