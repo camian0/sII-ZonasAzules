@@ -50,3 +50,11 @@ USER_ALREARY_EXIST = "Ya existe el usuario"
 CREATED_USER_OK = "Usuario creado con éxito"
 USER_NOT_CREATED= "El usuaro no se guardó correctamente"
 GENERATE_REPORT_OK = "Reporte generado con éxito"
+
+
+# Auth
+AUTH_OK = "Autenticación exitosa"
+
+
+# Menus
+GET_MENUS_OK = "Menus obtenido exitosamente"
