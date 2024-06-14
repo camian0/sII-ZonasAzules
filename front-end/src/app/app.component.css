@@ -5,3 +5,9 @@
     --color-oscuro: #090909;
     --color-claro: #ffffff;
 }
+
+.content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 3rem;
+}

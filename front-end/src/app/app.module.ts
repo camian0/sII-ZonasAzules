@@ -24,7 +24,7 @@ import { MatCardActions, MatCardModule } from '@angular/material/card';
     NoopAnimationsModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatDialogModule,
+    MatDialogModule,    
     RouterLink,
     MatSidenavModule,
     BrowserAnimationsModule,
