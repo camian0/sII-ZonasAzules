@@ -80,11 +80,12 @@ export class CreditCardsComponent implements OnInit {
 
 
   onSubmit() {
+    console.log("SI ENTRO")
     if (!this.privacyAccepted) {
       alert("Debe aceptar la política de privacidad.");
       return;
     }
-    if (!this.saveCard) {
+    if (this.saveCard) {
       this.newCard.postCard(this.card).subscribe((resp: any) => {
         if (resp.status === 200) {
           console.log(resp.data)
