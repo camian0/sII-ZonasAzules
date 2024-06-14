@@ -1,0 +1,173 @@
+.checkout-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  .checkout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .payment-methods {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+  }
+  
+  .payment-method {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+  }
+  
+  .payment-method.active {
+    border-color: #007bff;
+    background-color: #e7f1ff;
+  }
+  
+  .card-brands {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .card-brand {
+    height: 40px;
+    width: auto;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-row .form-group {
+    width: 48%;
+  }
+  
+  .inline-checkbox {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-group.checkbox-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-group.checkbox-row input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .inline-checkbox label {
+    margin-left: 0px;
+  }
+
+  .inline-checkbox span {
+    flex-grow: 1; /* Permitir que el span ocupe el resto de la línea */
+  }
+  
+  .order-summary {
+    margin: 20px 0;
+  }
+  
+  .order-item,
+  .order-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+  }
+  
+  .order-total {
+    font-weight: bold;
+  }
+  
+  .privacy-policy {
+    margin: 20px 0;
+  }
+  
+  .privacy-policy label {
+    display: flex;
+    align-items: center;
+  }
+  
+  .privacy-policy input {
+    margin-right: 10px;
+  }
+
+  .form-group.privacy-policy input[type="checkbox"] {
+    max-width: 20px;
+    max-height: 20px;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+  
+  .pay-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .pay-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .form-group.checkbox-row label {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .form-group.checkbox-row input[type="checkbox"] {
+    max-width: 20px;
+    max-height: 20px;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+
+  .form-group.checkbox-row span {
+    flex-grow: 1;
+  }
+
+  .card-brand-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .card-brand {
+    height: 40px;
+    width: auto;
+  }

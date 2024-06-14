@@ -1,0 +1,72 @@
+<div class="checkout-container">
+    <div class="checkout-header">
+      <button class="back-button">Salir</button>
+      <h2>Tramitar Reserva</h2>
+    </div>
+  
+    <div class="payment-methods">
+      <button class="payment-method active">Credit/Debit Card</button>
+      <button class="payment-method" onclick="window.location.href='https://www.paypal.com';">PayPal</button>
+      <button class="payment-method" onclick="window.location.href='https://www.paysafecard.com';">paysafecard</button>
+    </div>
+  
+    <div class="card-brands">
+        <button (click)="selectCardBrand('Visa')" class="card-brand-button">
+            <img src="assets/visa.png" alt="Visa" class="card-brand">
+        </button>
+        <button (click)="selectCardBrand('MasterCard')" class="card-brand-button">
+            <img src="assets/mastercard.png" alt="MasterCard" class="card-brand">
+        </button>
+        <button (click)="selectCardBrand('American Express')" class="card-brand-button">
+            <img src="assets/amex.png" alt="American Express" class="card-brand">
+        </button>
+        <button (click)="selectCardBrand('JCB')" class="card-brand-button">
+            <img src="assets/jcb.png" alt="JCB" class="card-brand">
+        </button>
+    </div>
+  
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="cardNumber">Número de tarjeta*</label>
+        <input id="cardNumber" [(ngModel)]="card.cardNumber" name="cardNumber" placeholder="Número de tarjeta bancaria" required>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group">
+          <label for="expiryDate">Fecha de caducidad*</label>
+          <input id="expiryDate" [(ngModel)]="card.expiryDate" name="expiryDate" placeholder="MM/AA" required>
+        </div>
+        <div class="form-group">
+          <label for="cvc">CVV/CVC*</label>
+          <input id="cvc" [(ngModel)]="card.cvc" name="cvc" placeholder="3 o 4 dígitos" required>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="name">Nombre y apellidos del titular*</label>
+        <input id="name" [(ngModel)]="card.name" name="name" placeholder="Nombre y apellido(s)" required>
+      </div>
+  
+      <div class="form-group checkbox-row">
+        <input type="checkbox" [(ngModel)]="card.saveCard" name="saveCard" id="saveCard">
+        <label for="saveCard">Guardar los datos de la tarjeta para futuras compras</label>
+      </div>
+  
+      <div class="order-summary">
+        <div class="order-total">
+            <span>Total Reserva</span>
+            <span>{{ totalRes | currency:'USD':'symbol':'1.2-2' }}</span>
+        </div>
+    </div>
+  
+      <div class="form-group privacy-policy">
+        <label>
+          <input type="checkbox" [(ngModel)]="privacyAccepted" name="privacyAccepted" required>
+          He leído y acepto la &nbsp; <a href="#"> Política de privacidad</a>
+        </label>
+      </div>
+  
+      <button type="submit" class="pay-button" [disabled]="!privacyAccepted">Pagar</button>
+    </form>
+  </div>
+  

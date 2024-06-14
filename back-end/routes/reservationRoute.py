@@ -10,7 +10,7 @@ from services.VerifyRole import VerifyRole
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
-from services.reservationService import get, create, delete, getByUserId
+from services.reservationService import get, create, delete, getByUserId, getById
 from schemas.reservationSchema import ReservationSchema
 from helpers.dtos.responseDto import ResponseDto
 from pydantic import ValidationError
@@ -57,7 +57,7 @@ def getReservations(
         )
 
 
-@reservationRoute.get("/{id}")
+@reservationRoute.get("/byUser")
 def getReservationsbyUserId(
     user_id: int,
     page: int = Query(default=1),
@@ -66,6 +66,42 @@ def getReservationsbyUserId(
 ):
     try:
         responseDto = getByUserId(user_id, db, page=page, sizePage=sizePage)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=200)
+
+        return JSONResponse(content=responseDto.toString(), status_code=200)
+    except SQLAlchemyError as e:
+        traceBack = traceback.format_exc()
+        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    except Exception as e:
+        traceBack = traceback.format_exc()
+        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    
+@reservationRoute.get("/byId")
+def getReservationsbyId(
+    reservation_id: int,
+    page: int = Query(default=1),
+    sizePage: int = Query(default=10),
+    db: Session = Depends(getDb)
+):
+    try:
+        responseDto = getById(reservation_id, db, page=page, sizePage=sizePage)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
