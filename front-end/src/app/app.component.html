@@ -1,1 +1,65 @@
-<router-outlet></router-outlet>
+<!-- <app-side-nav></app-side-nav> -->
+
+<!-- <router-outlet></router-outlet> -->
+
+<mat-drawer-container class="sidenav-container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side" [opened]="true">
+    <div class="logo">
+      <h3>ApparkAzul</h3>
+    </div>
+    <div *ngIf="token !== null" class="profile">
+      <div class="user-info">
+        <img
+          src="https://placekitten.com/100/100"
+          alt="User Avatar"
+          class="avatar"
+        />
+        <p class="user-name">Ingeniero Junior</p>
+        <p class="user-email">ing.junior@gmail.com</p>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-nav-list>
+      <mat-list-item>
+        <mat-icon>home</mat-icon>
+        <a routerLink="/welcome">Inicio</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>search</mat-icon>
+        <a routerLink="/search/list">Buscar</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>credit_card</mat-icon>
+        <a routerLink="/cards/list">Mis tarjetas</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>settings</mat-icon>
+        <a routerLink="/admin">Administrar</a>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon>
+          public
+        </mat-icon>
+        <a routerLink="/search/map">Mapa</a>
+      </mat-list-item>
+    </mat-nav-list>
+    <div class="logout">
+      <button mat-button (click)="logOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar color="">
+      <button mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <!-- <span>ApparkAzul</span> -->
+    </mat-toolbar>
+    <div class="content">
+      <!-- contenido de la app -->
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -35,9 +35,6 @@ class BlueZone(Base):
             "observation": self.observation,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "total_car_places": self.total_car_places,
-            "total_moto_places": self.total_moto_places,
-            "price_car": self.price_car,
-            "price_moto": self.price_moto,
-            "area_id": self.area_id
+            "total_car_places" :self.total_car_places,
+            "total_moto_places": self.total_moto_places            
         }
