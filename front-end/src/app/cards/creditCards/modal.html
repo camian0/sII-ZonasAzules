@@ -1,21 +1,23 @@
 <h1 mat-dialog-title>Mis Tarjetas</h1>
 <div mat-dialog-content>
   <div *ngFor="let tarjeta of data.tarjetas; let i = index" class="tarjeta-item">
+    <mat-radio-button (change)="selectedTarjeta = tarjeta" [checked]="selectedTarjeta === tarjeta"></mat-radio-button>
     <mat-form-field class="example-full-width">
       <mat-label>Nombre</mat-label>
-      <input matInput [(ngModel)]="tarjeta.titular_name">
+      <input matInput [(ngModel)]="tarjeta.titular_name" disabled>
     </mat-form-field>
     <mat-form-field class="example-full-width">
       <mat-label>Número</mat-label>
-      <input matInput [(ngModel)]="tarjeta.number">
+      <input matInput [(ngModel)]="tarjeta.number" disabled>
     </mat-form-field>
     <mat-form-field class="example-full-width">
       <mat-label>Fecha Vencimiento</mat-label>
-      <input matInput [(ngModel)]="tarjeta.expiry_date">
+      <input matInput [(ngModel)]="tarjeta.expiry_date" disabled>
     </mat-form-field>
     <button mat-raised-button color="warn" (click)="eliminarTarjeta(i)">Eliminar</button>
   </div>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onCancel()">Cerrar</button>
+  <button mat-raised-button color="primary" (click)="onAccept()">Aceptar</button>
 </div>

@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPseudoCheckboxModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @Component({
@@ -41,14 +43,9 @@ export class CreditCardsComponent implements OnInit {
   };
 
   saveCard = false;
-
   privacyAccepted = false;
   selectedCardBrand: string | null = null;
-
   public listaTarjetas: Array<Card> = [];
-
- 
-
   public totalRes: number = 0;
 
 
@@ -66,7 +63,6 @@ export class CreditCardsComponent implements OnInit {
   getTotal() {
     this.totalRsv.getReservUserById(2).subscribe((resp: any) => {
       if (resp.status === 200) {
-        console.log(resp.data)
         this.totalRes = resp.data[0].total_price;
       }
     })
@@ -75,7 +71,6 @@ export class CreditCardsComponent implements OnInit {
   getTarjetas() {
     this.misTarjetas.getCardUserById(2).subscribe((resp: any) => {
       if (resp.status === 200) {
-        console.log(resp.data)
         this.listaTarjetas= resp.data;
       } else {
         console.error('Error al obtener tarjetas', resp);
@@ -100,25 +95,22 @@ export class CreditCardsComponent implements OnInit {
 
   }
 
-
-
   // Este método se llamará cuando se haga clic en una marca de tarjeta
   selectCardBrand(brand: string) {
     this.selectedCardBrand = brand;
-    console.log(`Selected card brand: ${brand}`);
   }
 
 
   openDialog(): void {
     const dialogRef = this.dialog.open(MostrarTarjetasDialog, {
-      width: '500px',
+      width: '600px',
       data: { tarjetas: this.listaTarjetas }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if (result) {
-        this.getTarjetas(); // Refrescar la tabla después de la actualización
+        this.card = result; // Asignar la tarjeta seleccionada al formulario principal
       }
     });
   }
@@ -136,14 +128,15 @@ export class CreditCardsComponent implements OnInit {
     MatInputModule,
     FormsModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPseudoCheckboxModule,
+    MatRadioModule 
+    
   ],
   templateUrl: './modal.html'
 })
 export class MostrarTarjetasDialog {
-
-  
-
+  selectedTarjeta: Card | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<MostrarTarjetasDialog>,
@@ -180,4 +173,15 @@ export class MostrarTarjetasDialog {
     console.error('Error al eliminar la tarjeta', error);
   });
   }
+
+
+  onAccept(): void {
+    const selectedCard = this.data.tarjetas.find((tarjeta) => tarjeta === this.selectedTarjeta);
+    if (selectedCard) {
+      this.dialogRef.close(selectedCard);
+    } else {
+      alert('Seleccione una tarjeta.');
+    }
+  }
+
 }

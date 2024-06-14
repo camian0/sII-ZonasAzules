@@ -5,4 +5,5 @@ export interface Card {
     cvc : string
     user_id : number
     expiry_date : string
+    selected: false
   }
