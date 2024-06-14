@@ -33,4 +33,8 @@ class BlueZone(Base):
             "name": self.name,
             "address": self.address,
             "observation": self.observation,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "total_car_places" :self.total_car_places,
+            "total_moto_places": self.total_moto_places            
         }
