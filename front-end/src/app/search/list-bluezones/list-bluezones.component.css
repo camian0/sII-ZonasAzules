@@ -1,3 +1,11 @@
+:root {
+    --color-principal: #114358;
+    --color-primer-complementario: #f2aa1f;
+    --color-segundo-complementario: #f1ece7;
+    --color-oscuro: #090909;
+    --color-claro: #ffffff;
+}
+
 .basic-container {
     padding: 5px;
 }
@@ -6,3 +14,154 @@
 .success-snackbar {
     background: rgb(22, 148, 10)
 }
+
+.material-symbols-outlined {
+    color: rgb(22, 148, 10);
+    transition: transform 0.3s ease;
+    /* Añadir transición para un efecto suave */
+}
+
+.material-symbols-outlined :active {
+    transform: scale(1.5);
+    /* Escala el ícono un 50% más grande en ambas direcciones */
+}
+
+/* Estilo para el contenedor del ngx-mat-datetime-picker */
+::ng-deep .mat-datepicker-content-container {
+    max-width: 250px;
+    /* Ancho del calendario */
+    background-color: #d2d5d6;
+    border-bottom: solid #114358;
+}
+
+::ng-deep .mat-calendar-body-cell-content:hover {
+    border-bottom: solid #114358;
+}
+
+::ng-deep .mat-calendar-body-cell-content:active {
+    border-bottom: solid #000000;
+
+}
+
+::ng-deep .mat-mdc-header-cell {
+    background-color: #114358 !important;
+    /* Color principal */
+    color: #ffffff;
+}
+
+/* *************** */
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    /* Color claro */
+    color: #090909;
+    /* Color oscuro */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos para formularios y selectores */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+mat-form-field {
+    width: calc(50% - 10px);
+    /* Para que los campos de formulario ocupen la mitad del ancho en pantallas grandes */
+}
+
+.mat-select {
+    width: 100%;
+}
+
+/* Estilos para tablas */
+table {
+    margin-top: 2rem;
+    border: solid #114358 0.5px;
+}
+
+
+/* Estilos para botones */
+button.submit-button {
+    background-color: #114358;
+    /* Color principal */
+    color: #ffffff;
+    /* Color claro */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.submit-button:hover {
+    background-color: #f2aa1f;
+    /* Color primer complementario */
+}
+
+.no-data-message {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+/* Estilos para el paginador */
+.paginator-container {
+    display: flex;
+    justify-content: flex-end; /* Alinea el paginador a la derecha en pantallas grandes */
+    margin-top: 20px; /* Espacio arriba del paginador */
+  }
+  
+  .paginator-container .paginator {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .paginator-container .paginator button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .paginator-container .paginator button .material-symbols-outlined {
+    font-size: 28px; /* Tamaño del ícono */
+    font-weight: bold
+  }
+
+  .material-symbols-outlined{
+    font-size: 1.5rem;
+  }
+/* Estilos específicos para mobile first */
+@media (max-width: 768px) {
+    form {
+        flex-direction: column;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    button.submit-button {
+        width: fit-content;
+        /* Ajusta el ancho al contenido */
+        margin: 0 auto;
+        /* Centra el botón horizontalmente */
+        display: block;
+        /* Para que no ocupe todo el ancho */
+    }
+
+    .paginator-container {
+        justify-content: center;
+    }
+
+}
+

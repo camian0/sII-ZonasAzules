@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSlideToggleModule,
     MatSnackBarModule,
     MatDialogModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent],

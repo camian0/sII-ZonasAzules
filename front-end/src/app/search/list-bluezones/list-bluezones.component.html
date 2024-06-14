@@ -1,25 +1,111 @@
-<table mat-table [dataSource]="blueZones">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>ID</th>
-    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-  </ng-container>
+<div>
+  <div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="myFormGroup" #myForm="ngForm">
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Nombre</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-  </ng-container>
+      <mat-form-field>
+        <mat-label>Sectores</mat-label>
+        <mat-select placeholder="Selecciona un sector" name="sectorControl" formControlName="sectorControl">
+          <mat-option *ngFor="let area of areas" [value]="area.id">
+            {{ area.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <ng-container matColumnDef="address">
-    <th mat-header-cell *matHeaderCellDef>Dirección</th>
-    <td mat-cell *matCellDef="let element">{{ element.address }}</td>
-  </ng-container>
+      <mat-form-field>
+        <mat-label>Tipos de plaza</mat-label>
+        <mat-select placeholder="Selecciona un tipo de plaza" name="placeTypeControl"
+          formControlName="placeTypeControl">
+          <mat-option *ngFor="let type of placeTypes" [value]="type.id">
+            {{ type.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <ng-container matColumnDef="observation">
-    <th mat-header-cell *matHeaderCellDef>Observación</th>
-    <td mat-cell *matCellDef="let element">{{ element.observation }}</td>
-  </ng-container>
+      <mat-form-field>
+        <input matInput [ngxMatDatetimePicker]="initialPicker" placeholder="Selecciona el inicio"
+          formControlName="initialDateControl" [disabled]="false">
+        <mat-datepicker-toggle matSuffix [for]="$any(initialPicker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #initialPicker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+          [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi"
+          [enableMeridian]="enableMeridian" [disableMinute]="disableMinute" [hideTime]="hideTime">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  ...
-</table>
+      <mat-form-field>
+        <input matInput [ngxMatDatetimePicker]="finalPicker" placeholder="Selecciona el final"
+          formControlName="finalDateControl" [disabled]="false">
+        <mat-datepicker-toggle matSuffix [for]="$any(finalPicker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #finalPicker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+          [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi"
+          [enableMeridian]="enableMeridian" [disableMinute]="disableMinute" [hideTime]="hideTime">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+
+
+
+      <button [disabled]="!myForm.valid" class="submit-button" type="submit">Buscar</button>
+    </form>
+
+  </div>
+
+  <table mat-table [dataSource]="blueZones">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef>Dirección</th>
+      <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="total_places_free">
+      <th mat-header-cell *matHeaderCellDef>Diponibles</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.total_moto_places_free != null ?
+        element.total_moto_places_free : element.total_car_places_free }}
+      </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="ubications">
+      <th mat-header-cell *matHeaderCellDef>Ubicación</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon>
+          <span class="material-symbols-outlined" (click)="ubication(element)">
+            location_on
+          </span>
+        </mat-icon>
+      </td>
+    </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    ...
+  </table>
+  <!-- <div class="paginator-container">
+    <div class="paginator" *ngIf="blueZones.length == 0">
+      <button class="prev" (click)="prev()">
+        <mat-icon>
+          <span class="material-symbols-outlined">
+            keyboard_arrow_left
+          </span>
+        </mat-icon>
+      </button>
+      <button class="next" (click)="next()">
+        <mat-icon>
+          <span class="material-symbols-outlined">
+            keyboard_arrow_right
+          </span>
+        </mat-icon>
+      </button>
+    </div>
+  </div> -->
+  <div class="no-data-message" *ngIf="blueZones.length == 0"><span>No hay datos para mostrar</span></div>
+</div>
