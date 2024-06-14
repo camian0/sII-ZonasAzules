@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>Crear Zona</h1>
+<div mat-dialog-content>
+  <mat-form-field class="example-full-width">
+    <mat-label>Nombre</mat-label>
+    <input matInput [(ngModel)]="data.name">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Dirección</mat-label>
+    <input matInput [(ngModel)]="data.address">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Observaciones</mat-label>
+    <input matInput [(ngModel)]="data.observation">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Latitud</mat-label>
+    <input matInput [(ngModel)]="data.latitude">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Longitud</mat-label>
+    <input matInput [(ngModel)]="data.longitude">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Plazas Carro</mat-label>
+    <input matInput type="number" [(ngModel)]="data.total_car_places">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Plazas Moto</mat-label>
+    <input matInput type="number" [(ngModel)]="data.total_moto_places">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Precio Carro</mat-label>
+    <input matInput type="number" [(ngModel)]="data.price_car">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Precio Moto</mat-label>
+    <input matInput type="number" [(ngModel)]="data.price_moto">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="example-full-width">
+    <mat-label>Sector</mat-label>
+    <mat-select [(ngModel)]="data.area_id">
+      <mat-option *ngFor="let sector of sectors" [value]="sector.id">{{ sector.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" cdkFocusInitial (click)="onSave()">Guardar</button>
+  <button mat-raised-button (click)="onCancel()">Cancelar</button>
+</div>

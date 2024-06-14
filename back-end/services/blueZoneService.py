@@ -10,7 +10,7 @@ from schemas.blueZoneUpdateSchema import BlueZoneUpdateSchema
 from schemas.blueZonesFilterSchema import BlueZonesFilterSchema
 from helpers.dtos.responseDto import ResponseDto
 from helpers.statusCodes import BAD_REQUEST, OK
-from helpers.responseMessages import BLUE_ZONE_ALREARY_EXIST, BLUE_ZONE_NOT_EXIST, CREATED_BLUE_ZONE_OK, GET_ALL_BLUE_ZONE_FREE, GET_ALL_BLUE_ZONE_OK, UPDATE_BLUE_ZONE_OK
+from helpers.responseMessages import BLUE_ZONE_ALREARY_EXIST, BLUE_ZONE_NOT_EXIST, CREATED_BLUE_ZONE_OK, GET_ALL_BLUE_ZONE_FREE, GET_ALL_BLUE_ZONE_OK, GET_ZONES_BY_AREA_ID_OK, NOT_FOUND_GET_ZONES_BY_AREA_ID, UPDATE_BLUE_ZONE_OK
 
 def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     responseDto = ResponseDto()
@@ -20,6 +20,29 @@ def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     zones = [i.dict() for i in res]
     responseDto.status = OK
     responseDto.message = GET_ALL_BLUE_ZONE_OK
+    responseDto.data = zones
+    return responseDto
+
+def getByArea(id: int, db: Session) -> ResponseDto:
+    """
+    Método para obtener las zonas dado el id del area
+    Args:
+        id (int): número del area a buscar
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
+
+    Returns:
+        ResponseDto: respuesta generica
+    """
+    responseDto = ResponseDto()
+    existZonas = db.query(BlueZone).filter_by(area_id = id)
+    if not existZonas:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = NOT_FOUND_GET_ZONES_BY_AREA_ID
+        return 
+    
+    zones = [i.dict() for i in existZonas]
+    responseDto.status = OK
+    responseDto.message = GET_ZONES_BY_AREA_ID_OK
     responseDto.data = zones
     return responseDto
 

@@ -25,6 +25,9 @@ UPDATE_BLUE_ZONE_OK = "Zona azul actualizada con éxito"
 BLUE_ZONE_NOT_EXIST = "La zona azul no existe"
 GET_ALL_BLUE_ZONE_FREE = "Zonas azules obtenidas con éxito"
 
+NOT_FOUND_GET_ZONES_BY_AREA_ID = "No se encontraron zonas azules"
+GET_ZONES_BY_AREA_ID_OK = "Zonas azules obtenidas con éxito"
+
 # Reservations
 GET_ALL_RESERVATION_OK = "Reservaciones obtenidas con éxito"
 CREATED_RESERVATION_OK = "Reservación creada con éxito"

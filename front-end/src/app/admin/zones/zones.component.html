@@ -1,6 +1,16 @@
 <div class="container">
   <h2 class="text-center">Administración de Zonas</h2>
-  
+
+  <div class="search-bar">
+    <mat-form-field appearance="fill">
+      <mat-label>Sector</mat-label>
+      <mat-select [(ngModel)]="selectedSector">
+        <mat-option *ngFor="let sector of sectors" [value]="sector.id">{{ sector.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="buscar()">Buscar</button>
+  </div>
   <div class="table-responsive">
     <mat-table [dataSource]="zones" class="mat-elevation-z8 custom-table">
       <ng-container matColumnDef="name">
@@ -54,11 +64,12 @@
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
         <mat-cell *matCellDef="let zona"> 
-          <button mat-raised-button color="warn" (click)="openDialog(zona)">Eliminar</button>
+          <button mat-raised-button color="warn" (click)="eliminarZona(zona)">Eliminar</button>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
   </div>
+  <button mat-raised-button color="primary" (click)="create()">Crear</button>
 </div>

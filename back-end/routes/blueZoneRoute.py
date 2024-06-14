@@ -9,7 +9,7 @@ from services.AuthService import AuthService
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, FORBIDEN
-from services.blueZoneService import delete, get, create, update, filter
+from services.blueZoneService import delete, get, create, getByArea, update, filter
 from schemas.blueZoneSchema import BlueZoneSchema
 from schemas.blueZoneUpdateSchema import BlueZoneUpdateSchema
 from schemas.blueZonesFilterSchema import BlueZonesFilterSchema
@@ -24,6 +24,38 @@ blueZoneRoute = APIRouter(
 def getBlueZones(page: int = Query(default=1), sizePage: int = Query(default=10), db: Session = Depends(getDb)):
     try:
         responseDto = get(db, page=page, sizePage=sizePage)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=200)
+
+        return JSONResponse(
+            content=responseDto.toString(), status_code=200
+        )
+    except SQLAlchemyError as e:
+        traceBack = traceback.format_exc()
+        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    except Exception as e:
+        traceBack = traceback.format_exc()
+        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+@blueZoneRoute.get("/byArea")
+def getBlueZonesByArea(id: int, db: Session = Depends(getDb)):
+    try:
+        responseDto = getByArea(id, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 

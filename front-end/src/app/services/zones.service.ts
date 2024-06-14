@@ -19,15 +19,23 @@ export class ZonesService {
   }
 
   get(): Observable<any> {
-    return this.http.get(`${BASE_URL}blue-zone?page=1&sizePage=10`);
+    return this.http.get(`${BASE_URL}blue-zone/`);
   }
+  getByArea(id: any): Observable<any> {
+    return this.http.get(`${BASE_URL}blue-zone/byArea/?id=${id}`);
+  }
+  getSectors(): Observable<any> {
+    return this.http.get(`${BASE_URL}areas/`);
+  }
+
+  
 
   getById(id:any): Observable<any> {
     return this.http.get(`${BASE_URL}/-zoneById?id=${id}`);
   }
 
   post(json:any): Observable<any> {
-    return this.http.post(`${BASE_URL}`,json);
+    return this.http.post(`${BASE_URL}blue-zone/`,json);
   }
 
   postFilter(json:any): Observable<any> {
@@ -39,6 +47,6 @@ export class ZonesService {
   }
  
   delete(id:any): Observable<any> {
-    return this.http.delete(`${BASE_URL}?id=${id}`);
+    return this.http.delete(`${BASE_URL}blue-zone/?idNumber=${id}`);
   }
 }
