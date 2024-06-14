@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 
 from routes.AuthRoute import authRoute
 from routes.UserRoute import userRoutes
@@ -13,9 +14,19 @@ from routes.reservationRoute import reservationRoute
 from routes.reportRoute import reportRoutes
 from schemas.exceptions.validationExceptionHandler import validation_exception_handler
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Configuración de cors
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Lista de orígenes permitidos (utiliza dominios específicos en producción)
+    allow_credentials=True,
+    allow_methods=["*"],  # Métodos HTTP permitidos
+    allow_headers=["*"],  # Cabeceras HTTP permitidas
+)
+
 # Registra el manejador de excepciones
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 
@@ -39,7 +50,14 @@ app.add_middleware(
     allow_headers=["*"],  # Cabeceras HTTP permitidas
 )
 
-
+# Configuración de cors
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Lista de orígenes permitidos (utiliza dominios específicos en producción)
+    allow_credentials=True,
+    allow_methods=["*"],  # Métodos HTTP permitidos
+    allow_headers=["*"],  # Cabeceras HTTP permitidas
+)
 @app.get("/")
 def read_root():
     return {"Hello": "World"}

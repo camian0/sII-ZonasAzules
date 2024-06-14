@@ -6,6 +6,7 @@ from models.blueZone import BlueZone
 from models.reservation import Reservation
 from helpers.helpers import queryPaginate
 from schemas.blueZoneSchema import BlueZoneSchema
+from schemas.blueZoneUpdateSchema import BlueZoneUpdateSchema
 from schemas.blueZonesFilterSchema import BlueZonesFilterSchema
 from helpers.dtos.responseDto import ResponseDto
 from helpers.statusCodes import BAD_REQUEST, OK
@@ -49,7 +50,7 @@ def create(blueZoneSchema: BlueZoneSchema, db: Session) -> ResponseDto:
     responseDto.data = newBlueZone.dict()
     return responseDto
 
-def update(blueZoneSchema: BlueZoneSchema, db: Session) -> ResponseDto:
+def update(blueZoneSchema: BlueZoneUpdateSchema, db: Session) -> ResponseDto:
     """
     Método para actualizar una zona azul existente
     Args:
@@ -61,12 +62,19 @@ def update(blueZoneSchema: BlueZoneSchema, db: Session) -> ResponseDto:
         responseDto.status = BAD_REQUEST
         responseDto.message = BLUE_ZONE_NOT_EXIST
         return responseDto
-
-    existingBlueZone.name = blueZoneSchema.name
-    existingBlueZone.description = blueZoneSchema.description
+    
+    existingBlueZone.name=blueZoneSchema.name
+    existingBlueZone.address=blueZoneSchema.address,
+    existingBlueZone.observation=blueZoneSchema.observation,
+    existingBlueZone.latitude=blueZoneSchema.latitude,
+    existingBlueZone.longitude=blueZoneSchema.longitude,
+    existingBlueZone.price_car = blueZoneSchema.price_car
+    existingBlueZone.price_moto = blueZoneSchema.price_moto
+    existingBlueZone.area_id = blueZoneSchema.area_id
     # Update other attributes as needed
-
+    
     db.commit()
+    db.refresh(existingBlueZone)
 
     responseDto.status = OK
     responseDto.message = UPDATE_BLUE_ZONE_OK

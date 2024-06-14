@@ -1,1 +1,20 @@
-<p>login works!</p>
+<div class="login-container">
+    <div class="login-form">
+      <h2>Iniciar sesión</h2>
+      <form (ngSubmit)="onSubmit()" [formGroup]="myFormGroup" class="form" autocomplete="off" #myForm="ngForm">
+        <div class="form-group">
+          <label for="username">Usuario</label>
+          <input formControlName="username" name="username" id="username" type="text" placeholder="Usuario" autocomplete="off"/>
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input formControlName="password" name="password" id="password" type="password" placeholder="Contraseña" autocomplete="off"/>
+        </div>
+        <button [disabled]="!myForm.valid" class="submit-button" type="submit">Entrar</button>
+        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+      </form>
+    </div>
+    <div class="img-container">
+        <div class="login-image"></div>
+    </div>
+  </div>

@@ -11,6 +11,7 @@ from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR, FORBIDEN
 from services.blueZoneService import delete, get, create, update, filter
 from schemas.blueZoneSchema import BlueZoneSchema
+from schemas.blueZoneUpdateSchema import BlueZoneUpdateSchema
 from schemas.blueZonesFilterSchema import BlueZonesFilterSchema
 from helpers.dtos.responseDto import ResponseDto
 
@@ -88,7 +89,7 @@ def createBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb))
         )
     
 @blueZoneRoute.put("/")
-def updateBlueZone(blueZoneSchema: BlueZoneSchema, db: Session = Depends(getDb)):
+def updateBlueZone(blueZoneSchema: BlueZoneUpdateSchema, db: Session = Depends(getDb)):
     try:
         responseDto = update(blueZoneSchema, db)
         if responseDto.status == OK:

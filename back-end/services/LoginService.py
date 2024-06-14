@@ -4,6 +4,9 @@ from models.authUser import AuthUser
 from models.user import User
 from schemas.UserAuthSchema import UserAuthSchema
 from services.JWTService import encodeJwt
+from helpers.statusCodes import OK, BAD_REQUEST
+from helpers.responseMessages import AUTH_OK, VERIFY_INFO
+from helpers.dtos.responseDto import ResponseDto
 
 
 def login(userAuth: UserAuthSchema, db: Session) -> str | None:
@@ -17,15 +20,22 @@ s
     Returns:
         str | None: devuelve un token jwt como autenticacion exitosa
     """
+    responseDto = ResponseDto()
     query = db.query(AuthUser).filter(userAuth.email == AuthUser.email).first()
     if query:
         if verifyPassword(userAuth.password, query.password):
             delattr(userAuth, "password")
             userAuth.role_id = query.role_id
 
-            token = encodeJwt(userAuth.__dict__)
-            return token
-    return None
+            token = encodeJwt(userAuth.__dict__)     
+            responseDto.status = OK
+            responseDto.message = AUTH_OK   
+            responseDto.data = token
+            return responseDto
+        
+    responseDto.status = BAD_REQUEST
+    responseDto.message = VERIFY_INFO
+    return responseDto
 
 
 def createAuthUser(user: AuthUser, db: Session) -> bool:

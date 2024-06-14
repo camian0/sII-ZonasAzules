@@ -12,8 +12,8 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor() {}
  
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    //const token = localStorage.getItem('token');
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imphcm9sMTU5MEBnbWFpbC5jb20iLCJyb2xlX2lkIjoyfQ.P1D9I9UC1nd6rmp-1Mo8j4UTFM4dq0083JrZT697-LQ";
+    const token = localStorage.getItem('token');
+    //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlX2lkIjoyfQ.Frv_u-7vKB1Zhvc8FPcL76QNp2HkvGv8fuOeBvaxeZ0";
     if (token) {
       const modifiedRequest = request.clone({
         setHeaders: {
