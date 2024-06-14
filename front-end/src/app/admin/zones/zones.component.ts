@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ZonesService } from 'src/app/services/zones.service';
 import { Zone } from 'src/app/models/zone';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-zones',
@@ -44,6 +45,12 @@ export class ZonesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getZonesBlue();
+    Swal.fire({
+      title: 'Error!',
+      text: 'Do you want to continue',
+      icon: 'error',
+      confirmButtonText: 'Cool'
+    })
   }
 
   getZonesBlue(){
