@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { GetTokenService } from './shared/services/get-token.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,16 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'front-end-angular';
   router = inject(Router);
-  token = localStorage.getItem('token');
+  token: string = '';
+  private subscription?: Subscription;
+
+  constructor(private serviceToken: GetTokenService) {}
+
+  ngOnInit() {
+    this.subscription = this.serviceToken.token$.subscribe((value) => {
+      this.token = value;
+    });
+  }
 
   logOut(): void {
     localStorage.clear();

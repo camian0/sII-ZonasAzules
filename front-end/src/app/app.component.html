@@ -37,7 +37,7 @@
         <a routerLink="/admin">Administrar</a>
       </mat-list-item>
     </mat-nav-list>
-    <div class="logout">
+    <div *ngIf="token === null" class="logout">
       <button mat-button (click)="logOut()">
         <mat-icon>logout</mat-icon>
         <span>Cerrar Sesión</span>
