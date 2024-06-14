@@ -1,0 +1,65 @@
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f1ece7; /* Color segundo complementario */
+    color: #114358; /* Color principal */
+    position: relative; /* Para posicionar el coche */
+    overflow: hidden; /* Para ocultar el coche fuera del contenedor */
+  }
+  
+  .welcome-content {
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+  }
+  
+  .welcome-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    letter-spacing: 5px; /* Espaciado entre letras */
+  }
+  
+  .welcome-message {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px; /* Espaciado entre letras */
+  }
+  
+  /* Animación de entrada */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.9); /* Escala un poco */
+    }
+    50% {
+      transform: translateY(0) scale(1.6); /* Salta hacia arriba */
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1); /* Vuelve al tamaño original */
+    }
+  }
+  
+  /* Emoticon coche girando y lloviendo */
+  @keyframes carMove {
+    0% {
+      left: -100px; /* Fuera del contenedor a la izquierda */
+      transform: rotate(0deg); /* Sin rotación al inicio */
+    }
+    100% {
+      left: calc(100% + 100px); /* Fuera del contenedor a la derecha */
+      transform: rotate(360deg); /* Rotación completa al final */
+    }
+  }
+  
+  .welcome-container::before {
+    content: "🚗"; /* Emoticon de coche */
+    font-size: 2rem;
+    position: absolute;
+    top: 20%;
+    left: -100px; /* Inicialmente fuera del contenedor a la izquierda */
+    transform-origin: center center; /* Punto de origen de la rotación */
+    animation: carMove 8s linear infinite; /* Animación de movimiento */
+  }
