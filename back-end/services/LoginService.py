@@ -22,7 +22,6 @@ s
     """
     responseDto = ResponseDto()
     query = db.query(AuthUser).filter(userAuth.email == AuthUser.email).first()
-    print("llegoooo", query)
     if query:
         if verifyPassword(userAuth.password, query.password):
             delattr(userAuth, "password")
