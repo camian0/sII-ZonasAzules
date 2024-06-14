@@ -17,6 +17,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatCardActions, MatCardModule } from '@angular/material/card';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { MatCardActions, MatCardModule } from '@angular/material/card';
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
+    MatMenuModule,
   ],
   providers: [ {
     provide: HTTP_INTERCEPTORS,

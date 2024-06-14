@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { Area } from 'src/app/models/areaModel';
+import { AreaCreate } from 'src/app/models/request/areaCreate';
 import { AreasService } from 'src/app/services/areas.services';
 import Swal from 'sweetalert2';
 
@@ -65,6 +66,20 @@ export class AreasComponent implements OnInit  {
       console.log('The dialog was closed');
       if (result) {
         this.getAreas(); // Refrescar la tabla después de la actualización
+      }
+    });
+  }
+
+  createArea() {
+    const dialogRef = this.dialog.open(CreateAreaDialog, {
+      width: '500px',
+      data: { areas: this.areas }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result) {
+        this.getAreas(); // Refrescar la tabla después de la creación
       }
     });
   }
@@ -196,3 +211,62 @@ export class EditAreaDialog {
     });
   }
 }
+@Component({
+  selector: 'crear-zona-dialog',
+  templateUrl: './createArea.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    MatDialogModule,
+    HttpClientModule
+  ]
+})
+export class CreateAreaDialog {
+  public data: AreaCreate = {
+    name: ''
+  };
+  public sectors: Array<any> = [];
+
+  constructor(
+    public dialogRef: MatDialogRef<CreateAreaDialog>,
+    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+    private areasSrv: AreasService
+  ) {
+    //this.areas = dialogData.areas;
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onSave(): void {
+    console.log(this.data)
+    this.areasSrv.post(this.data).subscribe(response => {
+      if (response.status === 200) {
+        Swal.fire({
+          title: 'Area creada',
+          text: response.message,
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        this.dialogRef.close(this.data);
+      } else {
+        Swal.fire({
+          title: 'Error en la solicitud',
+          text: response.message,
+          icon: 'warning',
+          confirmButtonText: 'Aceptar'
+        });
+        this.dialogRef.close();
+      }
+    });
+  }
+
+  
+}
+
