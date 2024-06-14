@@ -12,7 +12,7 @@ from schemas.CreditCardSchema import CreditCardSchema
 from helpers.dtos.responseDto import ResponseDto
 from helpers.helpers import queryPaginate
 from helpers.statusCodes import BAD_REQUEST, OK
-from helpers.responseMessages import CREDIT_CARD_ALREARY_EXIST, CREATED_CREDIT_CARD_OK, GET_ALL_CREDIT_CARD_OK, NOT_FOUND_CREDIT_CARD, DELETED_CREDIT_CARD_OK, FOUND_CREDIT_CARD_OK
+from helpers.responseMessages import CREDIT_CARD_ALREARY_EXIST, CREATED_CREDIT_CARD_OK, GET_ALL_CREDIT_CARD_OK, NOT_FOUND_CREDIT_CARD, DELETED_CREDIT_CARD_OK, FOUND_CREDIT_CARD_OK, NOT_FOUND_CREDIT_CARD_BY_ID
 
 
 
@@ -39,6 +39,7 @@ def getByNumber(creditCardNumber: str, db: Session) -> ResponseDto:
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
+    print("ESTOY CANSADO")
     existCreditCard = db.query(CreditCard).filter_by(number=creditCardNumber).first()
     if not existCreditCard:
         responseDto.status = BAD_REQUEST
@@ -50,6 +51,58 @@ def getByNumber(creditCardNumber: str, db: Session) -> ResponseDto:
     responseDto.data = existCreditCard.dict()
     return responseDto
 
+def getByUserId(id: int, db: Session) -> ResponseDto:
+    """
+    Método para obtener las zonas dado el id del area
+    Args:
+        id (int): número del area a buscar
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
+
+    Returns:
+        ResponseDto: respuesta generica
+    """
+    
+    responseDto = ResponseDto()
+    existCard = db.query(CreditCard).filter_by(user_id = id).all()
+    print(existCard)
+    if not existCard:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = NOT_FOUND_CREDIT_CARD_BY_ID
+        return responseDto
+    
+    cards = [i.dict() for i in existCard]
+    responseDto.status = OK
+    responseDto.message = GET_ALL_CREDIT_CARD_OK
+    responseDto.data = cards
+    return responseDto
+    
+'''
+def getByIdUser(id: int, db: Session, page: int = 1, sizePage: int = 10) -> ResponseDto:
+    """
+    Método para obtener una Tarjeta de crédito por el id de usuario
+    Args:
+        id (str): id del usuario
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
+
+    Returns:
+        ResponseDto: respuesta generica
+    """
+    responseDto = ResponseDto()
+    query = db.query(CreditCard).filter_by(user_id=id)
+    res = queryPaginate(query, page, sizePage)
+
+    if not res:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = NOT_FOUND_CREDIT_CARD
+        return responseDto
+
+    
+    creditCard = [i.dict() for i in res]
+    responseDto.status = OK
+    responseDto.message = GET_ALL_CREDIT_CARD_OK
+    responseDto.data = creditCard
+    return responseDto
+'''
 
 def create(creditCardSchema: CreditCardSchema, db: Session) -> ResponseDto:
     """

@@ -22,6 +22,10 @@ export class creditcardService {
     return this.http.get(`${BASE_URL}/?page=1&sizePage=10`);
   }
 
+  getCardUserById(id:any): Observable<any> {
+    return this.http.get(`${BASE_URL}creditcard/byUserId?user_id=${id}`);
+  }
+
   getReservUserById(id:any): Observable<any> {
     return this.http.get(`${BASE_URL}reservations/byId?reservation_id=${id}`);
   }
@@ -42,7 +46,7 @@ export class creditcardService {
     return this.http.patch(`${BASE_URL}`,json);
   }
  
-  delete(id:any): Observable<any> {
-    return this.http.delete(`${BASE_URL}?id=${id}`);
+  delete(number:any): Observable<any> {
+    return this.http.delete(`${BASE_URL}creditcard/${number}`);
   }
 }

@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Mis Tarjetas</h1>
+<div mat-dialog-content>
+  <div *ngFor="let tarjeta of data.tarjetas; let i = index" class="tarjeta-item">
+    <mat-form-field class="example-full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput [(ngModel)]="tarjeta.titular_name">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Número</mat-label>
+      <input matInput [(ngModel)]="tarjeta.number">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Fecha Vencimiento</mat-label>
+      <input matInput [(ngModel)]="tarjeta.expiry_date">
+    </mat-form-field>
+    <button mat-raised-button color="warn" (click)="eliminarTarjeta(i)">Eliminar</button>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onCancel()">Cerrar</button>
+</div>

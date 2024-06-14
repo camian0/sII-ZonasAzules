@@ -26,6 +26,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./welcome/welcome.routes').then((m) => m.COME_ROUTES),
   },
+  {
+    path: 'creditCard',
+    loadChildren: () =>
+      import('./welcome/welcome.routes').then((m) => m.COME_ROUTES),
+  },
 ];
 
 @NgModule({
