@@ -13,6 +13,7 @@ from routes.placeTypeRoute import placeTypeRoute
 from routes.reservationRoute import reservationRoute
 from routes.reportRoute import reportRoutes
 from schemas.exceptions.validationExceptionHandler import validation_exception_handler
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
@@ -40,6 +41,13 @@ app.include_router(placeTypeRoute)
 app.include_router(reservationRoute)
 app.include_router(reportRoutes)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Lista de orígenes permitidos (utiliza dominios específicos en producción)
+    allow_credentials=True,
+    allow_methods=["*"],  # Métodos HTTP permitidos
+    allow_headers=["*"],  # Cabeceras HTTP permitidas
+)
 
 @app.get("/")
 def read_root():
