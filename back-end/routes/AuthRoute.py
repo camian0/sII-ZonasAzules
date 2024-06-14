@@ -58,7 +58,6 @@ def logIn(user: UserAuthSchema, db: Session = Depends(getDb)):
 @authRoute.get("/menu", dependencies=[Depends(AuthService())])
 def menus(email: str, db: Session = Depends(getDb)):
     try:
-        print("llegó ", email)
         responseDto = getMenus(email, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=OK)

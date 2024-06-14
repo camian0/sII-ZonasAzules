@@ -31,10 +31,7 @@ s
             token = encodeJwt(userAuth.__dict__)     
             responseDto.status = OK
             responseDto.message = AUTH_OK   
-            responseDto.data = token  
-            print(responseDto.status)        
-            print(responseDto.message)        
-            print(responseDto.data)
+            responseDto.data = token
             return responseDto
         
     responseDto.status = BAD_REQUEST
