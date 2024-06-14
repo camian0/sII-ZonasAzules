@@ -5,33 +5,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { ZonesComponent } from './admin/zones/zones.component';
-import { FormsModule } from '@angular/forms'; // Add this line
+import { ModalComponent } from './admin/modal/modal.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent,
-    ZonesComponent],
+  declarations: [AppComponent, ModalComponent],
   imports: [
     BrowserModule,
-    FormsModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
+    NoopAnimationsModule,
     MatSlideToggleModule,
-    MatButtonModule,
-    MatInputModule,
-    MatSelectModule,
-    MatTableModule,
-    MatIconModule,
-    MatFormFieldModule
-
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -2,3 +2,32 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.custom-table button.mat-raised-button {
+    background-color: #004b5b; /* Color del botón */
+    border-radius: 8px;
+    color: white; /* Asegúrate de que el texto sea visible */
+  }
+  
+  .custom-table button.mat-raised-button:hover {
+    background-color: #003b4a; /* Color del botón al pasar el ratón por encima (opcional) */
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .mat-dialog-actions {
+    justify-content: flex-end;
+  }
+  
+  /* Si el botón sigue apareciendo de otro color, verifica si hay otras reglas CSS
+     que puedan estar sobrescribiendo esta regla. Usa !important para forzar el estilo */
+  button.mat-raised-button {
+    background-color: #004b5b !important; /* Forzar el color del botón */
+    border-radius: 8px !important;
+    color: white !important;
+  }
+  
