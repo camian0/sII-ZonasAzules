@@ -91,6 +91,8 @@ def update(blueZoneSchema: BlueZoneUpdateSchema, db: Session) -> ResponseDto:
     existingBlueZone.observation=blueZoneSchema.observation,
     existingBlueZone.latitude=blueZoneSchema.latitude,
     existingBlueZone.longitude=blueZoneSchema.longitude,
+    existingBlueZone.total_car_places = blueZoneSchema.total_car_places
+    existingBlueZone.total_moto_places = blueZoneSchema.total_moto_places
     existingBlueZone.price_car = blueZoneSchema.price_car
     existingBlueZone.price_moto = blueZoneSchema.price_moto
     existingBlueZone.area_id = blueZoneSchema.area_id

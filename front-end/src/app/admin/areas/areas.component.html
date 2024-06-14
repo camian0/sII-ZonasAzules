@@ -1,0 +1,32 @@
+<div class="main-container">
+  <div class="container">
+      <h2 class="text-center">Administración de Areas</h2>
+  
+      <div class="table-responsive">
+          <mat-table [dataSource]="areas" class="mat-elevation-z8 custom-table">
+              <ng-container class="name-column" matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef class="name-column"> Nombre </mat-header-cell>
+                  <mat-cell *matCellDef="let area"> {{area.name}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="edit">
+                  <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+                  <mat-cell *matCellDef="let area"> 
+                      <button mat-raised-button class="custom-button" (click)="openDialog(area)">Editar</button>
+                  </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="delete">
+                  <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                  <mat-cell *matCellDef="let area"> 
+                      <button mat-raised-button class="custom-button-del" color="warn" (click)="deleteZone(area)">Eliminar</button>
+                  </mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+      </div>
+  
+      <!--<div class="create-button-container">
+          <button mat-raised-button class="custom-button-create" (click)="editArea(area)">Crear Zona Azul</button>
+      </div>-->
+  </div>
+</div>

@@ -8,6 +8,8 @@ import traceback
 from services.areaService import get, create, getName, delete, update
 from services.AuthService import AuthService
 from schemas.areaSchema import AreaSchema
+from schemas.areaUpdateSchema import AreaUpdateSchema
+
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
 from helpers.statusCodes import BAD_REQUEST, OK, INTERNAL_SERVER_ERROR
@@ -123,10 +125,10 @@ def createArea(areaSchema: AreaSchema, db: Session = Depends(getDb)):
             status_code=INTERNAL_SERVER_ERROR,
         )
 
-@areaRoutes.delete("/{name}")
-def deleteArea(areaName: str, db: Session = Depends(getDb)):
+@areaRoutes.delete("")
+def deleteArea(idArea: int, db: Session = Depends(getDb)):
     try:
-        responseDto = delete(areaName, db)
+        responseDto = delete(idArea, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 
@@ -156,10 +158,10 @@ def deleteArea(areaName: str, db: Session = Depends(getDb)):
             status_code=INTERNAL_SERVER_ERROR,
         )
     
-@areaRoutes.put("/{name}")
-def updateArea(areaName: str, newAreaName: str, db: Session = Depends(getDb)):
+@areaRoutes.put("/")
+def updateArea(area: AreaUpdateSchema, db: Session = Depends(getDb)):
     try:
-        responseDto = update(areaName, newAreaName, db)
+        responseDto = update(area, db)
         if responseDto.status == OK:
             return JSONResponse(content=responseDto.toString(), status_code=200)
 

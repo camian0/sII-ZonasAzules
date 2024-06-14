@@ -33,7 +33,7 @@ import { ZoneCreate } from 'src/app/models/request/zoneCreateModel';
   styleUrls: ['./zones.component.css']
 })
 export class ZonesComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'address', 'latitude', 'total_car_places', 'total_moto_places', 'price_car', 
+  displayedColumns: string[] = ['name', 'address', 'latitude', 'longitude', 'total_car_places', 'total_moto_places', 'price_car', 
     'price_moto','observation', 'ubication', 'edit', 'delete'];
 
   public zones: Array<any> = [];
@@ -96,6 +96,15 @@ export class ZonesComponent implements OnInit {
   }
 
   deleteZone(zona: Zone) {
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: 'No podrá revertir esta acción.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
     this.zonesSrv.delete(zona.id).subscribe((resp: any) => {
       switch (resp.status) {
         case 200:
@@ -120,7 +129,7 @@ export class ZonesComponent implements OnInit {
             confirmButtonText: 'Aceptar'
           });
           break;
-        default:
+        case 500:
           Swal.fire({
             title: 'Oh Oh!',
             text: resp.message,
@@ -128,9 +137,11 @@ export class ZonesComponent implements OnInit {
             confirmButtonText: 'Cool'
           });
           break;
-      }
-    });
-  }
+        }
+      });
+    }
+  });
+}
 
   getSectors() {
     this.zonesSrv.getSectors().subscribe((resp: any) => {

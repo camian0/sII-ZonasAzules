@@ -25,41 +25,34 @@ h2.text-center {
   text-align: center;
 }
 
-.search-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.search-bar mat-form-field {
-  flex: 1;
-  margin-right: 10px;
-}
-
-.search-bar mat-form-field:last-child {
-  margin-right: 0;
-}
-
-.custom-button {
-  background-color: #004b5b;
-  border-radius: 8px;
-  color: white;
-}
-
-.custom-button {
-  background-color: #004b5b;
+.custom-button, .custom-button-del, .custom-button-create {
   border-radius: 8px;
   color: white;
   margin: 2px;
 }
+
+.custom-button {
+  background-color: #004b5b;
+}
+
 .custom-button-del {
-  border-radius: 8px;
-  color: white;
+  background-color: #d9534f;
+}
+
+.custom-button-create {
+  background-color: #5cb85c;
 }
 
 .custom-button:hover {
   background-color: #003b4a;
+}
+
+.custom-button-del:hover {
+  background-color: #c9302c;
+}
+
+.custom-button-create:hover {
+  background-color: #4cae4c;
 }
 
 .custom-table {
@@ -72,7 +65,6 @@ h2.text-center {
 .custom-table mat-header-cell, .custom-table mat-cell {
   border-bottom: 1px solid #ddd;
   padding: 8px;
-  min-width: 80px; /* Minimum width for each column */
   word-wrap: break-word; /* Allow content to wrap within the cell */
   white-space: normal; /* Allow content to wrap to adjust row height */
 }
@@ -87,13 +79,8 @@ h2.text-center {
   background-color: #f2f2f2;
 }
 
-.custom-table mat-cell mat-icon.location-icon {
-  color: #5fa777;
-  cursor: pointer;
-}
-
-.mat-elevation-z8 {
-  box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+.name-column {
+  width: 90%; /* Make the "Nombre" column occupy 70% of the table width */
 }
 
 .table-responsive {
@@ -109,17 +96,17 @@ h2.text-center {
 
 @media (max-width: 768px) {
   .custom-table mat-header-cell, .custom-table mat-cell {
-    padding: 4px;
-    font-size: 12px;
-    min-width: 80px; /* Adjust minimum width for smaller screens */
+      padding: 4px;
+      font-size: 12px;
+      min-width: 80px; /* Adjust minimum width for smaller screens */
   }
 
   .container {
-    padding: 10px;
+      padding: 10px;
   }
 
   .custom-table button.custom-button {
-    padding: 4px 8px;
-    font-size: 12px;
+      padding: 4px 8px;
+      font-size: 12px;
   }
 }
