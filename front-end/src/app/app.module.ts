@@ -11,6 +11,13 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ComeComponent } from './welcome/come/come.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RouterLink } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardActions, MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [AppComponent, ModalComponent],
@@ -21,7 +28,17 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSlideToggleModule,
     HttpClientModule,
     MatSnackBarModule,
-    MatDialogModule,
+    MatDialogModule,    
+    RouterLink,
+    MatSidenavModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatCardModule,
   ],
   providers: [ {
     provide: HTTP_INTERCEPTORS,
