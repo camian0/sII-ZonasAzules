@@ -22,12 +22,16 @@ export class creditcardService {
     return this.http.get(`${BASE_URL}/?page=1&sizePage=10`);
   }
 
-  getUserById(id:any): Observable<any> {
-    return this.http.get(`${BASE_URL}reservations/{id}?user_id=${id}`);
+  getReservUserById(id:any): Observable<any> {
+    return this.http.get(`${BASE_URL}reservations/byId?reservation_id=${id}`);
   }
 
   post(json:any): Observable<any> {
     return this.http.post(`${BASE_URL}`,json);
+  }
+
+  postCard(json:any): Observable<any> {
+    return this.http.post(`${BASE_URL}creditcard/card`, json);
   }
 
   postFilter(json:any): Observable<any> {

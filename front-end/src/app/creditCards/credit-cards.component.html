@@ -11,30 +11,38 @@
     </div>
   
     <div class="card-brands">
-        <button (click)="selectCardBrand('Visa')" class="card-brand-button">
-            <img src="assets/visa.png" alt="Visa" class="card-brand">
-        </button>
-        <button (click)="selectCardBrand('MasterCard')" class="card-brand-button">
-            <img src="assets/mastercard.png" alt="MasterCard" class="card-brand">
-        </button>
-        <button (click)="selectCardBrand('American Express')" class="card-brand-button">
-            <img src="assets/amex.png" alt="American Express" class="card-brand">
-        </button>
-        <button (click)="selectCardBrand('JCB')" class="card-brand-button">
-            <img src="assets/jcb.png" alt="JCB" class="card-brand">
-        </button>
-    </div>
+      <button (click)="selectCardBrand('Visa')" 
+              class="card-brand-button" 
+              [class.selected-card]="selectedCardBrand === 'Visa'">
+          <img src="assets/visa.png" alt="Visa" class="card-brand">
+      </button>
+      <button (click)="selectCardBrand('MasterCard')" 
+              class="card-brand-button" 
+              [class.selected-card]="selectedCardBrand === 'MasterCard'">
+          <img src="assets/mastercard.png" alt="MasterCard" class="card-brand">
+      </button>
+      <button (click)="selectCardBrand('American Express')" 
+              class="card-brand-button" 
+              [class.selected-card]="selectedCardBrand === 'American Express'">
+          <img src="assets/amex.png" alt="American Express" class="card-brand">
+      </button>
+      <button (click)="selectCardBrand('JCB')" 
+              class="card-brand-button" 
+              [class.selected-card]="selectedCardBrand === 'JCB'">
+          <img src="assets/jcb.png" alt="JCB" class="card-brand">
+      </button>
+  </div>
   
     <form (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="cardNumber">Número de tarjeta*</label>
-        <input id="cardNumber" [(ngModel)]="card.cardNumber" name="cardNumber" placeholder="Número de tarjeta bancaria" required>
+        <input id="cardNumber" [(ngModel)]="card.number" name="cardNumber" placeholder="Número de tarjeta bancaria" required>
       </div>
   
       <div class="form-row">
         <div class="form-group">
           <label for="expiryDate">Fecha de caducidad*</label>
-          <input id="expiryDate" [(ngModel)]="card.expiryDate" name="expiryDate" placeholder="MM/AA" required>
+          <input id="expiryDate" [(ngModel)]="card.expiry_date" name="expiryDate" placeholder="MM/AA" required>
         </div>
         <div class="form-group">
           <label for="cvc">CVV/CVC*</label>
@@ -44,11 +52,11 @@
   
       <div class="form-group">
         <label for="name">Nombre y apellidos del titular*</label>
-        <input id="name" [(ngModel)]="card.name" name="name" placeholder="Nombre y apellido(s)" required>
+        <input id="name" [(ngModel)]="card.titular_name" name="name" placeholder="Nombre y apellido(s)" required>
       </div>
   
       <div class="form-group checkbox-row">
-        <input type="checkbox" [(ngModel)]="card.saveCard" name="saveCard" id="saveCard">
+        <input type="checkbox" [(ngModel)]="saveCard" name="saveCard" id="saveCard">
         <label for="saveCard">Guardar los datos de la tarjeta para futuras compras</label>
       </div>
   
