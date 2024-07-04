@@ -62,12 +62,6 @@ export class ZonesComponent implements OnInit {
   ngOnInit(): void {
     this.getZonesBlue();
     this.getSectors();
-    Swal.fire({
-      title: 'Error!',
-      text: 'Do you want to continue',
-      icon: 'error',
-      confirmButtonText: 'Cool',
-    });
   }
 
   getZonesBlue() {
@@ -76,7 +70,7 @@ export class ZonesComponent implements OnInit {
         console.log(resp.data);
         this.zones = resp.data;
       } else {
-        // Handle error here
+        // Handle error hereg
       }
     });
   }
