@@ -52,13 +52,13 @@
     font-size: 14px;
 }
 
-a{
+a {
     padding-top: 0px;
 }
 
-.logout{
+.logout {
     background-color: #f2aa1f;
     z-index: 1;
     margin-bottom: 0;
-    
+
 }
