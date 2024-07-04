@@ -11,3 +11,54 @@
     padding-right: 1rem;
     padding-top: 1rem; */
 }
+
+.sidenav-container {
+    height: 100vh;
+}
+
+.sidenav {
+    width: 250px;
+    background-color: #114358;
+    /* Color de fondo */
+    color: white;
+    padding-bottom: 0;
+}
+
+.logo {
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.user-info {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.user-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.user-email {
+    font-size: 14px;
+}
+
+a{
+    padding-top: 0px;
+}
+
+.logout{
+    background-color: #f2aa1f;
+    z-index: 1;
+    margin-bottom: 0;
+    
+}

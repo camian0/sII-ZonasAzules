@@ -1,0 +1,71 @@
+.custom-table button.mat-raised-button {
+  background-color: #004b5b; /* Color del botón */
+  border-radius: 8px;
+  color: white; /* Asegúrate de que el texto sea visible */
+}
+
+.custom-table button.mat-raised-button:hover {
+  background-color: #003b4a; /* Color del botón al pasar el ratón por encima (opcional) */
+}
+
+/* Resto del CSS sigue igual */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table mat-header-cell, .custom-table mat-cell {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+}
+
+.custom-table mat-header-cell {
+  background-color: #004b5b;
+  color: white;
+  text-align: left;
+}
+
+.custom-table mat-cell {
+  background-color: #f2f2f2;
+}
+
+.custom-table mat-cell mat-icon.location-icon {
+  color: #5fa777;
+  cursor: pointer;
+}
+
+h2.text-center {
+  color: #004b5b;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.container {
+  background-color: #efe8df;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .custom-table mat-header-cell, .custom-table mat-cell {
+    padding: 4px;
+    font-size: 12px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  .custom-table button.mat-raised-button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}

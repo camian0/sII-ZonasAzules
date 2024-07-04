@@ -31,6 +31,11 @@ const routes: Routes = [
       import('./welcome/welcome.routes').then((m) => m.COME_ROUTES),
     canActivate: [authGuard],
   },
+  {
+    path: 'creditCard',
+    loadChildren: () =>
+      import('./welcome/welcome.routes').then((m) => m.COME_ROUTES),
+  },
 ];
 
 @NgModule({

@@ -54,6 +54,34 @@ def getByUserId(user_id: int, db: Session, page: int = 1, sizePage: int = 10) ->
     responseDto.data = reservations
     return responseDto
 
+def getById(reser_id: int, db: Session, page: int = 1, sizePage: int = 10) -> ResponseDto:
+    """
+    Método para obtener reservaciones por ID de reserva
+    Args:
+        user_id (int): ID de la reserva
+        db (Session): sesión de la base de datos que se recibe desde la ruta que fue llamada
+        page (int): número de página para la paginación
+        sizePage (int): tamaño de página para la paginación
+
+    Returns:
+        ResponseDto: respuesta generica
+    """
+    responseDto = ResponseDto()
+    query = db.query(Reservation).filter_by(id=reser_id)
+    res = queryPaginate(query, page, sizePage)
+
+    if not res:
+        responseDto.status = BAD_REQUEST
+        responseDto.message = NOT_FOUND_RESERVATION
+        return responseDto
+
+
+    reservations = [i.dict() for i in res]
+    responseDto.status = OK
+    responseDto.message = GET_ALL_RESERVATION_OK
+    responseDto.data = reservations
+    return responseDto
+
 def create(reservationSchema: ReservationSchema, db: Session) -> ResponseDto:
     """
     Método para crear una reservación
