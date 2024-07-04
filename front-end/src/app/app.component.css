@@ -6,22 +6,16 @@
     --color-claro: #ffffff;
 }
 
-.content {
-    /* padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 1rem; */
-}
-
 .sidenav-container {
     height: 100vh;
 }
 
 .sidenav {
     width: 250px;
-    background-color: #114358;
-    /* Color de fondo */
-    color: white;
     padding-bottom: 0;
+    /* Color de fondo */
+    background-color: #0D47A1;
+    color: white;
 }
 
 .logo {
@@ -61,4 +55,38 @@ a {
     z-index: 1;
     margin-bottom: 0;
 
+    color: #B0BEC5;
+}
+
+mat-nav-list {
+    margin-top: 20px;
+}
+
+mat-list-item {
+    color: white;
+}
+
+mat-list-item:hover {
+    background-color: #1565C0;
+}
+
+.logout {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.logout button {
+    color: white;
+    width: 100%;
+}
+
+.mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.content {
+    padding: 20px;
 }
