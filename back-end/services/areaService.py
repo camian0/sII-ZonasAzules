@@ -11,6 +11,7 @@ from helpers.responseMessages import (
     DELETED_AREA_OK,
     UPDATE_AREA_OK
 )
+from schemas.areaUpdateSchema import AreaUpdateSchema
 from helpers.dtos.responseDto import ResponseDto
 from helpers.helpers import queryPaginate
 
@@ -89,7 +90,7 @@ def create(areaSchema: AreaSchema, db: Session) -> ResponseDto:
     responseDto.data = newArea.dict()
     return responseDto
 
-def delete(areaName: str, db: Session) -> ResponseDto:
+def delete(areaId: int, db: Session) -> ResponseDto:
     """
     Método para eliminar un area
     Args:
@@ -100,7 +101,7 @@ def delete(areaName: str, db: Session) -> ResponseDto:
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
-    area = db.query(Area).filter_by(name=areaName).first()
+    area = db.query(Area).filter_by(id=areaId).first()
     if not area:
         responseDto.status = BAD_REQUEST
         responseDto.message = NOT_FOUND_AREA
@@ -114,7 +115,7 @@ def delete(areaName: str, db: Session) -> ResponseDto:
     responseDto.data = area.dict()
     return responseDto
 
-def update(areaName: str, newAreaName: str, db: Session, ) -> ResponseDto:
+def update(area: AreaUpdateSchema, db: Session) -> ResponseDto:
     """
     Método para actualizar el nombre de una Área
     Args:
@@ -126,13 +127,13 @@ def update(areaName: str, newAreaName: str, db: Session, ) -> ResponseDto:
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
-    existArea = db.query(Area).filter_by(name=areaName).first()
+    existArea = db.query(Area).filter_by(id=area.id).first()
     if not existArea:
         responseDto.status = BAD_REQUEST
         responseDto.message = NOT_FOUND_AREA
         return responseDto
 
-    existArea.name = newAreaName
+    existArea.name = area.name
     db.commit()
     db.refresh(existArea)
 

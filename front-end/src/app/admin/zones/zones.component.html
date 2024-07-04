@@ -1,64 +1,74 @@
 <div class="container">
   <h2 class="text-center">Administración de Zonas</h2>
-  
+
   <div class="table-responsive">
     <mat-table [dataSource]="zones" class="mat-elevation-z8 custom-table">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.name}} </mat-cell>
+        <mat-cell *matCellDef="let zona"> {{ zona.name }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="address">
         <mat-header-cell *matHeaderCellDef> Dirección </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.address}} </mat-cell>
+        <mat-cell *matCellDef="let zona"> {{ zona.address }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="observation">
         <mat-header-cell *matHeaderCellDef> Observaciones </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.observation}} </mat-cell>
+        <mat-cell *matCellDef="let zona"> {{ zona.observation }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="latitude">
         <mat-header-cell *matHeaderCellDef> Latitud </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.latitude}} </mat-cell>
+        <mat-cell *matCellDef="let zona"> {{ zona.latitude }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="longitude">
         <mat-header-cell *matHeaderCellDef> Longitud </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.longitude}} </mat-cell>
+        <mat-cell *matCellDef="let zona"> {{ zona.longitude }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="total_car_places">
         <mat-header-cell *matHeaderCellDef> Plazas Carro </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.total_car_places}} </mat-cell>
+        <mat-cell *matCellDef="let zona">
+          {{ zona.total_car_places }}
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="total_moto_places">
         <mat-header-cell *matHeaderCellDef> Plazas Moto </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.total_moto_places}} </mat-cell>
+        <mat-cell *matCellDef="let zona">
+          {{ zona.total_moto_places }}
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="price_car">
         <mat-header-cell *matHeaderCellDef> Precio Carro </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.price_car}} </mat-cell>
+        <mat-cell *matCellDef="let zona"> {{ zona.price_car }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="price_moto">
         <mat-header-cell *matHeaderCellDef> Precio Moto </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> {{zona.price_moto}} </mat-cell>
+        <mat-cell *matCellDef="let zona"> {{ zona.price_moto }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="ubication">
         <mat-header-cell *matHeaderCellDef> Ubicación </mat-header-cell>
         <mat-cell *matCellDef="let zona">
-          <mat-icon class="location-icon" (click)="buscarUbicacion()">place</mat-icon>
+          <mat-icon class="location-icon" (click)="buscarUbicacion()"
+            >place</mat-icon
+          >
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="edit">
         <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> 
-          <button mat-raised-button color="accent" (click)="openDialog(zona)">Editar</button>
+        <mat-cell *matCellDef="let zona">
+          <button mat-raised-button color="accent" (click)="openDialog(zona)">
+            Editar
+          </button>
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
-        <mat-cell *matCellDef="let zona"> 
-          <button mat-raised-button color="warn" (click)="openDialog(zona)">Eliminar</button>
+        <mat-cell *matCellDef="let zona">
+          <button mat-raised-button color="warn" (click)="openDialog(zona)">
+            Eliminar
+          </button>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
   </div>
 </div>

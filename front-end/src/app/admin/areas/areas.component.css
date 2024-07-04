@@ -1,0 +1,112 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1; /* Allow the container to grow and fill available space */
+  display: flex;
+  flex-direction: column;
+}
+
+h2.text-center {
+  color: #004b5b;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.custom-button, .custom-button-del, .custom-button-create {
+  border-radius: 8px;
+  color: white;
+  margin: 2px;
+}
+
+.custom-button {
+  background-color: #004b5b;
+}
+
+.custom-button-del {
+  background-color: #d9534f;
+}
+
+.custom-button-create {
+  background-color: #5cb85c;
+}
+
+.custom-button:hover {
+  background-color: #003b4a;
+}
+
+.custom-button-del:hover {
+  background-color: #c9302c;
+}
+
+.custom-button-create:hover {
+  background-color: #4cae4c;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  flex: 1; /* Allow the table to grow and fill available space */
+  overflow: auto; /* Allow the table to scroll */
+}
+
+.custom-table mat-header-cell, .custom-table mat-cell {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  word-wrap: break-word; /* Allow content to wrap within the cell */
+  white-space: normal; /* Allow content to wrap to adjust row height */
+}
+
+.custom-table mat-header-cell {
+  background-color: #004b5b;
+  color: white;
+  text-align: left;
+}
+
+.custom-table mat-cell {
+  background-color: #f2f2f2;
+}
+
+.name-column {
+  width: 90%; /* Make the "Nombre" column occupy 70% of the table width */
+}
+
+.table-responsive {
+  overflow-x: auto;
+  display: block;
+  flex: 1; /* Allow the table to grow and fill available space */
+}
+
+.create-button-container {
+  text-align: right;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .custom-table mat-header-cell, .custom-table mat-cell {
+      padding: 4px;
+      font-size: 12px;
+      min-width: 80px; /* Adjust minimum width for smaller screens */
+  }
+
+  .container {
+      padding: 10px;
+  }
+
+  .custom-table button.custom-button {
+      padding: 4px 8px;
+      font-size: 12px;
+  }
+}

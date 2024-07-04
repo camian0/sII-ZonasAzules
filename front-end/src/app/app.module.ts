@@ -3,8 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ModalComponent } from './admin/modal/modal.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
@@ -13,10 +19,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardActions, MatCardModule } from '@angular/material/card';
-import { ModalComponent } from './admin/modal/modal.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { TokenInterceptor } from './interceptors/token.interceptor';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [AppComponent, ModalComponent],
@@ -27,7 +31,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     MatSlideToggleModule,
     HttpClientModule,
     MatSnackBarModule,
-    MatDialogModule,    
+    MatDialogModule,
     RouterLink,
     MatSidenavModule,
     BrowserAnimationsModule,
@@ -38,12 +42,15 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
+    MatMenuModule,
   ],
-  providers: [ {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
