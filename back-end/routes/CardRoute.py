@@ -8,7 +8,7 @@ from config.dB import getDb
 import traceback
 from schemas.CreditCardSchema import CreditCardSchema
 from services.AuthService import AuthService
-from services.CardService import get, create, delete, getByNumber
+from services.CardService import get, create, delete, getByNumber, getByUserId
 
 from helpers.logger import LOGGER
 from helpers.responseMessages import ERRORMESSAGE500, ERRORMESSAGE500DB
@@ -54,7 +54,7 @@ def getCreditCards(page: int = Query(default=1), sizePage: int = Query(default=1
             status_code=INTERNAL_SERVER_ERROR,
         )
 
-@cardRoutes.get("/{creditCardNumber}")
+@cardRoutes.get("/byNumber")
 def getCreditCardbyNumber(creditCardNumber: str, db: Session = Depends(getDb)):
     try:
         responseDto = getByNumber(creditCardNumber, db)
@@ -87,6 +87,39 @@ def getCreditCardbyNumber(creditCardNumber: str, db: Session = Depends(getDb)):
             status_code=INTERNAL_SERVER_ERROR,
         )
 
+@cardRoutes.get("/byUserId")
+def getCreditCardbyUser(user_id: int, db: Session = Depends(getDb)):
+    try:
+        print("CUALQUIER TEXTO AHI")
+        responseDto = getByUserId(user_id, db)
+        if responseDto.status == OK:
+            return JSONResponse(content=responseDto.toString(), status_code=200)
+
+        return JSONResponse(
+            content=responseDto.toString(), status_code=200
+        )
+    except SQLAlchemyError as e:
+        traceBack = traceback.format_exc()
+        LOGGER.warning(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500DB
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
+    except Exception as e:
+        traceBack = traceback.format_exc()
+        LOGGER.error(f"error:{e}\n\n Traceback: {traceBack}")
+
+        responseDto = ResponseDto()
+        responseDto.status = INTERNAL_SERVER_ERROR
+        responseDto.message = ERRORMESSAGE500
+        return JSONResponse(
+            content=responseDto.toString(),
+            status_code=INTERNAL_SERVER_ERROR,
+        )
 
 
 @cardRoutes.delete("/{creditCardNumber}")
@@ -123,7 +156,7 @@ def deleteCard(creditCardNumber: str, db: Session = Depends(getDb)):
         )
     
 
-@cardRoutes.post("/")
+@cardRoutes.post("/card")
 def createCard(creditCardSchema: CreditCardSchema, db: Session = Depends(getDb)):
     try:
         responseDto = create(creditCardSchema, db)

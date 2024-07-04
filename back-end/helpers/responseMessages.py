@@ -43,6 +43,7 @@ CREATED_CREDIT_CARD_OK = "Tarjeta de crédito creada con éxito"
 NOT_FOUND_CREDIT_CARD = "La tarjeta de crédito no existe"
 DELETED_CREDIT_CARD_OK = "Tarjeta de crédito eliminada con éxito."
 FOUND_CREDIT_CARD_OK = "Tarjeta de crédito obtenida con éxito"
+NOT_FOUND_CREDIT_CARD_BY_ID = "No se encontraron tarjetas para este usuario"
 
 #Tarjetas de Usuario
 NOT_FOUND_USER= "Usuario no encontrado"

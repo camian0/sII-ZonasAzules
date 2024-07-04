@@ -10,18 +10,29 @@ from schemas.blueZoneUpdateSchema import BlueZoneUpdateSchema
 from schemas.blueZonesFilterSchema import BlueZonesFilterSchema
 from helpers.dtos.responseDto import ResponseDto
 from helpers.statusCodes import BAD_REQUEST, OK
-from helpers.responseMessages import BLUE_ZONE_ALREARY_EXIST, BLUE_ZONE_NOT_EXIST, CREATED_BLUE_ZONE_OK, GET_ALL_BLUE_ZONE_FREE, GET_ALL_BLUE_ZONE_OK, GET_ZONES_BY_AREA_ID_OK, NOT_FOUND_GET_ZONES_BY_AREA_ID, UPDATE_BLUE_ZONE_OK
+from helpers.responseMessages import (
+    BLUE_ZONE_ALREARY_EXIST,
+    BLUE_ZONE_NOT_EXIST,
+    CREATED_BLUE_ZONE_OK,
+    GET_ALL_BLUE_ZONE_FREE,
+    GET_ALL_BLUE_ZONE_OK,
+    GET_ZONES_BY_AREA_ID_OK,
+    NOT_FOUND_GET_ZONES_BY_AREA_ID,
+    UPDATE_BLUE_ZONE_OK,
+)
+
 
 def get(db: Session, page: int, sizePage: int) -> ResponseDto:
     responseDto = ResponseDto()
     query = db.query(BlueZone)
     res = queryPaginate(query, page, sizePage)
-    
+
     zones = [i.dict() for i in res]
     responseDto.status = OK
     responseDto.message = GET_ALL_BLUE_ZONE_OK
     responseDto.data = zones
     return responseDto
+
 
 def getByArea(id: int, db: Session) -> ResponseDto:
     """
@@ -34,17 +45,18 @@ def getByArea(id: int, db: Session) -> ResponseDto:
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
-    existZonas = db.query(BlueZone).filter_by(area_id = id)
+    existZonas = db.query(BlueZone).filter_by(area_id=id)
     if not existZonas:
         responseDto.status = BAD_REQUEST
         responseDto.message = NOT_FOUND_GET_ZONES_BY_AREA_ID
-        return 
-    
+        return
+
     zones = [i.dict() for i in existZonas]
     responseDto.status = OK
     responseDto.message = GET_ZONES_BY_AREA_ID_OK
     responseDto.data = zones
     return responseDto
+
 
 def create(blueZoneSchema: BlueZoneSchema, db: Session) -> ResponseDto:
     """
@@ -73,6 +85,7 @@ def create(blueZoneSchema: BlueZoneSchema, db: Session) -> ResponseDto:
     responseDto.data = newBlueZone.dict()
     return responseDto
 
+
 def update(blueZoneSchema: BlueZoneUpdateSchema, db: Session) -> ResponseDto:
     """
     Método para actualizar una zona azul existente
@@ -85,19 +98,19 @@ def update(blueZoneSchema: BlueZoneUpdateSchema, db: Session) -> ResponseDto:
         responseDto.status = BAD_REQUEST
         responseDto.message = BLUE_ZONE_NOT_EXIST
         return responseDto
-    
-    existingBlueZone.name=blueZoneSchema.name
-    existingBlueZone.address=blueZoneSchema.address,
-    existingBlueZone.observation=blueZoneSchema.observation,
-    existingBlueZone.latitude=blueZoneSchema.latitude,
-    existingBlueZone.longitude=blueZoneSchema.longitude,
+
+    existingBlueZone.name = blueZoneSchema.name
+    existingBlueZone.address = (blueZoneSchema.address,)
+    existingBlueZone.observation = (blueZoneSchema.observation,)
+    existingBlueZone.latitude = (blueZoneSchema.latitude,)
+    existingBlueZone.longitude = (blueZoneSchema.longitude,)
     existingBlueZone.total_car_places = blueZoneSchema.total_car_places
     existingBlueZone.total_moto_places = blueZoneSchema.total_moto_places
     existingBlueZone.price_car = blueZoneSchema.price_car
     existingBlueZone.price_moto = blueZoneSchema.price_moto
     existingBlueZone.area_id = blueZoneSchema.area_id
     # Update other attributes as needed
-    
+
     db.commit()
     db.refresh(existingBlueZone)
 
@@ -105,6 +118,7 @@ def update(blueZoneSchema: BlueZoneUpdateSchema, db: Session) -> ResponseDto:
     responseDto.message = UPDATE_BLUE_ZONE_OK
     responseDto.data = existingBlueZone.dict()
     return responseDto
+
 
 def filter(blueZonesFilterSchema: BlueZonesFilterSchema, db: Session) -> ResponseDto:
     """Método para obtener zonas azules disponibles por área, tipo de vehículo y fechas y horas
@@ -116,44 +130,65 @@ def filter(blueZonesFilterSchema: BlueZonesFilterSchema, db: Session) -> Respons
         ResponseDto: respuesta generica
     """
     responseDto = ResponseDto()
-      # Alias para la tabla de reservaciones
+    # Alias para la tabla de reservaciones
     ReservationAlias = aliased(Reservation)
-    
-    start_date = blueZonesFilterSchema.start_date,
-    finish_date = blueZonesFilterSchema.finish_date,
-    
+
+    start_date = (blueZonesFilterSchema.start_date,)
+    finish_date = (blueZonesFilterSchema.finish_date,)
+
     # Subconsulta para contar las reservaciones por blue_zone_id que no se solapen con el rango especificado
-    subquery = db.query(
-        ReservationAlias.blue_zone_id,
-        func.count(ReservationAlias.id).label('reservation_count')
-    ).filter(
-        and_(
-            or_(
-                (ReservationAlias.start_date <= start_date) & (ReservationAlias.finish_date == finish_date),
-                (ReservationAlias.start_date >= start_date) & (ReservationAlias.finish_date == finish_date),
-                (ReservationAlias.start_date == start_date) & (ReservationAlias.finish_date < finish_date),
-                (ReservationAlias.start_date == start_date) & (ReservationAlias.finish_date > finish_date),
-                (ReservationAlias.start_date < start_date) & (ReservationAlias.finish_date > finish_date),
-                (ReservationAlias.start_date <= start_date) & (ReservationAlias.finish_date < finish_date) & (ReservationAlias.finish_date >= start_date),
-                (ReservationAlias.start_date >=  start_date) & (ReservationAlias.finish_date > finish_date) & (ReservationAlias.start_date <= finish_date)
-            ),
-            ReservationAlias.place_type_id == blueZonesFilterSchema.placeTypeId,
+    subquery = (
+        db.query(
+            ReservationAlias.blue_zone_id,
+            func.count(ReservationAlias.id).label("reservation_count"),
         )
-    ).group_by(ReservationAlias.blue_zone_id).subquery()
+        .filter(
+            and_(
+                or_(
+                    (ReservationAlias.start_date <= start_date)
+                    & (ReservationAlias.finish_date == finish_date),
+                    (ReservationAlias.start_date >= start_date)
+                    & (ReservationAlias.finish_date == finish_date),
+                    (ReservationAlias.start_date == start_date)
+                    & (ReservationAlias.finish_date < finish_date),
+                    (ReservationAlias.start_date == start_date)
+                    & (ReservationAlias.finish_date > finish_date),
+                    (ReservationAlias.start_date < start_date)
+                    & (ReservationAlias.finish_date > finish_date),
+                    (ReservationAlias.start_date <= start_date)
+                    & (ReservationAlias.finish_date < finish_date)
+                    & (ReservationAlias.finish_date >= start_date),
+                    (ReservationAlias.start_date >= start_date)
+                    & (ReservationAlias.finish_date > finish_date)
+                    & (ReservationAlias.start_date <= finish_date),
+                ),
+                ReservationAlias.place_type_id == blueZonesFilterSchema.placeTypeId,
+            )
+        )
+        .group_by(ReservationAlias.blue_zone_id)
+        .subquery()
+    )
 
-     # Consulta principal para obtener las zonas azules con reservaciones menores a la cantidad de plazas del tipo solicitado
-    zones = db.query(
-        BlueZone,
-        func.coalesce(subquery.c.reservation_count, 0).label("cantidad_reservas"),
-        (BlueZone.total_car_places - func.coalesce(subquery.c.reservation_count, 0)).label("places_free")
-    ).outerjoin(
-        subquery, BlueZone.id == subquery.c.blue_zone_id,
-    ).filter(
+    # Consulta principal para obtener las zonas azules con reservaciones menores a la cantidad de plazas del tipo solicitado
+    zones = (
+        db.query(
+            BlueZone,
+            func.coalesce(subquery.c.reservation_count, 0).label("cantidad_reservas"),
+            (
+                BlueZone.total_car_places
+                - func.coalesce(subquery.c.reservation_count, 0)
+            ).label("places_free"),
+        )
+        .outerjoin(
+            subquery,
+            BlueZone.id == subquery.c.blue_zone_id,
+        )
+        .filter(
             func.coalesce(subquery.c.reservation_count, 0) < BlueZone.total_car_places,
-            BlueZone.area_id == blueZonesFilterSchema.areaId
-    ).all()
-
-    
+            BlueZone.area_id == blueZonesFilterSchema.areaId,
+        )
+        .all()
+    )
 
     zones_output = [
         {
@@ -163,16 +198,22 @@ def filter(blueZonesFilterSchema: BlueZonesFilterSchema, db: Session) -> Respons
             "observation": zone.observation,
             "latitude": zone.latitude,
             "longitude": zone.longitude,
-            "total_moto_places_free": places_free if blueZonesFilterSchema.placeTypeId == 1 else None,
-            "total_car_places_free": places_free if blueZonesFilterSchema.placeTypeId == 2 else None,
-            "area_id": zone.area_id
-        } for zone, cantidad_reservas, places_free in zones
+            "total_moto_places_free": (
+                places_free if blueZonesFilterSchema.placeTypeId == 1 else None
+            ),
+            "total_car_places_free": (
+                places_free if blueZonesFilterSchema.placeTypeId == 2 else None
+            ),
+            "area_id": zone.area_id,
+        }
+        for zone, cantidad_reservas, places_free in zones
     ]
 
     responseDto.status = OK
     responseDto.message = GET_ALL_BLUE_ZONE_FREE
     responseDto.data = zones_output
     return responseDto
+
 
 def delete(id: int, db: Session) -> ResponseDto:
     """

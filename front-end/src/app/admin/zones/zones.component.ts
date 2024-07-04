@@ -2,7 +2,12 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -27,30 +32,45 @@ import { ZoneCreate } from 'src/app/models/request/zoneCreateModel';
     MatIconModule,
     MatFormFieldModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './zones.component.html',
-  styleUrls: ['./zones.component.css']
+  styleUrls: ['./zones.component.css'],
 })
 export class ZonesComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'address', 'latitude', 'longitude', 'total_car_places', 'total_moto_places', 'price_car', 
-    'price_moto','observation', 'ubication', 'edit', 'delete'];
+  displayedColumns: string[] = [
+    'name',
+    'address',
+    'latitude',
+    'longitude',
+    'total_car_places',
+    'total_moto_places',
+    'price_car',
+    'price_moto',
+    'observation',
+    'ubication',
+    'edit',
+    'delete',
+  ];
 
   public zones: Array<any> = [];
   public sectors: Array<any> = [];
   public selectedSector: number = 0;
 
-  constructor(
-    public dialog: MatDialog,
-    public zonesSrv: ZonesService
-  ) {}
+  constructor(public dialog: MatDialog, public zonesSrv: ZonesService) {}
 
   ngOnInit(): void {
     this.getZonesBlue();
     this.getSectors();
+    Swal.fire({
+      title: 'Error!',
+      text: 'Do you want to continue',
+      icon: 'error',
+      confirmButtonText: 'Cool',
+    });
   }
 
-  getZonesBlue(){
+  getZonesBlue() {
     this.zonesSrv.get().subscribe((resp: any) => {
       if (resp.status === 200) {
         console.log(resp.data);
@@ -61,7 +81,7 @@ export class ZonesComponent implements OnInit {
     });
   }
 
-  getZonesBlueByArea(){
+  getZonesBlueByArea() {
     this.zonesSrv.getByArea(this.selectedSector).subscribe((resp: any) => {
       switch (resp.status) {
         case 200:
@@ -72,14 +92,14 @@ export class ZonesComponent implements OnInit {
               title: 'Cargue Exitoso',
               text: resp.message,
               icon: 'success',
-              confirmButtonText: 'Aceptar'
+              confirmButtonText: 'Aceptar',
             });
           } else {
             Swal.fire({
               title: 'No se encontraron registros.',
               text: resp.message,
               icon: 'warning',
-              confirmButtonText: 'Aceptar'
+              confirmButtonText: 'Aceptar',
             });
           }
           break;
@@ -88,7 +108,7 @@ export class ZonesComponent implements OnInit {
             title: 'Oh Oh!',
             text: resp.message,
             icon: 'error',
-            confirmButtonText: 'Cool'
+            confirmButtonText: 'Cool',
           });
           break;
       }
@@ -102,46 +122,46 @@ export class ZonesComponent implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-    this.zonesSrv.delete(zona.id).subscribe((resp: any) => {
-      switch (resp.status) {
-        case 200:
-          Swal.fire({
-            title: 'Zona eliminada',
-            text: resp.message,
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-          });
-          // Remove the deleted zone from the zones array
-          const index = this.zones.findIndex((z: Zone) => z.id === zona.id);
-          if (index !== -1) {
-            this.zones.splice(index, 1);
+        this.zonesSrv.delete(zona.id).subscribe((resp: any) => {
+          switch (resp.status) {
+            case 200:
+              Swal.fire({
+                title: 'Zona eliminada',
+                text: resp.message,
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+              });
+              // Remove the deleted zone from the zones array
+              const index = this.zones.findIndex((z: Zone) => z.id === zona.id);
+              if (index !== -1) {
+                this.zones.splice(index, 1);
+              }
+              this.getZonesBlue();
+              break;
+            case 400:
+              Swal.fire({
+                title: 'Error en la solicitud',
+                text: resp.message,
+                icon: 'warning',
+                confirmButtonText: 'Aceptar',
+              });
+              break;
+            case 500:
+              Swal.fire({
+                title: 'Oh Oh!',
+                text: resp.message,
+                icon: 'error',
+                confirmButtonText: 'Cool',
+              });
+              break;
           }
-          this.getZonesBlue();
-          break;
-        case 400:
-          Swal.fire({
-            title: 'Error en la solicitud',
-            text: resp.message,
-            icon: 'warning',
-            confirmButtonText: 'Aceptar'
-          });
-          break;
-        case 500:
-          Swal.fire({
-            title: 'Oh Oh!',
-            text: resp.message,
-            icon: 'error',
-            confirmButtonText: 'Cool'
-          });
-          break;
-        }
-      });
-    }
-  });
-}
+        });
+      }
+    });
+  }
 
   getSectors() {
     this.zonesSrv.getSectors().subscribe((resp: any) => {
@@ -157,10 +177,10 @@ export class ZonesComponent implements OnInit {
   openDialog(zona: Zone): void {
     const dialogRef = this.dialog.open(EditZoneDialog, {
       width: '500px',
-      data: { ...zona, sectors: this.sectors }
+      data: { ...zona, sectors: this.sectors },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       if (result) {
         this.getZonesBlue(); // Refrescar la tabla después de la actualización
@@ -169,11 +189,11 @@ export class ZonesComponent implements OnInit {
   }
 
   buscarUbicacion() {
-    console.log("puedo buscar la ubicación");
+    console.log('puedo buscar la ubicación');
   }
 
   eliminarZona(zone: Zone) {
-    console.log("Eliminar zona", zone);
+    console.log('Eliminar zona', zone);
     this.deleteZone(zone);
   }
 
@@ -184,10 +204,10 @@ export class ZonesComponent implements OnInit {
   create() {
     const dialogRef = this.dialog.open(CreateZoneDialog, {
       width: '500px',
-      data: { sectors: this.sectors }
+      data: { sectors: this.sectors },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       if (result) {
         this.getZonesBlue(); // Refrescar la tabla después de la creación
@@ -208,8 +228,8 @@ export class ZonesComponent implements OnInit {
     MatSelectModule,
     FormsModule,
     MatDialogModule,
-    HttpClientModule
-  ]
+    HttpClientModule,
+  ],
 })
 export class EditZoneDialog {
   public sectors: Array<any> = [];
@@ -218,23 +238,21 @@ export class EditZoneDialog {
     public dialogRef: MatDialogRef<EditZoneDialog>,
     @Inject(MAT_DIALOG_DATA) public data: Zone,
     private zonesSrv: ZonesService
-  ) {
-    
-  }
+  ) {}
 
   onCancel(): void {
     this.dialogRef.close();
   }
 
   onSave(): void {
-    this.zonesSrv.put(this.data).subscribe(response => {
+    this.zonesSrv.put(this.data).subscribe((response) => {
       switch (response.status) {
         case 200:
           Swal.fire({
             title: 'Zona actualizada',
             text: response.message,
             icon: 'success',
-            confirmButtonText: 'Aceptar'
+            confirmButtonText: 'Aceptar',
           });
           this.dialogRef.close(this.data);
           break;
@@ -243,7 +261,7 @@ export class EditZoneDialog {
             title: 'Error en la solicitud',
             text: response.message,
             icon: 'warning',
-            confirmButtonText: 'Aceptar'
+            confirmButtonText: 'Aceptar',
           });
           this.dialogRef.close(this.data);
           break;
@@ -252,7 +270,7 @@ export class EditZoneDialog {
             title: 'Oh Oh!',
             text: response.message,
             icon: 'error',
-            confirmButtonText: 'Cool'
+            confirmButtonText: 'Cool',
           });
           console.error('Error updating zone:', response.errors);
           break;
@@ -273,8 +291,8 @@ export class EditZoneDialog {
     MatSelectModule,
     FormsModule,
     MatDialogModule,
-    HttpClientModule
-  ]
+    HttpClientModule,
+  ],
 })
 export class CreateZoneDialog {
   public data: ZoneCreate = {
@@ -287,7 +305,7 @@ export class CreateZoneDialog {
     total_moto_places: 0,
     price_car: 0,
     price_moto: 0,
-    area_id: 0
+    area_id: 0,
   };
   public sectors: Array<any> = [];
 
@@ -304,14 +322,14 @@ export class CreateZoneDialog {
   }
 
   onSave(): void {
-    console.log(this.data)
-    this.zonesSrv.post(this.data).subscribe(response => {
+    console.log(this.data);
+    this.zonesSrv.post(this.data).subscribe((response) => {
       if (response.status === 200) {
         Swal.fire({
           title: 'Zona creada',
           text: response.message,
           icon: 'success',
-          confirmButtonText: 'Aceptar'
+          confirmButtonText: 'Aceptar',
         });
         this.dialogRef.close(this.data);
       } else {
@@ -319,12 +337,10 @@ export class CreateZoneDialog {
           title: 'Error en la solicitud',
           text: response.message,
           icon: 'warning',
-          confirmButtonText: 'Aceptar'
+          confirmButtonText: 'Aceptar',
         });
         this.dialogRef.close();
       }
     });
   }
-
-  
 }

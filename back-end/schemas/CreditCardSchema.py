@@ -40,16 +40,22 @@ class CreditCardSchema(BaseModel):
     '''
     @field_validator("number")
     def verificateNumberCard(cls, number):
+        # Eliminar espacios en blanco
+        number = number.replace(" ", "")
+        
+        # Convertir cada dígito a un entero
         digitos = [int(d) for d in number]
 
+        # Aplicar el algoritmo de Luhn
         for i in range(len(digitos)-2, -1, -2):
             digitos[i] *= 2
-            if(digitos[i]) > 9:
+            if digitos[i] > 9:
                 digitos[i] -= 9
         
         suma = sum(digitos)
 
-        if (suma % 10 != 0 or len(digitos) != 16):
+        # Verificar que la suma sea divisible por 10 y que el número tenga 16 dígitos
+        if suma % 10 != 0 or len(digitos) != 16:
             raise ValueError("Número de tarjeta inválido")
         
         return number

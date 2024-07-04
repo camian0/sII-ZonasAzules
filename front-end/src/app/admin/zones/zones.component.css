@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -14,7 +15,8 @@ body, html {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  flex: 1; /* Allow the container to grow and fill available space */
+  flex: 1;
+  /* Allow the container to grow and fill available space */
   display: flex;
   flex-direction: column;
 }
@@ -53,6 +55,7 @@ h2.text-center {
   color: white;
   margin: 2px;
 }
+
 .custom-button-del {
   border-radius: 8px;
   color: white;
@@ -65,16 +68,41 @@ h2.text-center {
 .custom-table {
   width: 100%;
   border-collapse: collapse;
-  flex: 1; /* Allow the table to grow and fill available space */
-  overflow: auto; /* Allow the table to scroll */
+  flex: 1;
+  /* Allow the table to grow and fill available space */
+  overflow: auto;
+  /* Allow the table to scroll */
 }
 
-.custom-table mat-header-cell, .custom-table mat-cell {
+.custom-table button.mat-raised-button {
+  background-color: #004b5b;
+  /* Color del botón */
+  border-radius: 8px;
+  color: white;
+  /* Asegúrate de que el texto sea visible */
+}
+
+.custom-table button.mat-raised-button:hover {
+  background-color: #003b4a;
+  /* Color del botón al pasar el ratón por encima (opcional) */
+}
+
+/* Resto del CSS sigue igual */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table mat-header-cell,
+.custom-table mat-cell {
   border-bottom: 1px solid #ddd;
   padding: 8px;
-  min-width: 80px; /* Minimum width for each column */
-  word-wrap: break-word; /* Allow content to wrap within the cell */
-  white-space: normal; /* Allow content to wrap to adjust row height */
+  min-width: 80px;
+  /* Minimum width for each column */
+  word-wrap: break-word;
+  /* Allow content to wrap within the cell */
+  white-space: normal;
+  /* Allow content to wrap to adjust row height */
 }
 
 .custom-table mat-header-cell {
@@ -92,14 +120,27 @@ h2.text-center {
   cursor: pointer;
 }
 
+h2.text-center {
+  color: #004b5b;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.container {
+  background-color: #efe8df;
+  padding: 20px;
+  border-radius: 8px;
+}
+
 .mat-elevation-z8 {
-  box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+  box-shadow: 0 3px 3px -2px rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 1px 8px 0 rgba(0, 0, 0, .12);
 }
 
 .table-responsive {
   overflow-x: auto;
   display: block;
-  flex: 1; /* Allow the table to grow and fill available space */
+  flex: 1;
+  /* Allow the table to grow and fill available space */
 }
 
 .create-button-container {
@@ -108,17 +149,20 @@ h2.text-center {
 }
 
 @media (max-width: 768px) {
-  .custom-table mat-header-cell, .custom-table mat-cell {
+
+  .custom-table mat-header-cell,
+  .custom-table mat-cell {
     padding: 4px;
     font-size: 12px;
-    min-width: 80px; /* Adjust minimum width for smaller screens */
+    min-width: 80px;
+    /* Adjust minimum width for smaller screens */
   }
 
   .container {
     padding: 10px;
   }
 
-  .custom-table button.custom-button {
+  .custom-table button.mat-raised-button {
     padding: 4px 8px;
     font-size: 12px;
   }

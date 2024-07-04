@@ -16,19 +16,19 @@
     </div>
     <mat-divider></mat-divider>
     <mat-nav-list>
-      <mat-list-item>
+      <mat-list-item routerLink="/welcome">
         <mat-icon>home</mat-icon>
-        <a routerLink="/welcome">Inicio</a>
+        <a>&nbsp;&nbsp;Inicio</a>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item routerLink="/search/list">
         <mat-icon>search</mat-icon>
-        <a routerLink="/search/list">Buscar</a>
+        <a>&nbsp;&nbsp;Buscar</a>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item routerLink="/cards/CreditCard">
         <mat-icon>credit_card</mat-icon>
-        <a routerLink="/cards/list">Mis tarjetas</a>
+        <a>&nbsp;&nbsp;Mis tarjetas</a>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item routerLink="/admin">
         <mat-icon>settings</mat-icon>
         <a [matMenuTriggerFor]="adminMenu">Administrar</a>
         <mat-menu #adminMenu="matMenu">
@@ -46,13 +46,13 @@
         <mat-icon>public</mat-icon>
         <a routerLink="/search/map">Mapa</a>
       </mat-list-item>
+      <div class="logout">
+        <button mat-button (click)="logOut()">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
     </mat-nav-list>
-    <div class="logout">
-      <button mat-button (click)="logOut()">
-        <mat-icon>logout</mat-icon>
-        <span>Cerrar Sesión</span>
-      </button>
-    </div>
   </mat-drawer>
   <mat-drawer-content>
     <mat-toolbar color="">
